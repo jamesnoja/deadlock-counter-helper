@@ -11,6 +11,7 @@
 
 import { useMemo, useState } from 'react'
 import { CoverageCell, CoverageLegend } from './coverage-cell.tsx'
+import { GameImage } from './game-image.tsx'
 import type { RankedCounter } from '@/data/derive.ts'
 import { ITEM_CATEGORIES, type ItemCategory, type Hero } from '@/data/schema.ts'
 import { normalise } from '@/data/hero-search.ts'
@@ -20,6 +21,8 @@ interface ItemsLensProps {
   /** Selection order — the column order for every row. */
   team: readonly Hero[]
   onSelectHero?: (className: string) => void
+  /** Opens the detail panel for an item. */
+  onSelectItem?: (className: string) => void
 }
 
 const CATEGORY_CLASS: Record<ItemCategory, string> = {
@@ -28,7 +31,7 @@ const CATEGORY_CLASS: Record<ItemCategory, string> = {
   spirit: 'text-category-spirit',
 }
 
-export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
+export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsLensProps) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<ItemCategory | 'all'>('all')
 
@@ -110,20 +113,13 @@ export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
                 </th>
                 {team.map((hero) => (
                   <th key={hero.class_name} scope="col" className="px-xs pb-xs">
-                    <span
-                      className="mx-auto grid size-7 place-items-center overflow-hidden rounded-pill bg-surface-elevated"
-                      title={hero.name}
-                    >
-                      {hero.images.minimap ?? hero.images.portrait ? (
-                        // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-                        <img
-                          src={hero.images.minimap ?? hero.images.portrait ?? ''}
-                          alt=""
-                          className="size-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-micro">{hero.name.slice(0, 2)}</span>
-                      )}
+                    <span className="mx-auto grid w-fit" title={hero.name}>
+                      <GameImage
+                        src={hero.images.minimap ?? hero.images.portrait}
+                        fallback={hero.name}
+                        size={28}
+                        className="rounded-pill"
+                      />
                     </span>
                     <span className="sr-only">{hero.name}</span>
                   </th>
@@ -144,18 +140,25 @@ export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
                   >
                     <span className="flex items-center gap-md">
                       <span className="w-4 shrink-0 text-tabular text-text-muted">{index + 1}</span>
-                      <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-md bg-surface-elevated">
-                        {counter.item.icon ?? counter.item.shop_icon ? (
-                          // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-                          <img
-                            src={counter.item.icon ?? counter.item.shop_icon ?? ''}
-                            alt=""
-                            className="size-full object-cover"
-                          />
-                        ) : null}
-                      </span>
+                      <GameImage
+                        src={counter.item.icon ?? counter.item.shop_icon}
+                        fallback={counter.item.name}
+                        size={40}
+                        className="shrink-0 rounded-md"
+                      />
                       <span className="flex min-w-0 flex-col gap-xs">
-                        <span className="truncate text-heading">{counter.item.name}</span>
+                        {onSelectItem ? (
+                          <button
+                            type="button"
+                            onClick={() => onSelectItem(counter.item.class_name)}
+                            className="truncate text-left text-heading hover:text-brand"
+                          >
+                            {counter.item.name}
+                            <span className="sr-only"> — open details</span>
+                          </button>
+                        ) : (
+                          <span className="truncate text-heading">{counter.item.name}</span>
+                        )}
                         <span className="flex flex-wrap items-center gap-xs">
                           {/* pill-tag from the design guide: subdued fill, soft text. */}
                           <span

@@ -12,6 +12,7 @@
  */
 
 import type { ReactNode } from 'react'
+import { GameImage } from './game-image.tsx'
 
 export type CounterStrength = 'hard' | 'soft' | 'situational'
 export type ThreatSeverity = 'high' | 'medium' | 'low'
@@ -54,14 +55,7 @@ export function HeroChip({
           : 'border-hairline bg-surface text-text hover:border-brand',
       ].join(' ')}
     >
-      <span className="grid size-8 place-items-center overflow-hidden rounded-pill bg-surface-elevated">
-        {portrait ? (
-          // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image with real dimensions
-          <img src={portrait} alt="" className="size-full object-cover" />
-        ) : (
-          <span className="text-caption">{name.slice(0, 2)}</span>
-        )}
-      </span>
+      <GameImage src={portrait} fallback={name} size={32} className="rounded-pill" />
       <span className="text-caption">{name}</span>
       {/* Selection is a checkmark as well as a colour, so it survives greyscale. */}
       <span aria-hidden className={selected ? 'text-brand' : 'invisible'}>
@@ -177,16 +171,7 @@ export function ItemCard({
   return (
     <article className="flex flex-col gap-sm rounded-card bg-surface p-card shadow-1">
       <div className="flex items-start gap-md">
-        <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-pill bg-surface-elevated">
-          {icon ? (
-            // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-            <img src={icon} alt="" className="size-full object-cover" />
-          ) : (
-            <span aria-hidden className={CATEGORY_CLASS[category]}>
-              {CATEGORY_GLYPH[category]}
-            </span>
-          )}
-        </span>
+        <GameImage src={icon} fallback={name} size={40} className="shrink-0 rounded-pill" />
         <div className="min-w-0 flex-1">
           <h3 className="text-heading">{name}</h3>
           <p className="flex flex-wrap items-center gap-sm text-caption text-text-muted">

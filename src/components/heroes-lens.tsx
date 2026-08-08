@@ -16,6 +16,7 @@
 
 import { useMemo, useState } from 'react'
 import { STRENGTH_GLYPH, STRENGTH_LABEL } from './coverage-cell.tsx'
+import { GameImage } from './game-image.tsx'
 import type { PairStrength, RankedCounter } from '@/data/derive.ts'
 import type { Hero } from '@/data/schema.ts'
 
@@ -68,16 +69,12 @@ function ItemGrid({
             className="flex w-28 flex-col items-center gap-px rounded-md bg-surface-elevated p-xs text-center"
             title={counter.why}
           >
-            <span className="grid size-9 place-items-center overflow-hidden rounded-md bg-surface">
-              {counter.item.icon ?? counter.item.shop_icon ? (
-                // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-                <img
-                  src={counter.item.icon ?? counter.item.shop_icon ?? ''}
-                  alt=""
-                  className="size-full object-cover"
-                />
-              ) : null}
-            </span>
+            <GameImage
+              src={counter.item.icon ?? counter.item.shop_icon}
+              fallback={counter.item.name}
+              size={36}
+              className="rounded-md"
+            />
             <span className="line-clamp-2 w-full text-micro">{counter.item.name}</span>
             {effect ? (
               <span aria-hidden className="text-micro text-text-muted">
@@ -165,16 +162,12 @@ export function HeroesLens({ counters, team, focus, onFocus }: HeroesLensProps) 
               {/* Identity is a fixed-width rail, so every row's items start at
                   the same x and the grids can be read against each other. */}
               <header className="flex shrink-0 items-center gap-sm sm:w-40 sm:flex-col sm:items-start">
-                <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-pill bg-surface-elevated">
-                  {hero.images.minimap ?? hero.images.portrait ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-                    <img
-                      src={hero.images.minimap ?? hero.images.portrait ?? ''}
-                      alt=""
-                      className="size-full object-cover"
-                    />
-                  ) : null}
-                </span>
+                <GameImage
+                  src={hero.images.minimap ?? hero.images.portrait}
+                  fallback={hero.name}
+                  size={48}
+                  className="shrink-0 rounded-pill"
+                />
                 <span className="min-w-0">
                   <span className="block truncate text-heading">{hero.name}</span>
                   <span className="block text-micro text-text-muted">{hero.role}</span>

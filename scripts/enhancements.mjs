@@ -428,6 +428,7 @@ mid-match.
     title: 'Item and hero artwork integration',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E03', 'E02'],
     body: `
 ### Problem
@@ -866,6 +867,7 @@ credibility.
     title: 'Counter plan summary — the three items that matter',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E10'],
     body: `
 ### Problem
@@ -892,7 +894,12 @@ answers that in one glance.
     title: 'Item detail panel with per-hero effectiveness',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E10', 'E17'],
+    status: 'done',
+    // Originally listed E17 as well. That was wrong: the per-hero line names
+    // abilities straight from the engine's perHero attribution, which E05
+    // already provides. E17 adds ability icons and live numbers on top; it is
+    // an enhancement to this panel, not a prerequisite for it.
+    depends: ['E10'],
     body: `
 ### Problem
 "Knockdown counters 5 of 6" tells you to buy it. It does not tell you that it is a core

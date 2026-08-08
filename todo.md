@@ -742,3 +742,43 @@ the row's hero number in brand mint — it is the thing you scan the column for.
 width, so four-item rows wrapped into two ragged lines and no two heroes' grids lined up,
 which defeats comparing them. Each row now has a fixed identity rail — portrait, name, role,
 counter count — so every hero's items start at the same x.
+
+## 2026-08-08 — E12, E33, E34
+
+### Review
+
+E12 first, deliberately: it changes how every component renders images, so building E33 and
+E34 on top of it avoided writing more raw `<img>` tags to migrate later.
+
+**E12 — artwork.** One `GameImage` component instead of nine hand-rolled `<img>` tags.
+`next/image` with explicit dimensions so the grid cannot shift, a local placeholder when an
+asset 404s, and decorative-by-default alt text — these images sit next to the name they
+depict, so repeating it makes a screen reader say everything twice. `next.config.ts` allows
+one host by pathname rather than a wildcard, so an upstream change fails loudly.
+
+**E33 — counter plan.** Three cards above the shortlist. One rule, stated once and tested:
+*core answers more than half the lineup; flexible answers fewer but decisively.* It slices
+the engine's existing order rather than ranking again — a lens, not a second opinion.
+
+**E34 — item detail.** Per-hero effectiveness, derived. Real output for Counterspell:
+
+```
+Abrams  ● strong          Answers Abrams's Shoulder Charge and Seismic Impact — Hard CC.
+Apollo  ● strong          Answers Apollo's Riposte and Disengaging Sigil — Spirit burst, Hard CC.
+Bebop   ● strong          Answers Bebop's Sticky Bomb — Spirit burst.
+Billy   · not addressed   Does nothing about Billy.
+```
+
+Every selected enemy appears, including the ones the item ignores — omitting them would
+leave the reader unsure whether a hero was considered and dismissed or simply forgotten. The
+overlay can override any line with authored prose, which renders marked as editorial.
+
+**A defect caught by reading the rendered panel.** Counterspell carries two distinct
+properties both labelled "Spirit Power" (20 and 5), and the stats list was keyed on label —
+duplicate React keys. Keyed on the upstream property name now.
+
+**A mis-specified dependency, corrected.** E34 listed E17 as a prerequisite. It is not: the
+per-hero line names abilities straight from the engine's `perHero` attribution, which E05
+already provides. E17 adds ability icons and live numbers *on top of* this panel. Fixed the
+spec rather than leaving a dependency that would have blocked the invariant test for no
+reason.

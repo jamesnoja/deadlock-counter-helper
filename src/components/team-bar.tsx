@@ -12,6 +12,7 @@
  * a word.
  */
 
+import { GameImage } from './game-image.tsx'
 import type { Hero } from '@/data/schema.ts'
 
 export const MAX_ENEMIES = 6
@@ -55,18 +56,12 @@ export function TeamBar({ team, onClear, onClearAll }: TeamBarProps) {
               onClick={() => onClear(hero.class_name)}
               className="group flex w-full items-center gap-xs rounded-lg border-2 border-brand bg-brand-subdued p-xs text-left transition-colors hover:border-threat-high"
             >
-              <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-pill bg-surface">
-                {hero.images.minimap ?? hero.images.portrait ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-                  <img
-                    src={hero.images.minimap ?? hero.images.portrait ?? ''}
-                    alt=""
-                    className="size-full object-cover"
-                  />
-                ) : (
-                  <span className="text-caption">{hero.name.slice(0, 2)}</span>
-                )}
-              </span>
+              <GameImage
+                src={hero.images.minimap ?? hero.images.portrait}
+                fallback={hero.name}
+                size={32}
+                className="shrink-0 rounded-pill"
+              />
               <span className="min-w-0 flex-1 truncate text-caption text-brand-soft">
                 {hero.name}
               </span>

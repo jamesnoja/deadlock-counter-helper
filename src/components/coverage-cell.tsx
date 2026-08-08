@@ -8,6 +8,7 @@
  * marks.
  */
 
+import { GameImage } from './game-image.tsx'
 import type { PairStrength } from '@/data/derive.ts'
 
 export const STRENGTH_GLYPH: Record<PairStrength, string> = {
@@ -51,17 +52,12 @@ export function CoverageCell({
     <>
       <span
         className={[
-          'grid size-7 place-items-center overflow-hidden rounded-pill border-2',
+          'grid place-items-center overflow-hidden rounded-pill border-2',
           addressed ? 'border-current' : 'border-transparent opacity-40 grayscale',
           STRENGTH_CLASS[strength],
         ].join(' ')}
       >
-        {portrait ? (
-          // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-          <img src={portrait} alt="" className="size-full object-cover" />
-        ) : (
-          <span className="text-micro">{heroName.slice(0, 2)}</span>
-        )}
+        <GameImage src={portrait} fallback={heroName} size={24} className="rounded-pill" />
       </span>
       <span aria-hidden className={`text-micro leading-none ${STRENGTH_CLASS[strength]}`}>
         {STRENGTH_GLYPH[strength]}
