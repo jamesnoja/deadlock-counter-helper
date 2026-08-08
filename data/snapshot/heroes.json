@@ -2,6 +2,7 @@
   {
     "class_name": "hero_astro",
     "name": "Holliday",
+    "role": "marksman",
     "slug": "holliday",
     "aliases": [
       "astro"
@@ -21,6 +22,7 @@
   {
     "class_name": "hero_atlas",
     "name": "Abrams",
+    "role": "brawler",
     "slug": "abrams",
     "aliases": [
       "atlas"
@@ -40,6 +42,7 @@
   {
     "class_name": "hero_bebop",
     "name": "Bebop",
+    "role": "brawler",
     "slug": "bebop",
     "aliases": [],
     "images": {
@@ -57,6 +60,7 @@
   {
     "class_name": "hero_bookworm",
     "name": "Paige",
+    "role": "mystic",
     "slug": "paige",
     "aliases": [
       "bookworm"
@@ -76,6 +80,7 @@
   {
     "class_name": "hero_chrono",
     "name": "Paradox",
+    "role": "marksman",
     "slug": "paradox",
     "aliases": [
       "chrono"
@@ -95,6 +100,7 @@
   {
     "class_name": "hero_doorman",
     "name": "The Doorman",
+    "role": "mystic",
     "slug": "the-doorman",
     "aliases": [
       "doorman"
@@ -114,6 +120,7 @@
   {
     "class_name": "hero_drifter",
     "name": "Drifter",
+    "role": "assassin",
     "slug": "drifter",
     "aliases": [],
     "images": {
@@ -131,6 +138,7 @@
   {
     "class_name": "hero_dynamo",
     "name": "Dynamo",
+    "role": "mystic",
     "slug": "dynamo",
     "aliases": [],
     "images": {
@@ -148,6 +156,7 @@
   {
     "class_name": "hero_familiar",
     "name": "Rem",
+    "role": "unknown",
     "slug": "rem",
     "aliases": [
       "familiar"
@@ -167,6 +176,7 @@
   {
     "class_name": "hero_fencer",
     "name": "Apollo",
+    "role": "assassin",
     "slug": "apollo",
     "aliases": [
       "fencer"
@@ -186,6 +196,7 @@
   {
     "class_name": "hero_forge",
     "name": "McGinnis",
+    "role": "mystic",
     "slug": "mcginnis",
     "aliases": [
       "forge"
@@ -205,6 +216,7 @@
   {
     "class_name": "hero_frank",
     "name": "Victor",
+    "role": "brawler",
     "slug": "victor",
     "aliases": [
       "frank"
@@ -224,6 +236,7 @@
   {
     "class_name": "hero_ghost",
     "name": "Lady Geist",
+    "role": "mystic",
     "slug": "lady-geist",
     "aliases": [
       "ghost"
@@ -243,6 +256,7 @@
   {
     "class_name": "hero_gigawatt",
     "name": "Seven",
+    "role": "mystic",
     "slug": "seven",
     "aliases": [
       "gigawatt"
@@ -262,6 +276,7 @@
   {
     "class_name": "hero_haze",
     "name": "Haze",
+    "role": "assassin",
     "slug": "haze",
     "aliases": [],
     "images": {
@@ -279,6 +294,7 @@
   {
     "class_name": "hero_hornet",
     "name": "Vindicta",
+    "role": "marksman",
     "slug": "vindicta",
     "aliases": [
       "hornet"
@@ -298,6 +314,7 @@
   {
     "class_name": "hero_inferno",
     "name": "Infernus",
+    "role": "marksman",
     "slug": "infernus",
     "aliases": [
       "inferno"
@@ -317,6 +334,7 @@
   {
     "class_name": "hero_kelvin",
     "name": "Kelvin",
+    "role": "brawler",
     "slug": "kelvin",
     "aliases": [],
     "images": {
@@ -334,6 +352,7 @@
   {
     "class_name": "hero_krill",
     "name": "Mo & Krill",
+    "role": "brawler",
     "slug": "mo-krill",
     "aliases": [
       "krill"
@@ -353,6 +372,7 @@
   {
     "class_name": "hero_lash",
     "name": "Lash",
+    "role": "assassin",
     "slug": "lash",
     "aliases": [],
     "images": {
@@ -370,6 +390,7 @@
   {
     "class_name": "hero_magician",
     "name": "Sinclair",
+    "role": "mystic",
     "slug": "sinclair",
     "aliases": [
       "magician"
@@ -389,6 +410,7 @@
   {
     "class_name": "hero_mirage",
     "name": "Mirage",
+    "role": "assassin",
     "slug": "mirage",
     "aliases": [],
     "images": {
@@ -406,6 +428,7 @@
   {
     "class_name": "hero_nano",
     "name": "Calico",
+    "role": "assassin",
     "slug": "calico",
     "aliases": [
       "nano"
@@ -425,6 +448,7 @@
   {
     "class_name": "hero_necro",
     "name": "Graves",
+    "role": "marksman",
     "slug": "graves",
     "aliases": [
       "necro"
@@ -444,6 +468,7 @@
   {
     "class_name": "hero_orion",
     "name": "Grey Talon",
+    "role": "marksman",
     "slug": "grey-talon",
     "aliases": [
       "orion"
@@ -463,6 +488,7 @@
   {
     "class_name": "hero_priest",
     "name": "Venator",
+    "role": "marksman",
     "slug": "venator",
     "aliases": [
       "priest"
@@ -482,6 +508,7 @@
   {
     "class_name": "hero_punkgoat",
     "name": "Billy",
+    "role": "brawler",
     "slug": "billy",
     "aliases": [
       "punkgoat"
@@ -501,6 +528,7 @@
   {
     "class_name": "hero_shiv",
     "name": "Shiv",
+    "role": "brawler",
     "slug": "shiv",
     "aliases": [],
     "images": {
@@ -518,6 +546,7 @@
   {
     "class_name": "hero_synth",
     "name": "Pocket",
+    "role": "assassin",
     "slug": "pocket",
     "aliases": [
       "synth"
@@ -537,6 +566,7 @@
   {
     "class_name": "hero_tengu",
     "name": "Ivy",
+    "role": "marksman",
     "slug": "ivy",
     "aliases": [
       "tengu"
@@ -556,6 +586,7 @@
   {
     "class_name": "hero_unicorn",
     "name": "Celeste",
+    "role": "marksman",
     "slug": "celeste",
     "aliases": [
       "unicorn"
@@ -575,6 +606,7 @@
   {
     "class_name": "hero_vampirebat",
     "name": "Mina",
+    "role": "marksman",
     "slug": "mina",
     "aliases": [
       "vampirebat"
@@ -594,6 +626,7 @@
   {
     "class_name": "hero_viper",
     "name": "Vyper",
+    "role": "assassin",
     "slug": "vyper",
     "aliases": [
       "viper"
@@ -613,6 +646,7 @@
   {
     "class_name": "hero_viscous",
     "name": "Viscous",
+    "role": "mystic",
     "slug": "viscous",
     "aliases": [],
     "images": {
@@ -630,6 +664,7 @@
   {
     "class_name": "hero_warden",
     "name": "Warden",
+    "role": "brawler",
     "slug": "warden",
     "aliases": [],
     "images": {
@@ -647,6 +682,7 @@
   {
     "class_name": "hero_werewolf",
     "name": "Silver",
+    "role": "marksman",
     "slug": "silver",
     "aliases": [
       "werewolf"
@@ -666,6 +702,7 @@
   {
     "class_name": "hero_wraith",
     "name": "Wraith",
+    "role": "marksman",
     "slug": "wraith",
     "aliases": [],
     "images": {
@@ -683,6 +720,7 @@
   {
     "class_name": "hero_yamato",
     "name": "Yamato",
+    "role": "assassin",
     "slug": "yamato",
     "aliases": [],
     "images": {

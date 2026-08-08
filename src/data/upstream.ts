@@ -37,6 +37,8 @@ export interface UpstreamHero {
   player_selectable?: boolean
   disabled?: boolean
   in_development?: boolean
+  /** marksman | mystic | brawler | assassin. Absent on at least one playable hero. */
+  hero_type?: string
   images?: Record<string, string | null>
   /** Maps slot names (`signature1`..`signature4`, innates, weapons) to item `class_name`s. */
   items?: Record<string, string | null>
