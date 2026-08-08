@@ -1,0 +1,13 @@
+{
+  "heroes": { "added": [], "removed": [], "renamed": [] },
+  "items": { "added": [], "removed": [], "renamed": [] },
+  "abilities": { "added": [], "removed": [], "renamed": [], "retuned": [] },
+  "needsReview": [],
+  "untaggedAdditions": [],
+  "detected_at": "2026-08-08T04:21:41.166Z",
+  "patch": {
+    "title": "06-30-2026 Update",
+    "published_at": "2026-07-28T20:28:07Z",
+    "link": "https://forums.playdeadlock.com/threads/06-30-2026-update.146261/"
+  }
+}

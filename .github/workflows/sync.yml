@@ -1,0 +1,85 @@
+name: Sync game data
+
+# Daily, plus on demand. The point is to find out a patch landed before our
+# users do — and to open a pull request only when something actually moved, so
+# a PR appearing always means something worth reading.
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Sync snapshot
+        id: sync
+        run: npm run sync
+
+      # New heroes and items need overlay entries or the engine cannot see
+      # them. Additive only, so nothing curated is touched.
+      - name: Scaffold overlay entries for anything new
+        run: npm run overlay:scaffold
+
+      - name: Verify the new data still passes
+        if: steps.sync.outputs.changed == 'true'
+        run: npm run verify
+
+      - name: Open pull request
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="data/sync-$(date -u +%Y-%m-%d)"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Reuse today's branch if the job already ran, so a re-run updates the
+          # existing pull request instead of opening a second one.
+          git checkout -B "$BRANCH"
+          git add data/
+          git commit -m "Sync game data $(date -u +%Y-%m-%d)"
+          git push --force-with-lease -u origin "$BRANCH"
+
+          # The sync prints a human-readable summary of exactly what moved.
+          {
+            echo "Automated sync. Opened because the snapshot content hash changed."
+            echo
+            npm run --silent sync:describe
+            echo
+            echo "Entities flagged for review show amber in the UI until a human confirms"
+            echo "the curation still holds. Anything listed as new and untagged is invisible"
+            echo "to the derivation engine until it is tagged — see /admin/untagged."
+          } > /tmp/pr-body.md
+
+          if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
+            gh pr edit "$BRANCH" --body-file /tmp/pr-body.md
+          else
+            gh pr create \
+              --title "Data sync $(date -u +%Y-%m-%d)" \
+              --body-file /tmp/pr-body.md \
+              --label "data-sync"
+          fi
+
+      - name: Report no change
+        if: steps.sync.outputs.changed != 'true'
+        run: echo "Upstream unchanged. No pull request opened."
