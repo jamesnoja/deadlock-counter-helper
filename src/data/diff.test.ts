@@ -8,6 +8,7 @@ const hero = (className: string, name = className): Hero => ({
   name,
   slug: name.toLowerCase(),
   aliases: [],
+  role: 'brawler',
   images: { card: null, portrait: null, minimap: null },
   abilities: [`${className}_a1`],
 })
@@ -30,6 +31,7 @@ const item = (className: string, name = className): Item => ({
   tier: 2,
   category: 'vitality',
   ranked: true,
+  stats: {},
   is_active: false,
   description: '',
   icon: null,

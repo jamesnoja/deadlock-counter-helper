@@ -24,6 +24,16 @@ export type ItemTier = (typeof ITEM_TIERS)[number]
  */
 export const RANKED_MAX_COST = 6400
 
+/**
+ * Upstream's `hero_type`. One playable hero (Rem) currently has none, so
+ * `unknown` is a real state rather than a defensive placeholder.
+ */
+export const HERO_ROLES = ['marksman', 'mystic', 'brawler', 'assassin', 'unknown'] as const
+export type HeroRole = (typeof HERO_ROLES)[number]
+
+export const isHeroRole = (value: unknown): value is HeroRole =>
+  typeof value === 'string' && (HERO_ROLES as readonly string[]).includes(value)
+
 /** Every hero has exactly four signature abilities; slot 4 is the ultimate. */
 export const ABILITY_SLOTS = [1, 2, 3, 4] as const
 export type AbilitySlot = (typeof ABILITY_SLOTS)[number]
@@ -38,6 +48,8 @@ export interface AbilityStat {
 export interface Hero {
   class_name: string
   name: string
+  /** Shown beside the hero in the heroes lens. `unknown` when upstream omits it. */
+  role: HeroRole
   /**
    * Derived from the display name, because the URL has to match what people
    * search for — "counter abrams", not "counter atlas". `class_name` remains
@@ -90,6 +102,12 @@ export interface Item {
   description: string
   icon: string | null
   shop_icon: string | null
+  /**
+   * Labelled numeric properties — cooldown, duration, range. Same shape as an
+   * ability's. Kept so E35 can show the numbers that decide between two
+   * counters; E03's original projection dropped them.
+   */
+  stats: Record<string, AbilityStat>
 }
 
 export interface SnapshotMeta {

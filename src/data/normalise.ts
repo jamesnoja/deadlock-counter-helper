@@ -10,10 +10,12 @@ import {
   type AbilitySlot,
   type AbilityStat,
   type Hero,
+  type HeroRole,
   type Item,
   type ItemTier,
   type Snapshot,
   RANKED_MAX_COST,
+  isHeroRole,
   isItemCategory,
   isItemTier,
 } from './schema.ts'
@@ -76,13 +78,25 @@ function toNumber(value: unknown): number | null {
   return null
 }
 
-/** Keeps only properties with both a label and a numeric value. */
-export function toStats(properties: UpstreamItem['properties']): Record<string, AbilityStat> {
+/**
+ * Keeps only properties with both a label and a numeric value.
+ *
+ * `dropZeros` is for display surfaces. Upstream reports every property on every
+ * entity, so a self-buff still carries "Cast Range 0m" and "Charges 0" — noise
+ * on an item card and three times the file size. Ability stats keep their
+ * zeros, because those feed the retune detection in E06 and a value moving to
+ * zero is exactly the kind of change we must not lose.
+ */
+export function toStats(
+  properties: UpstreamItem['properties'],
+  { dropZeros = false }: { dropZeros?: boolean } = {},
+): Record<string, AbilityStat> {
   const stats: Record<string, AbilityStat> = {}
   for (const key of Object.keys(properties ?? {}).sort()) {
     const property = properties?.[key]
     const value = toNumber(property?.value)
     if (!property?.label || value === null) continue
+    if (dropZeros && value === 0) continue
     stats[key] = { label: property.label, value, unit: property.postfix ?? '' }
   }
   return stats
@@ -158,9 +172,12 @@ export function normalise(
       .filter((alias) => alias && alias !== slug)
       .sort()
 
+    const rawRole = upstreamHero.hero_type
     heroes.push({
       class_name: className,
       name,
+      // Upstream omits hero_type on at least one playable hero; unknown is real.
+      role: (isHeroRole(rawRole) ? rawRole : 'unknown') as HeroRole,
       slug,
       aliases,
       images: {
@@ -197,6 +214,7 @@ export function normalise(
       description: toPlainText(raw.description),
       icon: raw.image_webp ?? raw.image ?? null,
       shop_icon: raw.shop_image_webp ?? raw.shop_image ?? null,
+      stats: toStats(raw.properties, { dropZeros: true }),
     })
   }
 

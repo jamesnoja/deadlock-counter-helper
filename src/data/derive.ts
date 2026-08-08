@@ -44,6 +44,35 @@ export interface CounterMatch {
   heroes: string[]
 }
 
+/**
+ * How decisively an item answers one specific enemy.
+ *
+ * The same item is a core answer to one hero and an afterthought against
+ * another — that difference decides whether you buy it first or third, so it
+ * cannot be collapsed into a single per-item strength.
+ */
+export type PairStrength = 'strong' | 'moderate' | 'situational' | 'none'
+
+/** Derived, never authored: item strength times the severity of the worst tag it answers. */
+function pairStrength(weight: number, severities: number[]): PairStrength {
+  if (severities.length === 0) return 'none'
+  const impact = weight * Math.max(...severities)
+  if (impact >= 6) return 'strong'
+  if (impact >= 3) return 'moderate'
+  return 'situational'
+}
+
+/** One row of the coverage matrix, and one line of the item detail panel. */
+export interface HeroEffect {
+  /** Enemy hero `class_name`. */
+  hero: string
+  strength: PairStrength
+  /** Tags this item answers *for this hero*. Empty when strength is `none`. */
+  tags: ThreatTag[]
+  /** The specific abilities carrying those tags — what makes a derived line concrete. */
+  abilities: string[]
+}
+
 export interface RankedCounter {
   item: Item
   /** Higher is better. Comparable only within one result set. */
@@ -51,6 +80,12 @@ export interface RankedCounter {
   /** Distinct enemy `class_name`s this item answers — the "5 of 6" in E10. */
   coverage: string[]
   matches: CounterMatch[]
+  /**
+   * One entry per **selected** enemy, in the order they were selected —
+   * including ones this item does nothing about, which is what lets the
+   * coverage matrix render a fixed column per row.
+   */
+  perHero: HeroEffect[]
   strength: CounterStrength
   /** The overlay's one-line justification. */
   why: string
@@ -147,12 +182,36 @@ export function deriveCounters(heroes: readonly Hero[], context: DeriveContext):
     // A forced include with no tag match still needs to rank somewhere.
     if (forced && score === 0) score = weight
 
+    // One entry per selected hero, in selection order, so every row of the
+    // matrix has the same columns whether or not the item addresses that hero.
+    const perHero: HeroEffect[] = heroes.map((hero) => {
+      const tags = matches
+        .filter((match) => match.heroes.includes(hero.class_name))
+        .map((match) => match.tag)
+      const wanted = new Set(tags)
+      const abilities = hero.abilities
+        .filter((className) =>
+          (abilityThreats[className]?.tags ?? []).some((tag) => wanted.has(tag)),
+        )
+        .sort()
+      return {
+        hero: hero.class_name,
+        strength: pairStrength(
+          weight,
+          tags.map((tag) => THREAT_SEVERITY[tag]),
+        ),
+        tags: [...tags].sort(),
+        abilities,
+      }
+    })
+
     const editorial = itemOverrides.length > 0
     results.push({
       item,
       score,
       coverage: [...new Set(matches.flatMap((match) => match.heroes))].sort(),
       matches,
+      perHero,
       strength,
       why: entry?.why ?? '',
       source: editorial ? 'editorial' : 'derived',

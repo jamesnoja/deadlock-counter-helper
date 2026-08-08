@@ -15,6 +15,7 @@ const hero = (className: string, abilities: string[]): Hero => ({
   name: className,
   slug: className,
   aliases: [],
+  role: 'brawler',
   images: { card: null, portrait: null, minimap: null },
   abilities,
 })
@@ -27,6 +28,7 @@ const item = (className: string): Item => ({
   tier: 2,
   category: 'vitality',
   ranked: true,
+  stats: {},
   is_active: false,
   description: '',
   icon: null,
@@ -142,6 +144,74 @@ describe('deriveCounters', () => {
   })
 })
 
+describe('per-hero effect — the coverage matrix and detail panel', () => {
+  it('returns one entry per selected hero, in selection order', () => {
+    // Fixed columns are what make the matrix readable down as well as across,
+    // so every row must carry every selected hero whether addressed or not.
+    const result = deriveCounters([CC_HERO, GUN_HERO], CONTEXT)
+    for (const counter of result) {
+      expect(counter.perHero.map((p) => p.hero)).toEqual(['enemy_cc', 'enemy_gun'])
+    }
+  })
+
+  it('marks heroes the item does nothing about as `none`', () => {
+    const cleanse = deriveCounters([CC_HERO, GUN_HERO], CONTEXT).find(
+      (c) => c.item.class_name === 'cleanse',
+    )
+    expect(cleanse?.perHero.find((p) => p.hero === 'enemy_gun')).toEqual({
+      hero: 'enemy_gun',
+      strength: 'none',
+      tags: [],
+      abilities: [],
+    })
+  })
+
+  it('names the specific abilities that carry the matched tag', () => {
+    // This is what makes a derived explanation concrete rather than generic —
+    // and it cannot orphan on a rename, because it resolves through class_name.
+    const cleanse = deriveCounters([CC_HERO], CONTEXT).find((c) => c.item.class_name === 'cleanse')
+    expect(cleanse?.perHero[0]).toEqual({
+      hero: 'enemy_cc',
+      strength: 'strong',
+      tags: ['hard_cc'],
+      abilities: ['a_stun'],
+    })
+  })
+
+  it('grades the same item differently against different heroes', () => {
+    const context: DeriveContext = {
+      ...CONTEXT,
+      items: [item('mixed')],
+      itemCounters: { mixed: answers(['hard_cc', 'melee_pressure'], 'soft') },
+      abilityThreats: {
+        a_severe: threatens(['hard_cc']), // soft(2) x severity 3 = 6 -> strong
+        a_mild: threatens(['melee_pressure']), // soft(2) x severity 1 = 2 -> situational
+      },
+    }
+    const result = deriveCounters(
+      [hero('severe', ['a_severe']), hero('mild', ['a_mild'])],
+      context,
+    )
+    expect(result[0]?.perHero.map((p) => [p.hero, p.strength])).toEqual([
+      ['severe', 'strong'],
+      ['mild', 'situational'],
+    ])
+  })
+
+  it('grades by the worst threat answered, not the average', () => {
+    // An item that shuts down a hero's ultimate is a strong answer even if it
+    // also happens to nick a trivial passive.
+    const context: DeriveContext = {
+      ...CONTEXT,
+      items: [item('broad')],
+      itemCounters: { broad: answers(['hard_cc', 'melee_pressure'], 'soft') },
+      abilityThreats: { a_both: threatens(['hard_cc', 'melee_pressure']) },
+    }
+    const result = deriveCounters([hero('e', ['a_both'])], context)
+    expect(result[0]?.perHero[0]?.strength).toBe('strong')
+  })
+})
+
 describe('determinism', () => {
   it('produces identical output for identical input', () => {
     const first = deriveCounters([CC_HERO, GUN_HERO], CONTEXT)
@@ -156,10 +226,23 @@ describe('determinism', () => {
     expect(a).toEqual(b)
   })
 
-  it('does not depend on the order heroes arrive in', () => {
-    const a = deriveCounters([CC_HERO, GUN_HERO], CONTEXT)
-    const b = deriveCounters([GUN_HERO, CC_HERO], CONTEXT)
-    expect(a).toEqual(b)
+  it('ranks identically regardless of the order heroes arrive in', () => {
+    /**
+     * Ranking must not depend on selection order. `perHero` deliberately does —
+     * it is the matrix's column order, and columns follow the user's slots.
+     * So compare everything except that.
+     */
+    const strip = (counters: ReturnType<typeof deriveCounters>) =>
+      counters.map((counter) => ({ ...counter, perHero: undefined }))
+
+    expect(strip(deriveCounters([CC_HERO, GUN_HERO], CONTEXT))).toEqual(
+      strip(deriveCounters([GUN_HERO, CC_HERO], CONTEXT)),
+    )
+  })
+
+  it('orders per-hero columns by selection, not alphabetically', () => {
+    const reversed = deriveCounters([GUN_HERO, CC_HERO], CONTEXT)
+    expect(reversed[0]?.perHero.map((p) => p.hero)).toEqual(['enemy_gun', 'enemy_cc'])
   })
 
   it('breaks score ties by class_name, so equal items never shuffle', () => {
