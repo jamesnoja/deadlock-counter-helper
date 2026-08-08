@@ -1,8 +1,9 @@
 /**
  * GENERATED SCAFFOLD, HAND-CURATED CONTENT — what each ability threatens.
  *
- * Run `npm run overlay:scaffold` after a sync to add entries for anything new.
- * Existing entries are preserved exactly; the script only ever adds.
+ * Run `npm run overlay:scaffold` after a sync. It adds entries for anything
+ * new and re-derives machine suggestions nobody has touched. Curated entries,
+ * and any entry carrying a note, are never modified.
  *
  * Entries marked `review: "suggested"` were derived from the game's own
  * description text and have NOT been confirmed by anyone who plays the

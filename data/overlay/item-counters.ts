@@ -1,15 +1,14 @@
 /**
  * GENERATED SCAFFOLD, HAND-CURATED CONTENT — what each item answers.
  *
- * Run `npm run overlay:scaffold` after a sync to add entries for anything new.
- * Existing entries are preserved exactly; the script only ever adds.
+ * Run `npm run overlay:scaffold` after a sync. It adds entries for anything
+ * new and re-derives machine suggestions nobody has touched. Curated entries,
+ * and any entry carrying a note, are never modified.
  *
  * Entries marked `review: "suggested"` were derived from the game's own
  * description text and have NOT been confirmed by anyone who plays the
- * matchup. Change to "curated" once checked.
- *
- * Most shop items are stat or damage items and answer nothing — `untagged` is
- * the correct final state for them, not a gap.
+ * matchup. Change to "curated" once checked. Put prose in `note` — comments
+ * are lost on the next round-trip.
  */
 import type { ItemCounters } from '../../src/data/tags.ts'
 
@@ -24,7 +23,7 @@ export const ITEM_COUNTERS: Record<string, ItemCounters> = {
   "upgrade_arcane_extension": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_arcane_surge": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_arctic_blast": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
-  "upgrade_auto_cleanse": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
+  "upgrade_auto_cleanse": {"answers":["dot_debuff","hard_cc"],"why":"Answers dot debuff, hard cc — no description upstream, tagged from its identifier.","strength":"situational","review":"suggested"},
   "upgrade_banshee_slugs": {"answers":["sustain"],"why":"Headshots apply healing reduction alongside resist shred.","strength":"soft","review":"suggested"},
   "upgrade_berserker": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_blitz_bullets": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
@@ -134,7 +133,7 @@ export const ITEM_COUNTERS: Record<string, ItemCounters> = {
   "upgrade_rapid_recharge": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_rapid_rounds": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_rechargingbullets": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
-  "upgrade_reduce_debuff_duration": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
+  "upgrade_reduce_debuff_duration": {"answers":["hard_cc"],"why":"Answers hard cc — no description upstream, tagged from its identifier.","strength":"situational","review":"suggested"},
   "upgrade_regenerating_bullet_shield": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_reinforcing_casings": {"answers":["high_dps_gun"],"why":"Grants Bullet Resist when your bullets hit an enemy hero","strength":"situational","review":"suggested"},
   "upgrade_rescue_beam": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
@@ -164,7 +163,7 @@ export const ITEM_COUNTERS: Record<string, ItemCounters> = {
   "upgrade_superior_stamina": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_suppressor": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_surging_power": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
-  "upgrade_target_stun": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
+  "upgrade_target_stun": {"answers":["channeled_ult"],"why":"Apply a Stun after 2s","strength":"situational","review":"suggested"},
   "upgrade_targeted_silence": {"answers":["channeled_ult"],"why":"Launch an expanding projectile which Silences enemies for a short duration and deals impact damage","strength":"situational","review":"suggested"},
   "upgrade_tech_damage_pulse": {"answers":[],"untagged":true,"why":"","strength":"situational","review":"suggested"},
   "upgrade_tech_defense_shredders": {"answers":["burst_spirit","hard_cc"],"why":"Your bullets apply a debuff that reduces the Spirit Resist of the target and grants you and your allies Spirit Lifesteal","strength":"situational","review":"suggested"},

@@ -885,3 +885,40 @@ naming what it stops. Capped at 8 per ability with the remainder stated.
    `channeled_ult` because its description says it does *not* interrupt enemies' channelling
    — the keyword rule matched the word and missed the negation. Corrected, with the reason in
    the entry. Exactly one ability was affected; I checked the rest rather than assuming.
+
+## 2026-08-08 — Bug: items with no upstream description were never counters
+
+Owner asked why Indomitable never appears. It is in the snapshot, ranked and buyable, but the
+overlay had it `untagged`.
+
+**Cause.** The scaffold's keyword rules read only `description`, and upstream ships **no
+description at all** for 32 items. Every one of them was marked untagged regardless of what
+it does — and the engine skips untagged items. The `class_name` said it plainly the whole
+time: `upgrade_auto_cleanse`.
+
+**Fix.** Rules now read description, `class_name` (underscores to spaces so word boundaries
+work) and name. The scaffold also re-derives entries a machine produced that nobody has since
+touched — still `suggested`, still `untagged`, no note — because when the rules improve those
+entries should improve with them. Curated entries, and anything carrying a note, are still
+re-emitted byte for byte.
+
+**Three items recovered**, all genuine counters that were invisible:
+
+| Item | class_name | Now answers |
+| --- | --- | --- |
+| Indomitable | `upgrade_auto_cleanse` | hard CC, damage over time |
+| Dispel Magic | `upgrade_reduce_debuff_duration` | hard CC |
+| Knockdown | `upgrade_knockdown` | channelled ult |
+
+Knockdown is the item the reference site leads with. Dispel Magic is the rename example in
+our own README.
+
+### The bigger problem this exposed
+
+They now appear at ranks 15, 29 and 31 — visible but buried, because **strength defaults to
+`situational`** and that is the weakest multiplier in the engine. Across 54 tagged ranked
+items: 40 situational, 8 soft, 6 hard. Nearly everything sits at the default.
+
+Strength is the single largest lever on ranking quality and almost none of it is set. Not
+guessing at it here — a wrong strength is worse than a missing one, and this is the part that
+genuinely needs someone who plays the game.
