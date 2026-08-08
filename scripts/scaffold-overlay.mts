@@ -4,10 +4,17 @@
  *
  *   npm run overlay:scaffold
  *
- * Additive by design. Existing entries are read back and re-emitted byte-for-
- * byte identically; only abilities and items missing from the overlay get new
- * ones. Curation is never overwritten — that is the whole point of the overlay
- * being the one hand-owned layer.
+ * Adds entries for anything new, and **re-derives entries a machine produced
+ * that nobody has since touched** — still `suggested`, still `untagged`, no
+ * note. When the rules improve, those entries should improve with them;
+ * leaving them stale was how Indomitable, Dispel Magic and Knockdown all sat
+ * uncounted.
+ *
+ * Anything `curated`, and anything carrying a `note`, is read back and
+ * re-emitted byte-for-byte identically. A note means somebody looked and
+ * decided, so it is curation even at `suggested`. Curation is never
+ * overwritten — that is the whole point of the overlay being the one
+ * hand-owned layer.
  *
  * New entries carry `review: 'suggested'` and are derived from the game's own
  * description text by the conservative keyword rules below. A suggestion is a
@@ -65,10 +72,38 @@ const ITEM_RULES: Array<[ThreatTag, RegExp]> = [
   ['summon_pressure', /\b(bonus damage (to|against) (npcs?|creeps?|summons?))/i],
 ]
 
+/**
+ * What the rules read.
+ *
+ * Not just the description: upstream ships **no description at all** for 32
+ * items, and reading only descriptions silently marked every one of them
+ * untagged regardless of what they do. Indomitable is `upgrade_auto_cleanse`
+ * and Dispel Magic is `upgrade_reduce_debuff_duration` — the identifier says
+ * plainly what the missing text would have.
+ *
+ * Underscores become spaces so word boundaries behave: `auto_cleanse` has to
+ * match `\bcleanse\b`.
+ */
+const searchableText = (entity: { name?: string; class_name?: string; description: string }) =>
+  [entity.description, (entity.class_name ?? '').replace(/_/g, ' '), entity.name ?? '']
+    .filter(Boolean)
+    .join(' ')
+
 const suggest = (text: string, rules: Array<[ThreatTag, RegExp]>): ThreatTag[] => {
   const tags = rules.filter(([, pattern]) => pattern.test(text)).map(([tag]) => tag)
   return [...new Set(tags)].sort()
 }
+
+/**
+ * Whether an entry may be re-derived when the rules improve.
+ *
+ * Only entries a machine produced and a human never touched: still
+ * `suggested`, still `untagged`, and carrying no note. A note means somebody
+ * looked and decided, so it is curation even at `suggested`. Anything
+ * `curated` is never touched — that is the whole promise of the overlay.
+ */
+const isMachineUndecided = (entry: { review: string; untagged?: true; note?: string }) =>
+  entry.review === 'suggested' && entry.untagged === true && !entry.note
 
 /** Deterministic emit: keys sorted, stable field order, so diffs are readable. */
 function emit<T>(
@@ -89,33 +124,50 @@ function emit<T>(
 
 const abilityEntries: Record<string, AbilityThreats> = { ...ABILITY_THREATS }
 let newAbilities = 0
+let refreshedAbilities = 0
 for (const ability of ABILITIES) {
-  if (abilityEntries[ability.class_name]) continue
-  const tags = suggest(ability.description, ABILITY_RULES)
+  const existing = abilityEntries[ability.class_name]
+  if (existing && !isMachineUndecided(existing)) continue
+
+  const tags = suggest(searchableText(ability), ABILITY_RULES)
+  // Re-deriving an undecided entry only helps if the rules now find something.
+  if (existing && tags.length === 0) continue
+
   abilityEntries[ability.class_name] = tags.length
     ? { tags, review: 'suggested' }
     : { tags: [], untagged: true, review: 'suggested' }
-  newAbilities++
+  if (existing) refreshedAbilities++
+  else newAbilities++
 }
 
 const itemEntries: Record<string, ItemCounters> = { ...ITEM_COUNTERS }
 let newItems = 0
+let refreshedItems = 0
 for (const item of ITEMS) {
-  if (itemEntries[item.class_name]) continue
-  const answers = suggest(item.description, ITEM_RULES)
+  const existing = itemEntries[item.class_name]
+  if (existing && !isMachineUndecided(existing)) continue
+
+  const answers = suggest(searchableText(item), ITEM_RULES)
+  if (existing && answers.length === 0) continue
+
   itemEntries[item.class_name] = answers.length
     ? {
         answers,
-        why: item.description.split('. ')[0]?.slice(0, 120) ?? '',
+        // No description means no sentence to quote, so say what we do know
+        // rather than shipping a blank reason to the UI.
+        why:
+          item.description.split('. ')[0]?.slice(0, 120) ||
+          `Answers ${answers.join(', ').replace(/_/g, ' ')} — no description upstream, tagged from its identifier.`,
         strength: 'situational',
         review: 'suggested',
       }
     : { answers: [], untagged: true, why: '', strength: 'situational', review: 'suggested' }
-  newItems++
+  if (existing) refreshedItems++
+  else newItems++
 }
 
 const banner = (what: string) =>
-  `/**\n * GENERATED SCAFFOLD, HAND-CURATED CONTENT — ${what}.\n *\n * Run \`npm run overlay:scaffold\` after a sync to add entries for anything new.\n * Existing entries are preserved exactly; the script only ever adds.\n *\n * Entries marked \`review: "suggested"\` were derived from the game's own\n * description text and have NOT been confirmed by anyone who plays the\n * matchup. Change to "curated" once checked. Put prose in \`note\` — comments\n * are lost on the next round-trip.\n */`
+  `/**\n * GENERATED SCAFFOLD, HAND-CURATED CONTENT — ${what}.\n *\n * Run \`npm run overlay:scaffold\` after a sync. It adds entries for anything\n * new and re-derives machine suggestions nobody has touched. Curated entries,\n * and any entry carrying a note, are never modified.\n *\n * Entries marked \`review: "suggested"\` were derived from the game's own\n * description text and have NOT been confirmed by anyone who plays the\n * matchup. Change to "curated" once checked. Put prose in \`note\` — comments\n * are lost on the next round-trip.\n */`
 
 const abilityCount = emit(
   join(OVERLAY_DIR, 'ability-threats.ts'),
@@ -132,5 +184,5 @@ const itemCount = emit(
   banner('what each item answers'),
 )
 
-console.log(`abilities: ${abilityCount} total, ${newAbilities} added`)
-console.log(`items:     ${itemCount} total, ${newItems} added`)
+console.log(`abilities: ${abilityCount} total, ${newAbilities} added, ${refreshedAbilities} re-derived`)
+console.log(`items:     ${itemCount} total, ${newItems} added, ${refreshedItems} re-derived`)
