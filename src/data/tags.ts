@@ -47,6 +47,42 @@ export const THREAT_TAG_LABELS: Record<ThreatTag, string> = {
 export const COUNTER_STRENGTHS = ['hard', 'soft', 'situational'] as const
 export type CounterStrength = (typeof COUNTER_STRENGTHS)[number]
 
+/** Multipliers for ranking. Ratios matter; absolute values do not. */
+export const STRENGTH_WEIGHT: Record<CounterStrength, number> = {
+  hard: 3,
+  soft: 2,
+  situational: 1,
+}
+
+/**
+ * How much a threat hurts if unanswered, 1–3.
+ *
+ * This is an editorial judgement and the most arguable file in the repo — it
+ * decides ranking order more than anything else. It is deliberately a single
+ * table so the argument happens in one place rather than being smeared across
+ * the engine. Change it and the ranking test in derive.test.ts will tell you
+ * what moved.
+ *
+ * The reasoning: losing control of your character, or dying inside one
+ * cooldown, ends the fight outright. Sustain and repositioning change how a
+ * fight goes without deciding it. Chip damage and creep pressure are
+ * annoyances you can play around.
+ */
+export const THREAT_SEVERITY: Record<ThreatTag, number> = {
+  hard_cc: 3,
+  channeled_ult: 3,
+  burst_spirit: 3,
+  high_dps_gun: 3,
+  sustain: 2,
+  displacement: 2,
+  airborne: 2,
+  stealth: 2,
+  zone_denial: 2,
+  dot_debuff: 1,
+  summon_pressure: 1,
+  melee_pressure: 1,
+}
+
 /**
  * Where an entry came from.
  *
