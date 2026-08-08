@@ -19,7 +19,8 @@
     "sync": "node scripts/sync.mts",
     "backlog": "node scripts/render-backlog.mjs",
     "seed:issues": "node scripts/seed-issues.mjs",
-    "seed:issues:dry": "node scripts/seed-issues.mjs --dry-run"
+    "seed:issues:dry": "node scripts/seed-issues.mjs --dry-run",
+    "overlay:scaffold": "node scripts/scaffold-overlay.mts"
   },
   "dependencies": {
     "next": "16.3.0",
