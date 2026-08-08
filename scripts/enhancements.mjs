@@ -38,6 +38,15 @@ export const EPICS = {
   },
 }
 
+/**
+ * Optional per-enhancement `status`. Absent means not started, which is the
+ * common case — only deviations are written down.
+ */
+export const STATUSES = {
+  'in-progress': { label: 'in progress', marker: '~' },
+  done: { label: 'done', marker: 'x' },
+}
+
 export const PRIORITIES = {
   p0: { label: 'priority:p0', color: 'd93f0b', description: 'Blocks the MVP' },
   p1: { label: 'priority:p1', color: 'fbca04', description: 'Needed for launch' },
@@ -51,6 +60,7 @@ export const ENHANCEMENTS = [
     title: 'Project scaffold, CI, and deploy pipeline',
     epic: 'foundation',
     priority: 'p0',
+    status: 'done',
     depends: [],
     body: `
 ### Problem
@@ -145,6 +155,7 @@ issue covers everything around them.
     title: 'Deadlock assets API sync pipeline',
     epic: 'foundation',
     priority: 'p0',
+    status: 'in-progress',
     depends: ['E01'],
     body: `
 ### Problem

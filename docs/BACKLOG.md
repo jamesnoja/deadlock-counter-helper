@@ -2,51 +2,51 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics.
+32 enhancements across 5 epics — **1 done**, 1 in progress, 30 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
 
-| ID | Enhancement | Epic | Priority | Depends on |
-| --- | --- | --- | --- | --- |
-| [E01](#e01) | Project scaffold, CI, and deploy pipeline | foundation | p0 | — |
-| [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
-| [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
-| [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
-| [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
-| [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
-| [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
-| [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
-| [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
-| [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
-| [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
-| [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
-| [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
-| [E14](#e14) | Soul budget filter | ux | p1 | E13 |
-| [E15](#e15) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E13 |
-| [E16](#e16) | Game-phase tabs (lane / mid / late) | ux | p1 | E05 |
-| [E17](#e17) | Ability-level counter granularity | ux | p1 | E05, E12 |
-| [E18](#e18) | "Your hero" context filter | ux | p1 | E05 |
-| [E19](#e19) | Copy-to-clipboard team chat export | ux | p1 | E10 |
-| [E20](#e20) | URL state and deep links | distribution | p0 | E09 |
-| [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
-| [E22](#e22) | OG image generation for shared comps | distribution | p1 | E20, E12 |
-| [E23](#e23) | Structured data (JSON-LD) | distribution | p2 | E21 |
-| [E24](#e24) | Patch changelog page | distribution | p1 | E06 |
-| [E25](#e25) | Accessibility pass | quality | p1 | E08, E11 |
-| [E26](#e26) | Performance budget and analytics discipline | quality | p1 | E01 |
-| [E27](#e27) | Mobile and compact companion mode | quality | p1 | E10, E12 |
-| [E28](#e28) | Counter-the-counter (reverse view) | advanced | p2 | E05 |
-| [E29](#e29) | Win-rate grounding from match data | advanced | p2 | E05 |
-| [E30](#e30) | Threat explanations — teach the mechanic, not the shopping list | advanced | p2 | E17 |
-| [E31](#e31) | Community feedback loop on recommendations | advanced | p2 | E10 |
-| [E32](#e32) | Deep links to the Deadlock wiki | advanced | p2 | E17 |
+| | ID | Enhancement | Epic | Priority | Depends on |
+| --- | --- | --- | --- | --- | --- |
+| [x] | [E01](#e01) | Project scaffold, CI, and deploy pipeline | foundation | p0 | — |
+| [ ] | [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
+| [~] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
+| [ ] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
+| [ ] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
+| [ ] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
+| [ ] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
+| [ ] | [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
+| [ ] | [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
+| [ ] | [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
+| [ ] | [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
+| [ ] | [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
+| [ ] | [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
+| [ ] | [E14](#e14) | Soul budget filter | ux | p1 | E13 |
+| [ ] | [E15](#e15) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E13 |
+| [ ] | [E16](#e16) | Game-phase tabs (lane / mid / late) | ux | p1 | E05 |
+| [ ] | [E17](#e17) | Ability-level counter granularity | ux | p1 | E05, E12 |
+| [ ] | [E18](#e18) | "Your hero" context filter | ux | p1 | E05 |
+| [ ] | [E19](#e19) | Copy-to-clipboard team chat export | ux | p1 | E10 |
+| [ ] | [E20](#e20) | URL state and deep links | distribution | p0 | E09 |
+| [ ] | [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
+| [ ] | [E22](#e22) | OG image generation for shared comps | distribution | p1 | E20, E12 |
+| [ ] | [E23](#e23) | Structured data (JSON-LD) | distribution | p2 | E21 |
+| [ ] | [E24](#e24) | Patch changelog page | distribution | p1 | E06 |
+| [ ] | [E25](#e25) | Accessibility pass | quality | p1 | E08, E11 |
+| [ ] | [E26](#e26) | Performance budget and analytics discipline | quality | p1 | E01 |
+| [ ] | [E27](#e27) | Mobile and compact companion mode | quality | p1 | E10, E12 |
+| [ ] | [E28](#e28) | Counter-the-counter (reverse view) | advanced | p2 | E05 |
+| [ ] | [E29](#e29) | Win-rate grounding from match data | advanced | p2 | E05 |
+| [ ] | [E30](#e30) | Threat explanations — teach the mechanic, not the shopping list | advanced | p2 | E17 |
+| [ ] | [E31](#e31) | Community feedback loop on recommendations | advanced | p2 | E10 |
+| [ ] | [E32](#e32) | Deep links to the Deadlock wiki | advanced | p2 | E17 |
 
 ## Foundation — data pipeline and patch resilience
 
 ### E01
 
-**Project scaffold, CI, and deploy pipeline** — `p0`
+**Project scaffold, CI, and deploy pipeline** — `p0` — **done**
 
 ### Problem
 A counter tool is only trusted if it is obviously maintained. That starts with a build that
@@ -136,7 +136,7 @@ issue covers everything around them.
 
 ### E03
 
-**Deadlock assets API sync pipeline** — `p0`
+**Deadlock assets API sync pipeline** — `p0` — **in progress**
 
 ### Problem
 The original site hardcodes English item names. When Valve renamed Debuff Remover to
