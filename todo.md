@@ -686,3 +686,38 @@ re-enables the chip, and recomputes from 36 counters to 35.
 
 - [ ] E20 moves selection into the URL. State is deliberately in-memory until then.
 - [ ] E10 replaces the flat card list with the coverage matrix.
+
+## 2026-08-08 — E10 and E11: coverage matrix and the two lenses
+
+### Review
+
+Shipped together in one PR. They are genuinely coupled: E11 is a toggle between two lenses,
+and shipping E10 alone would have meant a toggle with one option. Noted as a deliberate bend
+of one-concern-per-branch rather than an oversight.
+
+**E10 — the coverage matrix.** Fixed columns shared by every row, which is what lets the
+table be read down a column ("what answers Abrams?") as well as across. Four states, each
+with its own glyph as well as a tint, so the grid survives greyscale — it matters more here
+than anywhere else in the product, since the whole thing is small coloured marks. Category
+chips carry live counts, and a filter box narrows by name.
+
+**E11 — two lenses over one result set.** Both read the same `deriveCounters` output and
+neither re-ranks; two lenses disagreeing about what matters would be worse than having one.
+The heroes lens splits each hero's answers into core and situational using the derived
+per-pair strength, shows role and counter count, and keeps an "all threats combined" strip
+so the aggregate is never more than a glance away. Clicking a coverage cell in the items lens
+switches lens and focuses that hero — the bridge between the two views.
+
+**Two legibility defects found by looking at the rendered page, not by tests:**
+
+1. Table auto-layout starved the purpose column to three words — "A parry that negates
+   the…" identifies nothing. Explicit column widths, and three lines instead of two.
+2. Item tiles in the heroes lens were 5rem wide, so every label read "COUNTER…",
+   "CURSED R…", "DEBUFF R…". Widened to 7rem with two-line names.
+
+Neither was catchable by a test. The visual-confirmation rule keeps paying.
+
+### Follow-ups
+
+- [ ] E33 adds the three core/flexible cards above the shortlist.
+- [ ] E34 adds the item detail panel; `perHero` already carries what it needs.

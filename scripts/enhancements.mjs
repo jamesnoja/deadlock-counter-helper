@@ -334,6 +334,7 @@ keyboard and opaque to screen readers.
     title: 'Enemy team builder (6 slots)',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E08', 'E05'],
     body: `
 ### Problem
@@ -356,6 +357,7 @@ explanation and no sense of a team being assembled.
     title: 'Aggregated counter shortlist with coverage counts',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E09'],
     body: `
 ### Problem
@@ -392,6 +394,7 @@ visual language stays ours.
     title: 'Retain per-hero detail in team mode',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E10'],
     body: `
 ### Problem
