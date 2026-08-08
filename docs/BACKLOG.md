@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics — **5 done**, 0 in progress, 27 to go.
+32 enhancements across 5 epics — **6 done**, 0 in progress, 26 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -14,7 +14,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
 | [x] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
 | [x] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
-| [ ] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
+| [x] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
 | [ ] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
 | [ ] | [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
 | [ ] | [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
@@ -226,7 +226,7 @@ refinement rather than authorship.
 
 ### E06
 
-**CI patch-diff detection and needs-review flagging** — `p0`
+**CI patch-diff detection and needs-review flagging** — `p0` — **done**
 
 ### Problem
 We need to find out that a patch landed before our users do.

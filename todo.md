@@ -550,3 +550,46 @@ is still `review: "suggested"`.
 
 - [ ] Curation pass, now with visible consequences: strength values directly move the ranking.
 - [ ] E10 truncates the shortlist; the engine returns all 58 matching items by design.
+
+## 2026-08-08 — E06: patch-diff detection and needs-review flagging
+
+### Intent
+
+Find out a patch landed before our users do, and mark what it touched as unreviewed.
+
+### Plan
+
+- [x] 1. `src/data/diff.ts` — pure snapshot comparison.
+- [x] 2. `data/snapshot/changes.json` — written by the sync.
+- [x] 3. `src/data/provenance.ts` — `needsReview(class_name)` for E07.
+- [x] 4. `.github/workflows/sync.yml` — daily, PR only when content moved.
+- [x] 5. Tests, including the simulated-upstream-change criterion.
+- [x] 6. Verify, PR.
+
+### Review
+
+138 tests green.
+
+**The diff answers one question:** which curated decisions might this patch have invalidated?
+Not "what bytes moved". So a removal never needs review (it is gone), a rename never needs
+review (nothing keys on display name — that is the point of the whole architecture), and a
+stat change only counts on an ability carrying overlay tags, because retuning something we
+made no claim about invalidates nothing.
+
+**Proved end to end, not only unit tested.** I mutated the committed snapshot to simulate a
+patch and ran the real sync. It reported a new hero, a renamed item, a retuned tagged
+ability, and two entities flagged for review — then I restored the data.
+
+**A real bug the simulation caught.** The sync decided "unchanged" by comparing against the
+hash recorded in `meta.json` — our own bookkeeping. If the committed data ever drifted from
+that record, it would report no change while sitting on a real difference. It now hashes the
+files actually on disk, so "unchanged" means the bytes are identical.
+
+**The workflow** opens a pull request only when content moved, reuses the day's branch on a
+re-run rather than opening a second one, and runs `npm run verify` against the new data
+before proposing it.
+
+### Follow-ups
+
+- [ ] E24 turns `changes.json` into a public changelog.
+- [ ] The Discord webhook E06 lists as optional is not built.

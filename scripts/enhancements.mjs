@@ -255,6 +255,7 @@ refinement rather than authorship.
     title: 'CI patch-diff detection and needs-review flagging',
     epic: 'foundation',
     priority: 'p0',
+    status: 'done',
     depends: ['E03', 'E04'],
     body: `
 ### Problem
