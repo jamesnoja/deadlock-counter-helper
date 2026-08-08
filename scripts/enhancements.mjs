@@ -86,6 +86,7 @@ fails loudly when something breaks.
     title: 'Design profile — visual identity and design system foundation',
     epic: 'foundation',
     priority: 'p0',
+    status: 'done',
     depends: ['E01'],
     body: `
 ### Problem

@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics — **2 done**, 0 in progress, 30 to go.
+32 enhancements across 5 epics — **3 done**, 0 in progress, 29 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -10,7 +10,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | | ID | Enhancement | Epic | Priority | Depends on |
 | --- | --- | --- | --- | --- | --- |
 | [x] | [E01](#e01) | Project scaffold, CI, and deploy pipeline | foundation | p0 | — |
-| [ ] | [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
+| [x] | [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
 | [x] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
 | [ ] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
 | [ ] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
@@ -69,7 +69,7 @@ fails loudly when something breaks.
 
 ### E02
 
-**Design profile — visual identity and design system foundation** — `p0`
+**Design profile — visual identity and design system foundation** — `p0` — **done**
 
 ### Problem
 Every interface enhancement in this backlog assumes a design language that does not exist
