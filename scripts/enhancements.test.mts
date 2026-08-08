@@ -1,5 +1,7 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { ENHANCEMENTS, EPICS, PRIORITIES } from './enhancements.mjs'
+import { ENHANCEMENTS, EPICS, PRIORITIES, STATUSES } from './enhancements.mjs'
+import { BACKLOG_PATH, renderBacklog } from './render-backlog.mjs'
 
 /**
  * `enhancements.mjs` is the source of truth for both docs/BACKLOG.md and the seeded
@@ -30,6 +32,13 @@ describe('enhancement fields', () => {
   it('reference a known priority', () => {
     const unknown = ENHANCEMENTS.filter((e) => !(e.priority in PRIORITIES)).map(
       (e) => `${e.id}:${e.priority}`,
+    )
+    expect(unknown).toEqual([])
+  })
+
+  it('use a known status when they declare one', () => {
+    const unknown = ENHANCEMENTS.filter((e) => e.status !== undefined && !(e.status in STATUSES)).map(
+      (e) => `${e.id}:${e.status}`,
     )
     expect(unknown).toEqual([])
   })
@@ -77,6 +86,24 @@ describe('dependencies', () => {
       e.depends.filter((d) => d >= e.id).map((d) => `${e.id} -> ${d}`),
     )
     expect(forwards).toEqual([])
+  })
+})
+
+describe('status', () => {
+  it('is never `done` while something it depends on is not', () => {
+    const byId = new Map(ENHANCEMENTS.map((e) => [e.id, e]))
+    const inconsistent = ENHANCEMENTS.filter((e) => e.status === 'done').flatMap((e) =>
+      e.depends.filter((d) => byId.get(d)?.status !== 'done').map((d) => `${e.id} done but ${d} is not`),
+    )
+    expect(inconsistent).toEqual([])
+  })
+})
+
+describe('docs/BACKLOG.md', () => {
+  it('matches what the renderer produces', () => {
+    // Fails when enhancements.mjs changed without running `npm run backlog`.
+    const committed = readFileSync(BACKLOG_PATH, 'utf8').replace(/\r\n/g, '\n')
+    expect(renderBacklog()).toEqual(committed)
   })
 })
 
