@@ -88,24 +88,30 @@ export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
         </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left">
+          {/*
+            border-separate with row spacing, not border-collapse with hairlines.
+            The design guide is explicit that depth comes from layered charcoal
+            and soft shadows rather than rules, and that a square corner reads as
+            third-party — so each row is a rounded surface floating on the canvas.
+          */}
+          <table className="w-full border-separate border-spacing-y-xs text-left">
             <caption className="sr-only">
               Recommended items and how strongly each answers every selected enemy
             </caption>
             <thead>
-              <tr className="border-b border-hairline">
+              <tr>
                 {/* Explicit widths: auto layout starved the purpose column down
                     to three words, which is worse than not showing it. */}
-                <th scope="col" className="w-1/4 p-sm text-micro text-text-muted">
+                <th scope="col" className="w-1/4 px-md pb-xs text-micro text-text-muted">
                   Item
                 </th>
-                <th scope="col" className="w-2/5 p-sm text-micro text-text-muted">
+                <th scope="col" className="w-2/5 px-md pb-xs text-micro text-text-muted">
                   Purpose
                 </th>
                 {team.map((hero) => (
-                  <th key={hero.class_name} scope="col" className="p-xs">
+                  <th key={hero.class_name} scope="col" className="px-xs pb-xs">
                     <span
-                      className="grid size-7 place-items-center overflow-hidden rounded-pill bg-surface-elevated"
+                      className="mx-auto grid size-7 place-items-center overflow-hidden rounded-pill bg-surface-elevated"
                       title={hero.name}
                     >
                       {hero.images.minimap ?? hero.images.portrait ? (
@@ -122,21 +128,23 @@ export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
                     <span className="sr-only">{hero.name}</span>
                   </th>
                 ))}
-                <th scope="col" className="p-sm text-micro text-text-muted">
+                <th scope="col" className="px-md pb-xs text-right text-micro text-text-muted">
                   Cov.
                 </th>
               </tr>
             </thead>
             <tbody>
               {visible.map((counter, index) => (
-                <tr
-                  key={counter.item.class_name}
-                  className="border-b border-hairline align-middle hover:bg-surface-elevated"
-                >
-                  <th scope="row" className="p-sm font-normal">
-                    <span className="flex items-center gap-sm">
-                      <span className="text-caption text-text-muted">{index + 1}</span>
-                      <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-md bg-surface-elevated">
+                <tr key={counter.item.class_name} className="group align-middle">
+                  {/* Rounding lives on the end cells, because border-separate
+                      gives no box to round on the row itself. */}
+                  <th
+                    scope="row"
+                    className="rounded-l-lg bg-surface p-row font-normal transition-colors group-hover:bg-surface-elevated"
+                  >
+                    <span className="flex items-center gap-md">
+                      <span className="w-4 shrink-0 text-tabular text-text-muted">{index + 1}</span>
+                      <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-md bg-surface-elevated">
                         {counter.item.icon ?? counter.item.shop_icon ? (
                           // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
                           <img
@@ -146,26 +154,33 @@ export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
                           />
                         ) : null}
                       </span>
-                      <span className="min-w-0">
-                        <span className="block truncate text-caption">{counter.item.name}</span>
-                        <span
-                          className={`block text-micro ${CATEGORY_CLASS[counter.item.category]}`}
-                        >
-                          {counter.item.category} T{counter.item.tier} ·{' '}
-                          <span className="text-tabular text-text-muted">
+                      <span className="flex min-w-0 flex-col gap-xs">
+                        <span className="truncate text-heading">{counter.item.name}</span>
+                        <span className="flex flex-wrap items-center gap-xs">
+                          {/* pill-tag from the design guide: subdued fill, soft text. */}
+                          <span
+                            className={`rounded-pill bg-surface-elevated px-sm py-px text-micro ${CATEGORY_CLASS[counter.item.category]}`}
+                          >
+                            {counter.item.category}
+                          </span>
+                          <span className="text-micro text-text-muted">T{counter.item.tier}</span>
+                          <span className="text-tabular">
                             {counter.item.cost.toLocaleString()}
                           </span>
                         </span>
                       </span>
                     </span>
                   </th>
-                  <td className="p-sm text-caption text-text-muted">
+                  <td className="bg-surface p-row text-caption text-text-muted transition-colors group-hover:bg-surface-elevated">
                     <span className="line-clamp-3">{counter.why}</span>
                   </td>
                   {counter.perHero.map((effect) => {
                     const hero = team.find((candidate) => candidate.class_name === effect.hero)
                     return (
-                      <td key={effect.hero} className="p-xs text-center">
+                      <td
+                        key={effect.hero}
+                        className="bg-surface px-xs py-row text-center transition-colors group-hover:bg-surface-elevated"
+                      >
                         <CoverageCell
                           strength={effect.strength}
                           heroName={hero?.name ?? effect.hero}
@@ -176,8 +191,13 @@ export function ItemsLens({ counters, team, onSelectHero }: ItemsLensProps) {
                       </td>
                     )
                   })}
-                  <td className="p-sm text-tabular">
-                    {counter.coverage.length}/{team.length}
+                  <td className="rounded-r-lg bg-surface p-row text-right transition-colors group-hover:bg-surface-elevated">
+                    {/* The count is the row's hero number — sized to be the
+                        thing you see first when scanning the column. */}
+                    <span className="text-tabular text-heading text-brand">
+                      {counter.coverage.length}
+                    </span>
+                    <span className="text-caption text-text-muted">/{team.length}</span>
                   </td>
                 </tr>
               ))}
