@@ -168,4 +168,36 @@ classifier. All four PRs are green and waiting on the owner.
 
 ### Review
 
-_Pending._
+Four PRs, all green, all awaiting owner merge.
+
+| PR | What | Notes |
+| --- | --- | --- |
+| #39 | Pin Node 24 across local / CI / Vercel | `.nvmrc` is the single source; CI reads it via `node-version-file`, Vercel via `engines` |
+| #40 | Exclude `coverage/` from linting | Unplanned; found while verifying #39 |
+| #41 | `@types/node` -> `^24`, Dependabot majors constrained | Supersedes #37 |
+| #34, #35 | `actions/checkout` and `actions/setup-node` 5 -> 7 | Dependabot's own, mechanical |
+
+**Two majors tested and rejected.** Both fail for the same underlying reason —
+`eslint-config-next@16.3.0` bundles plugins that have not caught up:
+
+- **typescript 7.0.2** — `typescript-eslint` refuses to load. Notable that typecheck and
+  build both pass under the native compiler; only lint breaks. Tracking:
+  typescript-eslint#10940.
+- **eslint 10.8.0** — `eslint-plugin-react@7.37.5` calls a rule-context API ESLint 10
+  removed, so every React rule throws on load, on real source files.
+
+Both are worth retrying when Next bumps its bundled plugins. The Dependabot `ignore`
+entries carry the reason and the unblock condition so this is not re-litigated from
+scratch.
+
+**`@types/node` was quietly wrong before Dependabot touched it.** The scaffold pinned
+`^20` while local Node was 24. Dependabot proposed 26, which would have been wrong in the
+other direction. Now `^24`, matching the runtime.
+
+**Process notes:**
+
+- Vercel preview deploys confirmed working — every PR above got one.
+- I could not merge anything; the harness denies the action. Worth knowing for future
+  sessions: plan on handing merges back rather than assuming an end-to-end flow.
+- This log entry rides along on #41 rather than getting its own PR. Slight bend of
+  one-concern-per-branch, in exchange for not opening a fifth PR to record the other four.
