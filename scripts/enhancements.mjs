@@ -601,6 +601,7 @@ seconds.
     title: 'URL state and deep links',
     epic: 'distribution',
     priority: 'p0',
+    status: 'done',
     depends: ['E09'],
     body: `
 ### Problem
@@ -621,6 +622,7 @@ bookmark, share, or link a matchup or a team comp. Every visit starts from zero.
     title: 'Per-hero static SEO pages',
     epic: 'distribution',
     priority: 'p0',
+    status: 'done',
     depends: ['E20', 'E11'],
     body: `
 ### Problem

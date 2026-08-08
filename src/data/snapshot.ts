@@ -11,7 +11,7 @@ import heroes from '../../data/snapshot/heroes.json' with { type: 'json' }
 import items from '../../data/snapshot/items.json' with { type: 'json' }
 import meta from '../../data/snapshot/meta.json' with { type: 'json' }
 
-import type { Ability, Hero, Item, SnapshotMeta } from './schema.ts'
+import type { Ability, AbilityStat, Hero, Item, SnapshotMeta } from './schema.ts'
 
 /**
  * JSON imports widen to structural literal types that will not narrow to our
@@ -70,6 +70,24 @@ export const itemByClassName = (className: string): Item | undefined => itemsByC
  * cannot drift between the table, the plan cards and the detail panel.
  */
 export const itemArtwork = (item: Item): string | null => item.shop_icon ?? item.icon
+
+/**
+ * Ability stats worth showing a reader.
+ *
+ * Ability stats keep their zeros in the snapshot on purpose — E06's retune
+ * detection needs a value moving to zero to be visible. But over half of them
+ * *are* zero, and "Cast Range 0m · Charges 0" on a page tells nobody anything,
+ * so the filtering happens here at display time rather than in the data.
+ *
+ * `Charge Delay -1` is upstream's "not applicable" marker: it appears 119 times
+ * and never at any other value. Other negatives are real — Weapon Accuracy
+ * -40%, Dash Distance -20% — so only that one pairing is dropped.
+ */
+export function displayStats(stats: Record<string, AbilityStat>): [string, AbilityStat][] {
+  return Object.entries(stats).filter(
+    ([, stat]) => stat.value !== 0 && !(stat.value === -1 && stat.label === 'Charge Delay'),
+  )
+}
 
 /** A hero's four signature abilities, in slot order. */
 export const abilitiesForHero = (hero: Hero): Ability[] =>
