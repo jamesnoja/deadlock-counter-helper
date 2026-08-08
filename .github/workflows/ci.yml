@@ -19,7 +19,9 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          # Keep in step with .nvmrc and package.json engines. Vercel reads engines,
+          # so all three environments follow the repo rather than three dashboards.
+          node-version-file: .nvmrc
           cache: npm
 
       - run: npm ci
