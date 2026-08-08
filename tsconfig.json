@@ -12,6 +12,11 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // Node 24 runs .ts directly by stripping types, so scripts import with an
+    // explicit .ts extension. erasableSyntaxOnly rejects syntax that stripping
+    // cannot handle (enums, namespaces, parameter properties) at typecheck time.
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
