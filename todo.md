@@ -964,7 +964,7 @@ Cleared the small stuff so the curation branch starts from a clean tree.
       unreachable by keyboard and absent on touch. The capability is there, the trigger is
       not the one specified. Recorded rather than closed silently as done.
 - [x] Merged #69 (actions/checkout 5→7). `ci.yml` was already on v7; only `sync.yml` lagged.
-- [ ] #68 (actions/setup-node 5→7) — blocked, see below.
+- [x] #68 (actions/setup-node 5→7) — merged after dependabot rebased itself; see below.
 - [x] Removed `33` and `Echo Shard`, two empty files that entered in #49.
 - [x] Committed the three lines npm writes into the lockfile for `engines.node`.
 
@@ -981,4 +981,77 @@ rebase itself; it needs a manual merge once that lands. Fix for next time is
 `flutter test`, goldens, `build_runner`, and "state management is Riverpod-only". None of it
 applies. The real gate is `npm run verify`. Left alone because it is a separate concern from
 this branch, but any agent reading it will be told to run commands that do not exist here.
+## 2026-08-09 — Strength worklist: make the 37 default-strength items reachable
+
+**Intent.** The curation page can already set strength; it just never shows the items that
+need it. Add the missing section so the biggest lever on ranking quality is clickable.
+
+### The problem
+
+`/admin/untagged` filters to `blocked` and `untagged` (`page.tsx:28`). The items that matter
+now are `suggested` **with** tags — they have an answer but nobody has judged how strongly it
+answers. They are the one bucket the worklist cannot reach, and `CurationList` already has
+the strength dropdown, the why field and the paste-ready output. This is a filter, not a
+feature.
+
+**37 items, not 51.** The previous entry said 51. That is 54 ranked+tagged minus the 3
+curated — *not curated*, which is a different thing from *still situational*. 17 already
+carry soft or hard. Corrected here so the next person does not plan against a number that is
+40% too big.
+
+### Reach, and why the list is ordered by it
+
+Setting strength on an item answering a tag no hero presents changes nothing. Counting heroes
+per tag:
+
+| Tag | Heroes | Tag | Heroes |
+| --- | --- | --- | --- |
+| `hard_cc` | 27 | `burst_spirit` | 10 |
+| `sustain` | 24 | `airborne` | 10 |
+| `channeled_ult` | 16 | `summon_pressure` | 6 |
+| `displacement` | 15 | `high_dps_gun` | 4 |
+| `dot_debuff` | 14 | `stealth` | 4 |
+| `zone_denial` | 12 | | |
+| `melee_pressure` | 11 | | |
+
+14 of the 37 answer only `high_dps_gun` or `stealth` — a third of the list for a twentieth of
+the value. Ordering by reach puts the 14 items covering `hard_cc`, `sustain` and
+`channeled_ult` first, so a short session still moves the rankings.
+
+### Plan
+
+- [ ] Add `heroesPresentingTag()` to `src/data/overlay.ts` — heroes per threat tag, built on
+      the existing `threatsForHero`. Pure, no new data.
+- [ ] Add `strengthWorklist()` beside `itemCurationQueue()`: ranked items, `bucket ===
+      'suggested'`, at least one tag, `strength === 'situational'`, sorted by reach then cost.
+- [ ] New section on `/admin/untagged` rendering it through the existing `CurationList`.
+      No change to that component.
+- [ ] A stat card for the count, so the number is on screen rather than in a log entry.
+- [ ] Tests in `src/data/overlay.test.ts` for both functions, including that a curated
+      entry leaves the list.
+- [ ] `npm run verify`, then load the page and confirm the items actually render.
+
+### The list drains correctly — worth stating
+
+`situational` is both "decided: weak" and "nobody looked". The scaffold writes it as the
+default, so the value alone cannot tell them apart. Filtering on `bucket === 'suggested'`
+rather than on strength is what makes this work: curating anything sets `review: 'curated'`,
+which moves it out of the bucket whatever strength is chosen. An item deliberately judged
+situational leaves the list. No schema change needed.
+
+### Some of these need a tag fix, not a strength
+
+Flagging before curation starts, because rating these `situational` would bury a wrong answer
+rather than remove it:
+
+- **Healing Rite** — tagged `hard_cc`, justified by "Grant Regen and Sprint Speed".
+- **Blood Tribute** — tagged `hard_cc` off "Debuff Resistance" in a fire-rate toggle.
+- **Crushing Fists** — tagged `hard_cc` + `high_dps_gun` + `melee_pressure`, all three.
+
+`CurationList` already toggles tags, so the same pass can clear them. Not touching them here.
+
+### Out of scope
+
+Knockdown's `airborne` tag, still parked from #67. `CLAUDE.md` being Flutter/Riverpod
+boilerplate on a Next.js project — real, but a separate branch.
 
