@@ -192,6 +192,7 @@ Upstream schema reference: items expose \`id\`, \`class_name\`, \`name\`, \`type
     title: 'Threat-tag overlay schema (abilities and items)',
     epic: 'foundation',
     priority: 'p0',
+    status: 'done',
     depends: ['E03'],
     body: `
 ### Problem
@@ -201,9 +202,13 @@ recur everywhere and why a new hero means writing everything from scratch.
 ### Scope
 Two curated files, both keyed on \`class_name\`:
 
-- \`data/overlay/ability-threats.yaml\` — each ability maps to one or more threat tags.
-- \`data/overlay/item-counters.yaml\` — each item maps to the threat tags it answers, plus a
+- \`data/overlay/ability-threats.ts\` — each ability maps to one or more threat tags.
+- \`data/overlay/item-counters.ts\` — each item maps to the threat tags it answers, plus a
   one-line "why", and a strength weight (hard counter / soft counter / situational).
+
+TypeScript rather than YAML: the acceptance criterion below asks for a typo to fail the
+build, which the tag union gives directly. YAML would need a parser dependency plus runtime
+validation to reach the same place.
 
 Proposed initial tag vocabulary:
 \`hard_cc\`, \`channeled_ult\`, \`sustain\`, \`burst_spirit\`, \`high_dps_gun\`, \`airborne\`,

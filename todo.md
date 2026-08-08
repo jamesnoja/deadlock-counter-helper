@@ -416,3 +416,68 @@ we must not imply a brand that is not ours.
       spacing scale ships instead. E27's spec updated: `?compact=1` changes layout (columns,
       what collapses) rather than swapping spacing tokens, so the backlog no longer points
       at a switch that does not exist.
+
+## 2026-08-08 — E04: threat-tag overlay schema
+
+### Intent
+
+Layer B: the hand-curated mapping from ability -> threat tags and item -> counter tags,
+keyed on `class_name`. This is the file a human edits per patch; everything else derives.
+
+### Plan
+
+- [x] 1. `src/data/tags.ts` — 12-tag vocabulary as a union, counter strengths, review states.
+- [x] 2. `data/overlay/{ability-threats,item-counters}.ts` — the curated layer.
+- [x] 3. `scripts/scaffold-overlay.mts` — additive-only generator, round-trip stable.
+- [x] 4. `src/data/overlay.ts` — typed joins and coverage reporting.
+- [x] 5. Tests for every E04 acceptance criterion.
+- [x] 6. Verify, PR.
+
+### Decisions
+
+**TypeScript, not YAML.** The acceptance criterion is "a typo fails the build". The tag
+union delivers that at typecheck with no dependency; YAML needs a parser (a rule-4 approval)
+plus runtime validation to reach the same place. E04's spec text updated to match.
+
+**Scaffold is additive and round-tripping.** It reads existing entries back and re-emits
+them unchanged, only adding what is missing. Curation can never be overwritten by a re-run,
+which is what makes it safe to run after every sync. Verified by running it twice and
+confirming an empty diff. Cost: comments do not survive, so entries carry a `note` field.
+
+**`review: 'suggested'` on everything.** See the honesty note below.
+
+### The honest state of the data
+
+The schema is done. **The curation is not, and I am not the right author for it.**
+
+Tags were derived mechanically from the game's own description text by conservative keyword
+rules — not from knowledge of how these matchups actually play. Every entry is marked
+`review: 'suggested'` for exactly that reason. Coverage:
+
+| | Total | Tagged | Untagged | Confirmed by a human |
+| --- | --- | --- | --- | --- |
+| Abilities | 152 | 101 | 51 | 0 |
+| Items | 173 | 49 | 124 | 0 |
+
+Items are much weaker because 32 have no description at all, and item text usually says what
+an item *does*, not what it *answers*.
+
+I dropped the `burst_spirit` and `high_dps_gun` auto-rules after an early run tagged 52
+abilities `burst_spirit` off the phrase "spirit damage" — which nearly every ability
+contains, and which does not mean burst. A wrong tag is worse than a missing one: the
+missing one shows up in the coverage report, the wrong one becomes confident bad advice.
+
+Coverage numbers are asserted as ratchets so curation cannot silently regress.
+
+### Review
+
+**Five commits.** 84 tests green.
+
+One hero, `hero_mirage`, currently has no tagged ability at all, so E05 would return nothing
+for it. Guarded by a test that stops the count growing.
+
+### Follow-ups
+
+- [ ] Human curation pass — flip entries to `review: 'curated'`, starting with the heroes
+      people actually look up.
+- [ ] Hero slug decision, still open from E03, still blocking E20/E21.

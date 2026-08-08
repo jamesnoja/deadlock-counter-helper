@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics — **3 done**, 0 in progress, 29 to go.
+32 enhancements across 5 epics — **4 done**, 0 in progress, 28 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -12,7 +12,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E01](#e01) | Project scaffold, CI, and deploy pipeline | foundation | p0 | — |
 | [x] | [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
 | [x] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
-| [ ] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
+| [x] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
 | [ ] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
 | [ ] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
 | [ ] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
@@ -169,7 +169,7 @@ Upstream schema reference: items expose `id`, `class_name`, `name`, `type`, `ima
 
 ### E04
 
-**Threat-tag overlay schema (abilities and items)** — `p0`
+**Threat-tag overlay schema (abilities and items)** — `p0` — **done**
 
 ### Problem
 Counter advice is currently hand-written prose per hero, which is why the same eight items
@@ -178,9 +178,13 @@ recur everywhere and why a new hero means writing everything from scratch.
 ### Scope
 Two curated files, both keyed on `class_name`:
 
-- `data/overlay/ability-threats.yaml` — each ability maps to one or more threat tags.
-- `data/overlay/item-counters.yaml` — each item maps to the threat tags it answers, plus a
+- `data/overlay/ability-threats.ts` — each ability maps to one or more threat tags.
+- `data/overlay/item-counters.ts` — each item maps to the threat tags it answers, plus a
   one-line "why", and a strength weight (hard counter / soft counter / situational).
+
+TypeScript rather than YAML: the acceptance criterion below asks for a typo to fail the
+build, which the tag union gives directly. YAML would need a parser dependency plus runtime
+validation to reach the same place.
 
 Proposed initial tag vocabulary:
 `hard_cc`, `channeled_ult`, `sustain`, `burst_spirit`, `high_dps_gun`, `airborne`,
