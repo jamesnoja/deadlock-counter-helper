@@ -309,6 +309,7 @@ their data came from or how old it is.
     title: 'Accessible hero picker with portraits and keyboard navigation',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E03', 'E02'],
     body: `
 ### Problem
