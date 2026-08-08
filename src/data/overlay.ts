@@ -8,7 +8,7 @@
 
 import { ABILITY_THREATS } from '../../data/overlay/ability-threats.ts'
 import { ITEM_COUNTERS } from '../../data/overlay/item-counters.ts'
-import { ABILITIES, HEROES, NON_RANKED_ITEMS, RANKED_ITEMS } from './snapshot.ts'
+import { ABILITIES, HEROES, NON_RANKED_ITEMS, RANKED_ITEMS, itemArtwork } from './snapshot.ts'
 import type { Hero } from './schema.ts'
 import type { AbilityThreats, ItemCounters, ThreatTag } from './tags.ts'
 
@@ -60,6 +60,8 @@ export interface CurationEntry {
   strength?: string
   why?: string
   cost?: number
+  /** Shop art for items, ability art for abilities. Null when upstream ships none. */
+  image?: string | null
 }
 
 const bucketFor = (
@@ -85,6 +87,7 @@ export function abilityCurationQueue(): CurationEntry[] {
       note: entry?.note,
       hero: heroName.get(ability.hero) ?? ability.hero,
       slot: ability.slot,
+      image: ability.icon,
     }
   }).sort((a, b) => `${a.hero}${a.slot}`.localeCompare(`${b.hero}${b.slot}`))
 }
@@ -102,6 +105,7 @@ export function itemCurationQueue(): CurationEntry[] {
       strength: entry?.strength,
       why: entry?.why,
       cost: item.cost,
+      image: itemArtwork(item),
     }
   }).sort((a, b) => a.name.localeCompare(b.name))
 }
@@ -165,6 +169,7 @@ export function nonRankedItems(): CurationEntry[] {
     tags: ITEM_COUNTERS[item.class_name]?.answers ?? [],
     strength: ITEM_COUNTERS[item.class_name]?.strength,
     why: ITEM_COUNTERS[item.class_name]?.why,
+    image: itemArtwork(item),
   })).sort((a, b) => a.name.localeCompare(b.name))
 }
 

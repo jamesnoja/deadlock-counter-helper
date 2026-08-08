@@ -13,6 +13,7 @@ import { useMemo, useState } from 'react'
 import type { CurationEntry } from '@/data/overlay.ts'
 import { COUNTER_STRENGTHS, THREAT_TAGS, type CounterStrength, type ThreatTag } from '@/data/tags.ts'
 import { Button } from '@/components/primitives.tsx'
+import { GameImage } from '@/components/game-image.tsx'
 
 interface Edit {
   tags: ThreatTag[]
@@ -111,21 +112,34 @@ export function CurationList({
           const dirty = Boolean(edits[entry.class_name])
           return (
             <li key={entry.class_name} className="flex flex-col gap-sm rounded-card bg-surface p-card">
-              <div className="flex flex-wrap items-baseline justify-between gap-sm">
-                <h3 className="text-heading">
-                  {entry.hero ? `${entry.hero} · ` : ''}
-                  {entry.name}
-                  {entry.slot ? <span className="text-text-muted"> (slot {entry.slot})</span> : null}
-                </h3>
-                <span className="text-micro text-text-muted">{BUCKET_LABEL[entry.bucket]}</span>
-              </div>
+              <div className="flex items-start gap-md">
+                {/* Decorative: the name is right beside it, so alt would repeat it. */}
+                <GameImage
+                  src={entry.image}
+                  fallback={entry.name}
+                  size={48}
+                  className="shrink-0 rounded-md"
+                />
+                <div className="flex min-w-0 flex-1 flex-col gap-xs">
+                  <div className="flex flex-wrap items-baseline justify-between gap-sm">
+                    <h3 className="text-heading">
+                      {entry.hero ? `${entry.hero} · ` : ''}
+                      {entry.name}
+                      {entry.slot ? (
+                        <span className="text-text-muted"> (slot {entry.slot})</span>
+                      ) : null}
+                    </h3>
+                    <span className="text-micro text-text-muted">{BUCKET_LABEL[entry.bucket]}</span>
+                  </div>
 
-              <p className="text-caption text-text-muted">
-                {entry.description || (
-                  <em>No description in the assets API. This one cannot be settled from data.</em>
-                )}
-              </p>
-              {entry.note ? <p className="text-caption text-brand-soft">{entry.note}</p> : null}
+                  <p className="text-caption text-text-muted">
+                    {entry.description || (
+                      <em>No description in the assets API. This one cannot be settled from data.</em>
+                    )}
+                  </p>
+                  {entry.note ? <p className="text-caption text-brand-soft">{entry.note}</p> : null}
+                </div>
+              </div>
 
               <div className="flex flex-wrap gap-xs">
                 {THREAT_TAGS.map((tag) => {

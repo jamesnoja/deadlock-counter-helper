@@ -1139,3 +1139,23 @@ instructions present; worklist still leads with the 37.
 
 - [ ] The three tag corrections are still pending — this branch explains the vocabulary, it
       does not apply it.
+
+## 2026-08-09 — Shop art on the curation worklist
+
+Owner asked for the shop image beside items and abilities. The worklist is scanned visually —
+an item is recognised by its art well before its name is read — and 37 rows of text is slow to
+work through.
+
+- `CurationEntry` carries `image`, from the existing `itemArtwork()` helper for items
+  (`shop_icon` falling back to `icon`) and `ability.icon` for abilities. Reused rather than
+  re-derived: #62 already decided shop art is the right source and put that in one place.
+- Rendered through `GameImage`, so it inherits the fixed box, the local fallback on a 404 and
+  the decorative-by-default alt. Row is now art left, name and description right.
+- Two tests that every ranked item and every ability carries art.
+
+**Confirmed it is shop art, not the internal icon.** Healing Rite renders
+`items/vitality/healing_rite.webp`, not `mods_armor/stimpak.webp` — the two differ for most
+items and the internal one is not what the shop shows. All 173 items have a `shop_icon` and
+all 152 abilities an `icon`, so the fallback never fires today; the tests exist so a sync that
+drops art fails rather than silently rendering placeholder squares.
+

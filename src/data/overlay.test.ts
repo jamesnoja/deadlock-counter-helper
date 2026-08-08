@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest'
 import {
   ABILITY_THREATS,
   ITEM_COUNTERS,
+  abilityCurationQueue,
   heroesPresentingTag,
+  itemCurationQueue,
   itemsAnswering,
   overlayCoverage,
   strengthWorklist,
@@ -279,5 +281,23 @@ describe('curation vocabulary', () => {
       expect(THREAT_TAG_LABELS[tag], `no label for ${tag}`).toBeTruthy()
       expect(THREAT_SEVERITY[tag], `no severity for ${tag}`).toBeGreaterThan(0)
     }
+  })
+})
+
+describe('curation artwork', () => {
+  /**
+   * The worklist is scanned visually — an item is recognised by its shop art
+   * long before its name is read. Upstream currently ships art for everything,
+   * so a missing entry means a sync dropped it rather than that the item never
+   * had any.
+   */
+  it('carries shop art for every ranked item, preferring it over the internal icon', () => {
+    const withoutArt = itemCurationQueue().filter((entry) => !entry.image)
+    expect(withoutArt.map((entry) => entry.class_name)).toEqual([])
+  })
+
+  it('carries art for every ability', () => {
+    const withoutArt = abilityCurationQueue().filter((entry) => !entry.image)
+    expect(withoutArt.map((entry) => entry.class_name)).toEqual([])
   })
 })
