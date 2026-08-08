@@ -32,7 +32,7 @@ export function explainPair(
   abilityName: (className: string) => string | undefined,
   entry?: ItemCounters,
 ): PairExplanation {
-  const authored = entry?.notes?.[effect.hero]?.trim()
+  const authored = entry?.heroNotes?.[effect.hero]?.trim()
   if (authored) return { text: authored, editorial: true }
 
   if (effect.strength === 'none') {

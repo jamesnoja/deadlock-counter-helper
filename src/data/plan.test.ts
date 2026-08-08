@@ -131,7 +131,7 @@ describe('explainPair', () => {
       why: 'w',
       strength: 'hard',
       review: 'curated',
-      notes: { hero_orion: 'Pins him down before the shot goes off.' },
+      heroNotes: { hero_orion: 'Pins him down before the shot goes off.' },
     }
     const result = explainPair(effect(), 'Grey Talon', abilityName, entry)
     expect(result).toEqual({ text: 'Pins him down before the shot goes off.', editorial: true })
@@ -143,7 +143,7 @@ describe('explainPair', () => {
       why: 'w',
       strength: 'hard',
       review: 'curated',
-      notes: { hero_someone_else: 'Irrelevant.' },
+      heroNotes: { hero_someone_else: 'Irrelevant.' },
     }
     expect(explainPair(effect(), 'Grey Talon', abilityName, entry).editorial).toBe(false)
   })

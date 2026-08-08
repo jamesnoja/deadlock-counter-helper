@@ -150,7 +150,16 @@ export interface ItemCounters {
    * automatically; this overrides it where somebody has something better to
    * say. Anything here is shown to the user as editorial rather than derived.
    */
-  notes?: Record<string, string>
+  heroNotes?: Record<string, string>
+  /**
+   * Prose about this entry itself — why a strength was chosen, what upstream
+   * failed to provide. Distinct from `heroNotes`, which is per-enemy copy shown
+   * to the user; this is for whoever reads the overlay next.
+   *
+   * Also a curation marker: the scaffold will not re-derive an entry carrying
+   * one, because a note means somebody looked and decided.
+   */
+  note?: string
   /**
    * Phases this item is worth buying in. Omit to fall back to the tier default,
    * which is the honest state for anything nobody has judged yet.
