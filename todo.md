@@ -201,3 +201,121 @@ other direction. Now `^24`, matching the runtime.
   sessions: plan on handing merges back rather than assuming an end-to-end flow.
 - This log entry rides along on #41 rather than getting its own PR. Slight bend of
   one-concern-per-branch, in exchange for not opening a fifth PR to record the other four.
+
+## 2026-08-08 — Backlog status tracking + E03 assets sync pipeline
+
+### Intent
+
+Add a completion marker to the backlog so finished work stops reading as outstanding, then
+build the Deadlock assets sync pipeline (E03).
+
+### API reconnaissance (done before planning)
+
+Probed `api.deadlock-api.com` live. Everything E03 assumes exists, plus some numbers that
+change downstream issues:
+
+| Finding | Consequence |
+| --- | --- |
+| `/v1/assets/heroes` returns 38 heroes; all pass `player_selectable && !disabled && !in_development` | The filter is real but currently a no-op. Still implement it — it is the thing that keeps an unreleased hero out of the UI on patch day. |
+| `/v1/assets/items` returns 726: 251 `upgrade`, 389 `ability`, 86 `weapon` | Only upgrades are counter-items. |
+| **173** upgrades are `shopable && !disabled` | That is the real counter-item universe, not 251. |
+| **15 of those 173 have no `image`/`image_webp`** | E12's "local fallback placeholder" is not hypothetical — it is needed on day one. |
+| Upgrades expose `cost`, `item_tier` (1-5), `item_slot_type` (weapon/spirit/vitality) | E13 is fully satisfied by the snapshot. Note tiers run **1-5**, not 1-4. |
+| Abilities link to heroes via `heroes: number[]`; 285 of 389 are hero-linked | The other 104 are NPC/creep abilities. Walk `hero.items.signature1..N` instead — cleaner and avoids the junk. |
+| `/v1/patches` returns 20 entries; latest `06-30-2026 Update`, `pub_date 2026-07-28` | Gives E07 its "synced from patch X" stamp. |
+| `/v1/assets/client-versions` returns build numbers | Second provenance signal. |
+
+### Part A — backlog status tracking
+
+- [ ] A1. Add an optional `status` field (`done` | `in-progress`) to entries in
+      `scripts/enhancements.mjs`. Absent means not started.
+- [ ] A2. `render-backlog.mjs`: Status column in the index, and a status line per entry.
+- [ ] A3. Extend `enhancements.test.mts` to reject unknown status values.
+- [ ] A4. Mark E01 `done`, E03 `in-progress`. Regenerate `docs/BACKLOG.md`.
+- [ ] A5. Close issue #1 with a pointer to PR #33.
+
+### Part B — E03 assets sync pipeline
+
+- [ ] B1. `src/data/schema.ts` — typed shapes plus the tag-free normalised model.
+      Everything keyed on `class_name`; `id` kept only for resolving `heroes[]` references.
+- [ ] B2. `scripts/sync.mjs` — fetch heroes, items, patches, client-versions.
+      Fetch heroes **unfiltered** and apply our own filter, so exclusions are visible and
+      testable rather than delegated to a query param.
+- [ ] B3. Normalise to a lean projection. The raw items payload is 5.7 MB; we keep only
+      fields the product uses. A field we later need is one re-sync away, whereas an
+      unreadable 6 MB diff makes E06's review PR useless.
+- [ ] B4. Write `data/snapshot/{heroes,items,abilities}.json` + `meta.json`.
+      Deterministic: arrays sorted by `class_name`, object keys sorted, stable formatting.
+- [ ] B5. **Timestamp churn guard.** `meta.json` carries a `content_hash`. `synced_at`
+      only advances when the hash changes. Without this, E06's daily job opens a PR every
+      single day whose only diff is a timestamp, and people stop reading them.
+- [ ] B6. `npm run sync` script. Build reads the committed snapshot only — never network.
+- [ ] B7. Tests: snapshot validates against the schema; `class_name` unique; every ability
+      referenced by a hero resolves; no entity keyed on display name; filter excludes what
+      it should. Normalisation is a pure function tested against a fixture.
+- [ ] B8. Verify, PR.
+
+### Corrections to the reconnaissance above
+
+Two numbers in that table were measured against `?only_active=true` and are wrong:
+
+- **The hero filter is not a no-op.** Unfiltered, `/v1/assets/heroes` returns **57**, of
+  which 38 are playable. 19 unreleased or disabled heroes are excluded by our own filter.
+- **No item is actually missing artwork.** 15 upgrades lack `image`/`image_webp`, but all
+  15 carry `shop_image`. The normaliser keeps both, so coverage is complete and E12's
+  placeholder is a genuine edge case rather than a day-one requirement.
+
+### Decisions I want confirmed
+
+1. **Lean projection vs full payload** (B3). I want to store only what the product uses.
+   Costs a re-sync if we later need a dropped field; buys reviewable diffs forever.
+2. **Snapshot committed to git** — the backlog says so, and it makes builds reproducible
+   and immune to upstream downtime. Confirming because it does mean data in the repo.
+3. **Weapons excluded.** 86 `type: weapon` entries are hero primaries, not shop items.
+   Not counter-items. Say if you want them anyway.
+
+### Review
+
+**PR #42** (status tracking) merged. **PR for E03** covers the pipeline.
+
+Part A shipped a `status` field rendered as a checkbox column, plus two tested invariants:
+`docs/BACKLOG.md` must match its generator, and nothing can be `done` while a dependency
+is not. Issue #1 closed.
+
+Part B — E03, five commits:
+
+| Layer | File | Role |
+| --- | --- | --- |
+| Upstream boundary | `src/data/upstream.ts` | API payload shapes. The only file an upstream change should touch. |
+| Our model | `src/data/schema.ts` | Normalised types, all keyed on `class_name`. |
+| Transform | `src/data/normalise.ts` | Pure, no I/O, 20 unit tests. |
+| I/O | `scripts/sync.mts` | Fetch, hash, write. The only thing that talks to the network. |
+| App access | `src/data/snapshot.ts` | Reads committed files. 12 integrity tests over the real snapshot. |
+
+Snapshot: 38 heroes, 152 abilities, 173 items, 429 KB. Re-running `npm run sync` against
+unchanged upstream produces byte-identical files.
+
+**Written in TypeScript and run by Node 24 directly.** Native type stripping means the
+pipeline shares types with the app with no build step and no new dependency. This is the
+first thing in the repo to depend on the Node 24 pin from #39 being real.
+
+**`"type": "module"` added to package.json.** Everything here was already ESM; Node was
+warning on every sync run.
+
+**Findings that change later issues:**
+
+1. **26 of 38 heroes have a `class_name` unrelated to their display name.** Abrams is
+   `hero_atlas`, Paige is `hero_bookworm`, Paradox is `hero_chrono`. The backlog says slugs
+   derive from `class_name`, which the code now does — but that produces `/counter/atlas`
+   for a page meant to rank for "how to counter abrams". E21's whole premise is those 38
+   landing pages ranking. **E20 and E21 need a decision** and I would not build them on the
+   current slug without one.
+2. Live tier spread is 1:23, 2:43, 3:46, 4:44, 5:17 across 173 items — not the 251-item
+   spread quoted earlier. E15's slot-economy caps should use these.
+3. Every hero has exactly four signature abilities, so E17's per-ability granularity has a
+   uniform shape to build against.
+
+### Follow-ups
+
+- [ ] Decide hero slug strategy before E20/E21 (see finding 1).
+- [ ] E06 will add the scheduled job; the content hash is already in place for it.
