@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { ABILITIES, HEROES, ITEMS, META, abilitiesForHero, heroBySlug } from './snapshot.ts'
 import { ITEM_CATEGORIES, ITEM_TIERS } from './schema.ts'
-import { toSlug } from './normalise.ts'
+import { toDisplaySlug } from './normalise.ts'
 
 /**
  * Validates the committed snapshot itself, not the transform. These are the
@@ -35,10 +35,35 @@ describe('snapshot integrity', () => {
     }
   })
 
-  it('gives every hero a unique slug derived from class_name', () => {
+  it('gives every hero a unique slug derived from its display name', () => {
     const slugs = HEROES.map((h) => h.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
-    expect(HEROES.filter((h) => h.slug !== toSlug(h.class_name))).toEqual([])
+    expect(HEROES.filter((h) => h.slug !== toDisplaySlug(h.name)).map((h) => h.class_name)).toEqual(
+      [],
+    )
+  })
+
+  it('keeps aliases distinct from current slugs and from each other', () => {
+    // An alias colliding with a live slug would silently hijack that hero's page.
+    const current = new Set(HEROES.map((h) => h.slug))
+    const collisions = HEROES.flatMap((h) =>
+      h.aliases.filter((alias) => current.has(alias)).map((alias) => `${h.class_name}:${alias}`),
+    )
+    const allAliases = HEROES.flatMap((h) => h.aliases)
+    expect(collisions).toEqual([])
+    expect(new Set(allAliases).size).toBe(allAliases.length)
+  })
+
+  it('resolves retired codename slugs to the right hero', () => {
+    // Every hero carries its old class_name-derived slug from before the switch
+    // to display names, so links shared under the old scheme still work.
+    const withAlias = HEROES.filter((h) => h.aliases.length > 0)
+    expect(withAlias.length).toBeGreaterThan(0)
+    for (const hero of withAlias) {
+      for (const alias of hero.aliases) {
+        expect(heroBySlug(alias)?.class_name).toBe(hero.class_name)
+      }
+    }
   })
 
   it('resolves every ability a hero references', () => {

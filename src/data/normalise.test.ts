@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { NormaliseError, isPlayable, isPurchasable, normalise, toPlainText, toSlug, toStats } from './normalise.ts'
+import {
+  NormaliseError,
+  isPlayable,
+  isPurchasable,
+  normalise,
+  toDisplaySlug,
+  toPlainText,
+  toSlug,
+  toStats,
+} from './normalise.ts'
 import type { UpstreamHero, UpstreamItem } from './upstream.ts'
 
 const ability = (className: string, overrides: Partial<UpstreamItem> = {}): UpstreamItem => ({
@@ -68,10 +77,22 @@ describe('toPlainText', () => {
 })
 
 describe('toSlug', () => {
-  it('derives from class_name, not display name', () => {
-    expect(toSlug('hero_atlas')).toBe('atlas')
+  it('derives item slugs from class_name', () => {
     expect(toSlug('upgrade_metal_skin')).toBe('metal-skin')
     expect(toSlug('citadel_ability_bull_charge')).toBe('bull-charge')
+  })
+})
+
+describe('toDisplaySlug', () => {
+  it('derives hero slugs from the display name people search for', () => {
+    expect(toDisplaySlug('Abrams')).toBe('abrams')
+    expect(toDisplaySlug('The Doorman')).toBe('the-doorman')
+    expect(toDisplaySlug('Lady Geist')).toBe('lady-geist')
+  })
+
+  it('strips punctuation and collapses separators', () => {
+    expect(toDisplaySlug("Mo & Krill")).toBe('mo-krill')
+    expect(toDisplaySlug('  Spaced  Out  ')).toBe('spaced-out')
   })
 })
 
@@ -153,6 +174,30 @@ describe('normalise', () => {
     expect(snapshot.heroes[0]?.images.card).toBe('card.webp')
     expect(snapshot.heroes[0]?.images.portrait).toBe('small.png')
     expect(snapshot.heroes[0]?.images.minimap).toBeNull()
+  })
+
+  it('starts with no aliases when there is no previous snapshot', () => {
+    expect(normalise(heroes, items).heroes[0]?.aliases).toEqual([])
+  })
+
+  it('keeps the old slug as an alias when a hero is renamed', () => {
+    const before = normalise([hero('hero_atlas', { name: 'Atlas' })], items)
+    const after = normalise([hero('hero_atlas', { name: 'Abrams' })], items, before.heroes)
+    expect(after.heroes[0]?.slug).toBe('abrams')
+    expect(after.heroes[0]?.aliases).toEqual(['atlas'])
+  })
+
+  it('accumulates aliases across successive renames', () => {
+    const v1 = normalise([hero('hero_atlas', { name: 'Atlas' })], items)
+    const v2 = normalise([hero('hero_atlas', { name: 'Abrams' })], items, v1.heroes)
+    const v3 = normalise([hero('hero_atlas', { name: 'Bull' })], items, v2.heroes)
+    expect(v3.heroes[0]?.aliases).toEqual(['abrams', 'atlas'])
+  })
+
+  it('never lists the current slug as its own alias', () => {
+    const v1 = normalise([hero('hero_atlas', { name: 'Abrams' })], items)
+    const v2 = normalise([hero('hero_atlas', { name: 'Abrams' })], items, v1.heroes)
+    expect(v2.heroes[0]?.aliases).toEqual([])
   })
 
   it('is deterministic — same input, identical output', () => {
