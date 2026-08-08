@@ -922,3 +922,33 @@ items: 40 situational, 8 soft, 6 hard. Nearly everything sits at the default.
 Strength is the single largest lever on ranking quality and almost none of it is set. Not
 guessing at it here — a wrong strength is worse than a missing one, and this is the part that
 genuinely needs someone who plays the game.
+
+## 2026-08-08 — First curated entries
+
+Owner confirmed Indomitable, Knockdown and Unstoppable are hard counters. Set, and marked
+`review: 'curated'` — a human who plays the game said so, which is what that state is for. It
+also freezes them against the scaffold's re-derivation, verified by re-running it: 0
+re-derived, diff limited to the three entries.
+
+**The effect is out of proportion to the change**, which is the point about strength being the
+biggest lever:
+
+| Item | Before | After |
+| --- | --- | --- |
+| Unstoppable | 15th (score 6) | **2nd** (score 18) |
+| Indomitable | 15th (score 3) | **3rd** (score 9) |
+| Knockdown | 31st (score 3) | **8th** (score 9) |
+
+Top six against Haze is now Cursed Relic, Unstoppable, Indomitable, Counterspell, Focus Lens,
+Disarming Hex. Three curated entries moved that more than any code change has.
+
+51 tagged ranked items still sit at the default `situational`.
+
+**A correction.** The previous PR's table gave Knockdown's identifier as `upgrade_knockdown`.
+It is `upgrade_target_stun` — the rule matched on the item's *name*, not its class_name. I
+typed the identifier from memory instead of reading it. The curation script resolves names
+against the snapshot rather than trusting a hand-typed one.
+
+**Left alone deliberately.** Knockdown's description says stun duration increases against
+airborne targets, which suggests an `airborne` tag. That is a tag change rather than a
+strength one, so it is recorded for a deliberate decision instead of slipped in.
