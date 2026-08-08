@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics — **1 done**, 1 in progress, 30 to go.
+32 enhancements across 5 epics — **2 done**, 0 in progress, 30 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -11,7 +11,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | --- | --- | --- | --- | --- | --- |
 | [x] | [E01](#e01) | Project scaffold, CI, and deploy pipeline | foundation | p0 | — |
 | [ ] | [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
-| [~] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
+| [x] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
 | [ ] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
 | [ ] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
 | [ ] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
@@ -136,7 +136,7 @@ issue covers everything around them.
 
 ### E03
 
-**Deadlock assets API sync pipeline** — `p0` — **in progress**
+**Deadlock assets API sync pipeline** — `p0` — **done**
 
 ### Problem
 The original site hardcodes English item names. When Valve renamed Debuff Remover to

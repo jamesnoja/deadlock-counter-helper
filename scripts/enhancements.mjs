@@ -155,7 +155,7 @@ issue covers everything around them.
     title: 'Deadlock assets API sync pipeline',
     epic: 'foundation',
     priority: 'p0',
-    status: 'in-progress',
+    status: 'done',
     depends: ['E01'],
     body: `
 ### Problem
