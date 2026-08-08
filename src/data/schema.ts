@@ -13,6 +13,17 @@ export type ItemCategory = (typeof ITEM_CATEGORIES)[number]
 export const ITEM_TIERS = [1, 2, 3, 4, 5] as const
 export type ItemTier = (typeof ITEM_TIERS)[number]
 
+/**
+ * The most expensive item buyable in ranked play.
+ *
+ * Upstream prices strictly by tier — 800 / 1600 / 3200 / 6400 / 9999 — and
+ * everything at 9999 is either mode-restricted or an unreleased item. Those are
+ * kept in the snapshot so they can still be inspected, but they are excluded
+ * from recommendations: suggesting an item nobody can buy is worse than
+ * suggesting nothing.
+ */
+export const RANKED_MAX_COST = 6400
+
 /** Every hero has exactly four signature abilities; slot 4 is the ultimate. */
 export const ABILITY_SLOTS = [1, 2, 3, 4] as const
 export type AbilitySlot = (typeof ABILITY_SLOTS)[number]
@@ -68,6 +79,11 @@ export interface Item {
   cost: number
   tier: ItemTier
   category: ItemCategory
+  /**
+   * Buyable in ranked play. False for the 9999-cost tier-5 entries, which are
+   * mode-restricted or not yet live. Kept in the snapshot, kept out of results.
+   */
+  ranked: boolean
   /** Active items need a keypress; passives do not. */
   is_active: boolean
   /** Plain text, as with abilities. */

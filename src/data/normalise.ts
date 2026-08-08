@@ -13,6 +13,7 @@ import {
   type Item,
   type ItemTier,
   type Snapshot,
+  RANKED_MAX_COST,
   isItemCategory,
   isItemTier,
 } from './schema.ts'
@@ -183,13 +184,15 @@ export function normalise(
     if (!isItemTier(raw.item_tier)) {
       throw new NormaliseError(`${className} has unknown item_tier "${raw.item_tier}"`)
     }
+    const cost = raw.cost ?? 0
     items.push({
       class_name: className,
       name: raw.name ?? className,
       slug: toSlug(className),
-      cost: raw.cost ?? 0,
+      cost,
       tier: raw.item_tier as ItemTier,
       category: raw.item_slot_type,
+      ranked: cost <= RANKED_MAX_COST,
       is_active: raw.is_active_item === true,
       description: toPlainText(raw.description),
       icon: raw.image_webp ?? raw.image ?? null,

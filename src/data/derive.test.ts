@@ -26,6 +26,7 @@ const item = (className: string): Item => ({
   cost: 1000,
   tier: 2,
   category: 'vitality',
+  ranked: true,
   is_active: false,
   description: '',
   icon: null,

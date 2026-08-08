@@ -630,3 +630,23 @@ it ships**, since it would mis-filter every tier-5 item.
 
 - [ ] Resolve the tier-5 cost placeholder before E14.
 - [ ] E24 turns `changes.json` into a public changelog; the stamp will link to it.
+
+## 2026-08-08 — Exclude non-ranked items from recommendations
+
+Owner confirmed 6400 souls is the ranked ceiling; anything dearer is mode-restricted or not
+yet live. 17 items at 9999, all tier 5.
+
+Excluded from recommendations, **kept in the snapshot**. `Item.ranked` is the flag,
+`RANKED_ITEMS` is what the engine draws from, `NON_RANKED_ITEMS` keeps them reachable, and
+`/admin/untagged` lists them so the exclusion is visible and reversible rather than a silent
+filter someone rediscovers in six months.
+
+Two of them — Celestial Blessing and Cloak of Opportunity — were in the top four of the
+sample shortlist, so this materially changes what the tool recommends. Counterspell and
+Cursed Relic now lead.
+
+Coverage recalculated over ranked items only: 51 of 156 tagged. The earlier 58 of 173
+included items nobody can buy.
+
+This also resolves the E07 follow-up: the tier-5 price was never a price, so E14's budget
+filter has nothing left to settle.

@@ -3,8 +3,10 @@ import {
   abilityCurationQueue,
   itemCurationQueue,
   overlayCoverage,
+  nonRankedItems,
   type CurationEntry,
 } from '@/data/overlay.ts'
+import { RANKED_MAX_COST } from '@/data/schema.ts'
 import { CurationList } from './curation-list.tsx'
 
 export const metadata: Metadata = {
@@ -41,6 +43,7 @@ export default function UntaggedAdmin() {
   const allAbilities = abilityCurationQueue().sort(byPriority)
   const allItems = itemCurationQueue().sort(byPriority)
   const blocked = [...allAbilities, ...allItems].filter((entry) => entry.bucket === 'blocked').length
+  const excluded = nonRankedItems()
 
   const abilityQueue = allAbilities.filter(needsWork)
   const itemQueue = allItems.filter(needsWork)
@@ -90,6 +93,26 @@ export default function UntaggedAdmin() {
           {allAbilities.length - abilityQueue.length} already carry tags and are not listed.
         </p>
         <CurationList entries={abilities} kind="ability" />
+      </section>
+
+      <section className="rounded-card bg-surface p-card">
+        <h2 className="text-heading">Excluded from recommendations</h2>
+        <p className="text-caption text-text-muted">
+          {excluded.length} items cost more than {RANKED_MAX_COST.toLocaleString()} souls, which
+          means they are restricted to non-ranked modes or are not live yet. They stay in the
+          snapshot so they can be reviewed later, but the engine will not suggest them — pointing
+          someone at an item they cannot buy is worse than saying nothing.
+        </p>
+        <ul className="mt-sm flex flex-wrap gap-xs">
+          {excluded.map((entry) => (
+            <li
+              key={entry.class_name}
+              className="rounded-pill bg-surface-elevated px-md py-xs text-caption text-text-muted"
+            >
+              {entry.name}
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="flex flex-col gap-md">

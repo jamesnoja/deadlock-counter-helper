@@ -22,8 +22,21 @@ import type { Ability, Hero, Item, SnapshotMeta } from './schema.ts'
  */
 export const HEROES = heroes as unknown as Hero[]
 export const ABILITIES = abilities as unknown as Ability[]
+/** Every purchasable item upstream lists, including ones ranked play cannot buy. */
 export const ITEMS = items as unknown as Item[]
 export const META = meta as unknown as SnapshotMeta
+
+/**
+ * The items recommendations may draw from.
+ *
+ * Everything at 9999 souls is mode-restricted or not yet live. They stay in
+ * `ITEMS` so they remain inspectable, but recommending an item nobody can buy
+ * is worse than recommending nothing.
+ */
+export const RANKED_ITEMS = ITEMS.filter((item) => item.ranked)
+
+/** Kept for reference: what ranked play cannot buy, and why it is not shown. */
+export const NON_RANKED_ITEMS = ITEMS.filter((item) => !item.ranked)
 
 const heroesByClassName = new Map(HEROES.map((hero) => [hero.class_name, hero]))
 // Current slugs plus every slug a hero has ever had, so an old shared link

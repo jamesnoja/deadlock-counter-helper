@@ -141,7 +141,7 @@ describe('coverage', () => {
   })
 
   it('keeps item tagging at or above its current level', () => {
-    expect(coverage.items.tagged).toBeGreaterThanOrEqual(58)
+    expect(coverage.items.tagged).toBeGreaterThanOrEqual(51)
   })
 
   it('leaves no hero invisible to the engine', () => {
