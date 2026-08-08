@@ -10,6 +10,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { GameImage } from './game-image.tsx'
 import { searchHeroes } from '@/data/hero-search.ts'
 import type { Hero } from '@/data/schema.ts'
 
@@ -170,18 +171,12 @@ export function HeroPicker({ heroes, selected, onToggle, blockedReason }: HeroPi
                     : 'border-hairline bg-surface text-text hover:border-brand',
                 ].join(' ')}
               >
-                <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-pill bg-surface-elevated">
-                  {hero.images.minimap ?? hero.images.portrait ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
-                    <img
-                      src={hero.images.minimap ?? hero.images.portrait ?? ''}
-                      alt=""
-                      className="size-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-caption">{hero.name.slice(0, 2)}</span>
-                  )}
-                </span>
+                <GameImage
+                  src={hero.images.minimap ?? hero.images.portrait}
+                  fallback={hero.name}
+                  size={36}
+                  className="shrink-0 rounded-pill"
+                />
                 <span className="min-w-0 flex-1 truncate text-caption">{hero.name}</span>
                 {/* A tick as well as a colour, so selection survives greyscale. */}
                 <span aria-hidden className={isSelected ? 'text-brand' : 'invisible'}>

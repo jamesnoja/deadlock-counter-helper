@@ -10,11 +10,14 @@
 
 import { useMemo, useState } from 'react'
 import { HeroPicker } from './hero-picker.tsx'
+import { CounterPlan } from './counter-plan.tsx'
 import { HeroesLens } from './heroes-lens.tsx'
+import { ItemDetail } from './item-detail.tsx'
 import { ItemsLens } from './items-lens.tsx'
 import { EmptyState } from './primitives.tsx'
 import { MAX_ENEMIES, TeamBar } from './team-bar.tsx'
 import { countersForTeam } from '@/data/counters.ts'
+import { abilityByClassName } from '@/data/snapshot.ts'
 import type { Hero } from '@/data/schema.ts'
 
 export function CounterTool({ heroes }: { heroes: readonly Hero[] }) {
@@ -23,6 +26,8 @@ export function CounterTool({ heroes }: { heroes: readonly Hero[] }) {
   const [lens, setLens] = useState<'items' | 'heroes'>('items')
   /** Which hero the heroes lens is focused on; null is the combined view. */
   const [focus, setFocus] = useState<string | null>(null)
+  /** Item class_name whose detail panel is open. */
+  const [selectedItem, setSelectedItem] = useState<string | null>(null)
 
   const byClassName = useMemo(
     () => new Map(heroes.map((hero) => [hero.class_name, hero])),
@@ -46,6 +51,7 @@ export function CounterTool({ heroes }: { heroes: readonly Hero[] }) {
     setSelected((current) => current.filter((name) => name !== className))
 
   const counters = useMemo(() => countersForTeam(selected), [selected])
+  const detail = counters.find((c) => c.item.class_name === selectedItem) ?? null
   const full = selected.length >= MAX_ENEMIES
 
   return (
@@ -92,10 +98,22 @@ export function CounterTool({ heroes }: { heroes: readonly Hero[] }) {
               ))}
             </div>
 
+            <CounterPlan counters={counters} team={team} onSelect={setSelectedItem} />
+
+            {detail ? (
+              <ItemDetail
+                counter={detail}
+                team={team}
+                abilityName={(className) => abilityByClassName(className)?.name}
+                onClose={() => setSelectedItem(null)}
+              />
+            ) : null}
+
             {lens === 'items' ? (
               <ItemsLens
                 counters={counters}
                 team={team}
+                onSelectItem={setSelectedItem}
                 // Clicking a coverage cell is the bridge between the lenses.
                 onSelectHero={(className) => {
                   setFocus(className)

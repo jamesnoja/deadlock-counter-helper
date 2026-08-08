@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-35 enhancements across 5 epics — **11 done**, 0 in progress, 24 to go.
+35 enhancements across 5 epics — **14 done**, 0 in progress, 21 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -20,7 +20,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
 | [x] | [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
 | [x] | [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
-| [ ] | [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
+| [x] | [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
 | [ ] | [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
 | [ ] | [E14](#e14) | Soul budget filter | ux | p1 | E13 |
 | [ ] | [E15](#e15) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E13 |
@@ -41,8 +41,8 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [ ] | [E30](#e30) | Threat explanations — teach the mechanic, not the shopping list | advanced | p2 | E17 |
 | [ ] | [E31](#e31) | Community feedback loop on recommendations | advanced | p2 | E10 |
 | [ ] | [E32](#e32) | Deep links to the Deadlock wiki | advanced | p2 | E17 |
-| [ ] | [E33](#e33) | Counter plan summary — the three items that matter | ux | p1 | E10 |
-| [ ] | [E34](#e34) | Item detail panel with per-hero effectiveness | ux | p1 | E10, E17 |
+| [x] | [E33](#e33) | Counter plan summary — the three items that matter | ux | p1 | E10 |
+| [x] | [E34](#e34) | Item detail panel with per-hero effectiveness | ux | p1 | E10 |
 | [ ] | [E35](#e35) | Item stat card on hover and focus | ux | p2 | E13 |
 
 ## Foundation — data pipeline and patch resilience
@@ -385,7 +385,7 @@ mid-match.
 
 ### E12
 
-**Item and hero artwork integration** — `p0`
+**Item and hero artwork integration** — `p0` — **done**
 
 ### Problem
 `document.images.length === 0` on the original page. No hero portraits, no item icons, no
@@ -532,7 +532,7 @@ seconds.
 
 ### E33
 
-**Counter plan summary — the three items that matter** — `p1`
+**Counter plan summary — the three items that matter** — `p1` — **done**
 
 ### Problem
 A ranked list of fifty items is complete but not decisive. Mid-match the question is not
@@ -556,7 +556,7 @@ answers that in one glance.
 
 ### E34
 
-**Item detail panel with per-hero effectiveness** — `p1`
+**Item detail panel with per-hero effectiveness** — `p1` — **done**
 
 ### Problem
 "Knockdown counters 5 of 6" tells you to buy it. It does not tell you that it is a core
@@ -582,7 +582,7 @@ whether you buy it first or third.
 The reference implementation hand-writes every pair. That reads better and does not survive
 a patch. Deriving by default and authoring by exception is the whole point of the overlay.
 
-**Depends on:** E10, E17
+**Depends on:** E10
 
 ### E35
 

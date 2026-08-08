@@ -118,6 +118,14 @@ export interface ItemCounters {
   why: string
   strength: CounterStrength
   review: ReviewState
+  /**
+   * Hand-written lines for specific enemies, keyed on hero `class_name`.
+   *
+   * The exception, not the rule. E34 derives a per-hero line for every pair
+   * automatically; this overrides it where somebody has something better to
+   * say. Anything here is shown to the user as editorial rather than derived.
+   */
+  notes?: Record<string, string>
 }
 
 export const isThreatTag = (value: unknown): value is ThreatTag =>
