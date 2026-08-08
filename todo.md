@@ -40,32 +40,44 @@ Missing: no `.github/` at all, no test runner, `noUncheckedIndexedAccess` off,
 
 Branch: `chore/e01-ci-and-test-harness`
 
-- [ ] 1. Cut the branch off `main`.
-- [ ] 2. Add Vitest per `node_modules/next/dist/docs/01-app/02-guides/testing/vitest.md`:
+- [x] 1. Cut the branch off `main`.
+- [x] 2. Add Vitest per `node_modules/next/dist/docs/01-app/02-guides/testing/vitest.md`:
       `vitest`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/react`,
       `@testing-library/dom`, `vite-tsconfig-paths`, `@vitest/coverage-v8`.
       `vitest.config.mts` with jsdom env and tsconfig path resolution.
-- [ ] 3. Add `test` (run-once, for CI) and `test:watch` scripts. Fold `test` into `verify`
+      *Dropped `vite-tsconfig-paths` — Vite 7 resolves tsconfig paths natively and warns
+      on startup that the plugin is redundant. Six deps, not seven.*
+- [x] 3. Add `test` (run-once, for CI) and `test:watch` scripts. Fold `test` into `verify`
       between lint and build, so `verify` = typecheck + lint + test + build per E01's
       acceptance criteria.
-- [ ] 4. Write one real test, not a placeholder assertion. Target the backlog data model in
+- [x] 4. Write one real test, not a placeholder assertion. Target the backlog data model in
       `scripts/enhancements.mjs`: unique IDs, every `depends` entry resolves to a real ID,
       no dependency cycles, every epic and priority key is known. That guards a file we
       actually edit and would otherwise only find broken at seed time.
-- [ ] 5. Turn on `noUncheckedIndexedAccess` in `tsconfig.json`. Cheap now, expensive at E05
+- [x] 5. Turn on `noUncheckedIndexedAccess` in `tsconfig.json`. Cheap now, expensive at E05
       when the derivation engine is indexing arrays everywhere. Fix any fallout.
-- [ ] 6. `.github/workflows/ci.yml` — on push to `main` and all PRs: checkout, Node 22,
+      *No fallout — nothing in the repo indexes yet.*
+- [x] 6. `.github/workflows/ci.yml` — on push to `main` and all PRs: checkout, Node 22,
       `npm ci`, typecheck, lint, test, build. Concurrency group so superseded runs cancel.
-- [ ] 7. `.github/dependabot.yml` — weekly npm + github-actions updates, grouped minor/patch
+- [x] 7. `.github/dependabot.yml` — weekly npm + github-actions updates, grouped minor/patch
       so it does not open fifteen PRs a week.
-- [ ] 8. Replace the create-next-app template page with a minimal honest placeholder naming
+- [x] 8. Replace the create-next-app template page with a minimal honest placeholder naming
       the project and linking the backlog. Not a design pass — E02 owns that. This only
       removes the template so the CI build is testing our code.
-- [ ] 9. Seed `error_log.md` with the format header from CLAUDE.md rule 2.
-- [ ] 10. Run `npm run verify` locally; confirm green.
-- [ ] 11. Push, open PR, confirm CI passes on the PR itself.
-- [ ] 12. After merge: `npm run seed:issues:dry`, review, then `npm run seed:issues`.
-- [ ] 13. Write the review section below.
+      *Also removed the five unreferenced template SVGs in `public/`.*
+- [x] 9. Seed `error_log.md` with the format header from CLAUDE.md rule 2.
+- [x] 10. Run `npm run verify` locally; confirm green.
+- [x] 11. Push, open PR, confirm CI passes on the PR itself. → PR #33, green in 38s.
+- [x] 12. ~~After merge: seed issues.~~ **Already seeded** — all 32 issues (#1–#32) exist in
+      the repo. My earlier claim that they were unseeded was wrong; I inferred it from the
+      absence of local state instead of asking GitHub.
+- [x] 13. Write the review section below.
+
+### Follow-ups (not this PR)
+
+- [ ] Coverage thresholds at E05, when `deriveCounters` makes the number meaningful.
+- [ ] Snapshot/golden tests at E02, when there is UI worth pinning.
+- [ ] Vercel preview deploys — owner action, vercel.com/new.
 
 ### Needs a decision from you
 
@@ -83,4 +95,35 @@ Branch: `chore/e01-ci-and-test-harness`
 
 ### Review
 
-_Pending._
+**PR #33** — `chore/e01-ci-and-test-harness`, five commits, CI green.
+
+What landed:
+
+1. **Vitest harness** (`vitest.config.mts`, jsdom, native tsconfig path resolution).
+   `test` / `test:watch` / `test:coverage` scripts; `verify` is now typecheck + lint +
+   test + build, satisfying E01's acceptance criterion.
+2. **`scripts/enhancements.test.mts`** — 10 assertions over the backlog data model.
+   Chose this over a placeholder because the backlog file is edited on every enhancement
+   and its failure mode (a dangling `depends`) otherwise appears at seed time against the
+   live repo.
+3. **`noUncheckedIndexedAccess`** enabled.
+4. **CI** (`.github/workflows/ci.yml`) — four named steps so a red X names its stage.
+   Concurrency cancellation. Runs 38s.
+5. **Dependabot** — weekly, minor/patch grouped, majors individual.
+6. **Template page removed**, metadata fixed, five orphan SVGs deleted.
+7. **`todo.md`, `error_log.md`** created per the working parameters.
+
+Repo settings applied outside the diff:
+
+- Branch protection on `main`: required status check `typecheck / lint / test / build`,
+  strict (branch must be current), linear history required, force pushes and deletions
+  blocked, **`enforce_admins: true`** — so a red build blocks the owner too. That is what
+  E01's "cannot be merged" asks for. Flip it in Settings → Branches if it becomes
+  obstructive.
+- Merge method restricted to squash; branches auto-delete on merge. Both implement rules
+  already written in `CLAUDE.md`.
+
+Deviations from plan, all noted above: one fewer dependency than approved, coverage
+thresholds deferred with a rationale comment, issues turned out to be already seeded.
+
+Not done, owner action: Vercel preview deploys.
