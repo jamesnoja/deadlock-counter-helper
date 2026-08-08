@@ -100,6 +100,27 @@ describe('snapshot integrity', () => {
     expect(bad).toEqual([])
   })
 
+  it('prices every item purely by its tier', () => {
+    /**
+     * Cost is a function of tier upstream: 800 / 1600 / 3200 / 6400 / 9999.
+     *
+     * The doubling breaks at tier 5, where 9999 looks like a placeholder rather
+     * than a price — 12800 would continue the pattern. Flagged rather than
+     * corrected, because guessing a price in a tool built to answer "can I
+     * afford this right now" would be worse than showing the upstream value.
+     * E14's budget filter needs this settled before it ships.
+     */
+    const costsByTier = new Map<number, Set<number>>()
+    for (const item of ITEMS) {
+      costsByTier.set(item.tier, (costsByTier.get(item.tier) ?? new Set()).add(item.cost))
+    }
+    const multiPriced = [...costsByTier.entries()]
+      .filter(([, costs]) => costs.size !== 1)
+      .map(([tier, costs]) => `tier ${tier}: ${[...costs].join('/')}`)
+    expect(multiPriced).toEqual([])
+    expect([...costsByTier.keys()].sort()).toEqual([1, 2, 3, 4, 5])
+  })
+
   it('strips markup out of every description', () => {
     const withMarkup = [...ABILITIES, ...ITEMS]
       .filter((entity) => /<[a-z/]/i.test(entity.description))

@@ -283,6 +283,7 @@ Public repo, so scheduled Actions minutes are free.
     title: 'Patch version stamp and data provenance UI',
     epic: 'foundation',
     priority: 'p0',
+    status: 'done',
     depends: ['E06', 'E02'],
     body: `
 ### Problem

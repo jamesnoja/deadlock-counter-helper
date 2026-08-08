@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics — **6 done**, 0 in progress, 26 to go.
+32 enhancements across 5 epics — **7 done**, 0 in progress, 25 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -15,7 +15,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
 | [x] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
 | [x] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
-| [ ] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
+| [x] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
 | [ ] | [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
 | [ ] | [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
 | [ ] | [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
@@ -251,7 +251,7 @@ Public repo, so scheduled Actions minutes are free.
 
 ### E07
 
-**Patch version stamp and data provenance UI** — `p0`
+**Patch version stamp and data provenance UI** — `p0` — **done**
 
 ### Problem
 Trust is the entire value proposition of a counter tool, and no competitor displays where

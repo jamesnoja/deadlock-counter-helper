@@ -593,3 +593,40 @@ before proposing it.
 
 - [ ] E24 turns `changes.json` into a public changelog.
 - [ ] The Discord webhook E06 lists as optional is not built.
+
+## 2026-08-08 — E07: patch stamp and provenance UI
+
+### Review
+
+Foundation epic complete. 139 tests green.
+
+`ProvenanceStamp` reads snapshot metadata and the change record — nothing hand-written. The
+home page now renders real derived counters with real artwork, so the whole A -> B -> C
+pipeline is visible on a page for the first time.
+
+**Deviation from the spec, deliberate.** E07 says "hovering the badge explains the pipeline".
+It is a `<details>` disclosure instead. Hover is unreachable by keyboard and on touch, and
+the design profile's second principle rules out affordances only some people can use. Same
+information, one more click, everyone can get to it.
+
+**Provenance is a shape, not a colour.** Circle for verified, rotated square for needs-review,
+each with text. Satisfies "distinguishable without colour vision" without a second mechanism.
+
+**Wording matters here.** Amber says "we have not confirmed this is still right", not "this is
+wrong". Those are different claims and the tool should only make the one it can support.
+
+### A data problem found by looking at the rendered page
+
+Item costs are purely a function of tier: 800 / 1600 / 3200 / 6400 / **9999**. The doubling
+breaks at tier 5, where 9999 reads as a placeholder rather than a price — 12800 would
+continue the pattern. 17 items are affected.
+
+Flagged, not corrected. Guessing a price in a tool built to answer "can I afford this right
+now" would be worse than showing the upstream value. A test now pins cost-per-tier so the
+anomaly is visible rather than buried. **E14's soul-budget filter needs this settled before
+it ships**, since it would mis-filter every tier-5 item.
+
+### Follow-ups
+
+- [ ] Resolve the tier-5 cost placeholder before E14.
+- [ ] E24 turns `changes.json` into a public changelog; the stamp will link to it.
