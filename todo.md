@@ -650,3 +650,39 @@ included items nobody can buy.
 
 This also resolves the E07 follow-up: the tier-5 price was never a price, so E14's budget
 filter has nothing left to settle.
+
+## 2026-08-08 — E08 and E09: hero picker and team builder
+
+### Review
+
+The site is usable. Pick heroes, get counters. 161 tests.
+
+**E08.** Real buttons with `aria-pressed`, a labelled group, roving tabindex, and arrow keys
+that measure the column count from the rendered layout rather than assuming one — the grid
+wraps responsively, so a hardcoded count would send Up and Down to the wrong row at some
+widths. Search is pure and tested against the real roster; the three cases E08 names each
+break naive matching differently, and "doorman" only resolves because the alias survived the
+slug change.
+
+Two defects found and fixed rather than suppressed: clamping the roving index in an effect
+cascaded a render (now clamped during render), and `aria-pressed` is invalid on
+`role="gridcell"`, which would have cost the one attribute that communicates selection.
+
+**Not done: axe.** E08's second criterion is an axe pass. That needs a devDependency, which
+is gated, and E25 already owns wiring axe into CI. Manual equivalent done; no axe pass
+claimed.
+
+**E09.** Six explicit slots, always rendered — a bar that grows from nothing hides how many
+picks are left. Sticky, so the lineup stays visible against the results that came from it.
+The whole filled slot is the clear control rather than a small ×, which is a poor target
+mid-match. At six, remaining chips disable **and** a visible line explains why; the original
+site disabled silently.
+
+Verified in a browser end to end: `/` → search → Enter → Enter selects; six picks trigger the
+cap message; scrolling keeps the bar pinned; clearing a slot restores the empty outline,
+re-enables the chip, and recomputes from 36 counters to 35.
+
+### Follow-ups
+
+- [ ] E20 moves selection into the URL. State is deliberately in-memory until then.
+- [ ] E10 replaces the flat card list with the coverage matrix.
