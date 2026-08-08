@@ -952,3 +952,33 @@ against the snapshot rather than trusting a hand-typed one.
 **Left alone deliberately.** Knockdown's description says stun duration increases against
 airborne targets, which suggests an `airborne` tag. That is a tag change rather than a
 strength one, so it is recorded for a deliberate decision instead of slipped in.
+
+## 2026-08-09 — Housekeeping before the strength curation pass
+
+Cleared the small stuff so the curation branch starts from a clean tree.
+
+- [x] Closed #52 (E33) and #53 (E34) — shipped in #61 as `counter-plan.tsx` and
+      `item-detail.tsx`, but the issues were never closed.
+- [x] Closed #54 (E35) **noting it did not meet its own spec.** The issue asked for a stat
+      card on hover and focus; it shipped as a `<details>` disclosure because hover is
+      unreachable by keyboard and absent on touch. The capability is there, the trigger is
+      not the one specified. Recorded rather than closed silently as done.
+- [x] Merged #69 (actions/checkout 5→7). `ci.yml` was already on v7; only `sync.yml` lagged.
+- [ ] #68 (actions/setup-node 5→7) — blocked, see below.
+- [x] Removed `33` and `Echo Shard`, two empty files that entered in #49.
+- [x] Committed the three lines npm writes into the lockfile for `engines.node`.
+
+**#68 is blocked on a token scope, not on the change.** It is `MERGEABLE` but `BEHIND`, and
+the repo requires branches be up to date. Rebasing it means pushing to
+`.github/workflows/sync.yml`, which the local `gh` token cannot do — it has no `workflow`
+scope. Repo auto-merge is also disabled, so `--auto` is not available. Asked dependabot to
+rebase itself; it needs a manual merge once that lands. Fix for next time is
+`gh auth refresh -h github.com -s workflow`.
+
+### A stale file worth flagging
+
+`CLAUDE.md` is Flutter/Riverpod boilerplate on a Next.js project. It mandates `dart analyze`,
+`flutter test`, goldens, `build_runner`, and "state management is Riverpod-only". None of it
+applies. The real gate is `npm run verify`. Left alone because it is a separate concern from
+this branch, but any agent reading it will be told to run commands that do not exist here.
+
