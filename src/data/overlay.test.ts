@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { ABILITY_THREATS, ITEM_COUNTERS, itemsAnswering, overlayCoverage, threatsForHero } from './overlay.ts'
+import {
+  ABILITY_THREATS,
+  ITEM_COUNTERS,
+  heroesPresentingTag,
+  itemsAnswering,
+  overlayCoverage,
+  strengthWorklist,
+  threatsForHero,
+} from './overlay.ts'
 import { ABILITIES, HEROES, ITEMS } from './snapshot.ts'
 import { COUNTER_STRENGTHS, REVIEW_STATES, isThreatTag } from './tags.ts'
 
@@ -156,5 +164,82 @@ describe('coverage', () => {
     // rather than asserting a quality we have not earned yet.
     expect(coverage.abilities.suggested).toBeLessThanOrEqual(coverage.abilities.total)
     expect(coverage.items.suggested).toBeLessThanOrEqual(coverage.items.total)
+  })
+})
+
+describe('heroesPresentingTag', () => {
+  it('counts each hero once per tag however many abilities present it', () => {
+    const counts = heroesPresentingTag()
+    for (const [, count] of counts) {
+      expect(count).toBeLessThanOrEqual(HEROES.length)
+    }
+  })
+
+  it('agrees with counting heroes directly', () => {
+    const counts = heroesPresentingTag()
+    for (const [tag, count] of counts) {
+      const direct = HEROES.filter((hero) => threatsForHero(hero).includes(tag)).length
+      expect(direct).toBe(count)
+    }
+  })
+
+  it('omits tags no hero presents rather than reporting them as zero', () => {
+    // A zero would sort into the worklist alongside real work. Absent is the
+    // honest representation, and `?? 0` at the call site handles it.
+    for (const [, count] of heroesPresentingTag()) {
+      expect(count).toBeGreaterThan(0)
+    }
+  })
+})
+
+describe('strengthWorklist', () => {
+  const worklist = strengthWorklist()
+
+  it('holds only tagged items still at the default strength', () => {
+    for (const entry of worklist) {
+      expect(entry.tags.length).toBeGreaterThan(0)
+      expect(entry.strength).toBe('situational')
+      expect(entry.bucket).toBe('suggested')
+    }
+  })
+
+  it('excludes anything already curated, whatever strength it carries', () => {
+    // This is what makes the list drain: confirming an item as situational
+    // sets review to curated, and it leaves. Filtering on strength alone would
+    // keep it forever.
+    const curated = Object.entries(ITEM_COUNTERS).filter(
+      ([, entry]) => entry.review === 'curated' && entry.strength === 'situational',
+    )
+    for (const [className] of curated) {
+      expect(worklist.some((entry) => entry.class_name === className)).toBe(false)
+    }
+  })
+
+  it('orders by reach, so the first entry cannot answer less than the last', () => {
+    const reach = heroesPresentingTag()
+    const reachOf = (entry: (typeof worklist)[number]) =>
+      Math.max(0, ...entry.tags.map((tag) => reach.get(tag) ?? 0))
+    const reaches = worklist.map(reachOf)
+    expect([...reaches].sort((a, b) => b - a)).toEqual(reaches)
+  })
+
+  it('breaks reach ties by cost, cheapest first', () => {
+    const reach = heroesPresentingTag()
+    const reachOf = (entry: (typeof worklist)[number]) =>
+      Math.max(0, ...entry.tags.map((tag) => reach.get(tag) ?? 0))
+    for (let i = 1; i < worklist.length; i += 1) {
+      const previous = worklist[i - 1]
+      const current = worklist[i]
+      if (!previous || !current) continue
+      if (reachOf(previous) !== reachOf(current)) continue
+      expect(current.cost ?? 0).toBeGreaterThanOrEqual(previous.cost ?? 0)
+    }
+  })
+
+  it('does not grow — curation only ever shrinks it', () => {
+    // A ratchet, like the coverage numbers above. 37 at the time of writing.
+    // If a sync adds tagged items this fails, which is the point: new items
+    // arrive unjudged and someone should know.
+    expect(worklist.length).toBeLessThanOrEqual(37)
   })
 })

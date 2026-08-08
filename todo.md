@@ -1020,16 +1020,16 @@ the value. Ordering by reach puts the 14 items covering `hard_cc`, `sustain` and
 
 ### Plan
 
-- [ ] Add `heroesPresentingTag()` to `src/data/overlay.ts` — heroes per threat tag, built on
+- [x] Add `heroesPresentingTag()` to `src/data/overlay.ts` — heroes per threat tag, built on
       the existing `threatsForHero`. Pure, no new data.
-- [ ] Add `strengthWorklist()` beside `itemCurationQueue()`: ranked items, `bucket ===
+- [x] Add `strengthWorklist()` beside `itemCurationQueue()`: ranked items, `bucket ===
       'suggested'`, at least one tag, `strength === 'situational'`, sorted by reach then cost.
-- [ ] New section on `/admin/untagged` rendering it through the existing `CurationList`.
+- [x] New section on `/admin/untagged` rendering it through the existing `CurationList`.
       No change to that component.
-- [ ] A stat card for the count, so the number is on screen rather than in a log entry.
-- [ ] Tests in `src/data/overlay.test.ts` for both functions, including that a curated
+- [x] A stat card for the count, so the number is on screen rather than in a log entry.
+- [x] Tests in `src/data/overlay.test.ts` for both functions, including that a curated
       entry leaves the list.
-- [ ] `npm run verify`, then load the page and confirm the items actually render.
+- [x] `npm run verify`, then load the page and confirm the items actually render.
 
 ### The list drains correctly — worth stating
 
@@ -1055,3 +1055,51 @@ rather than remove it:
 Knockdown's `airborne` tag, still parked from #67. `CLAUDE.md` being Flutter/Riverpod
 boilerplate on a Next.js project — real, but a separate branch.
 
+
+### Review — strength worklist
+
+Shipped. `/admin/untagged` now leads with the 37 tagged items nobody has judged the strength
+of, ordered by reach. 226 tests, verify clean, page confirmed rendering `Showing 37 of 37`
+with the new section first and Healing Rite at the top.
+
+**A bug in my own plan, caught before it shipped.** The plan claimed picking any strength —
+including `situational` — would mark an entry curated and drain it from the list. That was
+false. `CurationList` only emits entries the user *changed*, and selecting `situational` on
+an entry already set to `situational` fires no change event. Agreeing with the default was
+unexpressible, so every item judged genuinely situational would have reappeared forever —
+the exact failure the bucket filter was designed to avoid.
+
+Fixed with a **Confirm as-is** button, shown only where the value under review is already the
+one you might pick, and withdrawn the moment an entry is dirty by any other route. The plan
+said "no change to `CurationList`"; that was wrong and the component changed.
+
+**Three deviations from the approved plan**, all small, none silent:
+
+| Planned | Done | Why |
+| --- | --- | --- |
+| Sort by reach then cost | Added `cost?` to `CurationEntry` | The type did not carry cost. Sorting by name instead would have quietly not been the plan. |
+| No change to `CurationList` | Added a `confirmable` prop | The list could not otherwise drain. |
+| Tests in `overlay.test.ts` | Also a new component test file | The confirm path is client-side; a data test cannot reach it. |
+
+**First component test in the repo.** `@testing-library/react` and jsdom were installed and
+unused. Chrome is not on this machine so Playwright could not drive the page, and asserting
+on rendered HTML would not have exercised the click — the interaction is the part worth
+proving, so it is tested directly, including that the clipboard payload carries
+`review: "curated"` with tags and strength intact.
+
+Two things it surfaced: the config does not set `globals`, so testing-library's automatic
+cleanup never registers and renders leak between tests (explicit `cleanup()` in this file
+rather than changing the suite for one file); and `@testing-library/user-event` is not
+installed, so this uses `fireEvent` rather than adding a dependency without asking.
+
+### Follow-ups
+
+- [ ] Curate the 37. Top 14 cover `hard_cc` (27 heroes), `sustain` (24) and `channeled_ult`
+      (16); the last 14 answer `high_dps_gun` or `stealth`, which 4 heroes each present.
+- [ ] Healing Rite, Blood Tribute and Crushing Fists need their **tags** corrected, not their
+      strength. Doing the strength pass first would bury three wrong answers rather than
+      remove them.
+- [ ] Knockdown's `airborne` tag, still parked from #67.
+- [ ] `CLAUDE.md` is Flutter/Riverpod boilerplate on a Next.js project — it mandates
+      `dart analyze`, `flutter test` and Riverpod-only state. The real gate is
+      `npm run verify`. Separate branch.

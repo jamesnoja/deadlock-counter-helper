@@ -27,7 +27,23 @@ const BUCKET_LABEL: Record<string, string> = {
   curated: 'Confirmed',
 }
 
-export function CurationList({ entries, kind }: { entries: CurationEntry[]; kind: 'ability' | 'item' }) {
+export function CurationList({
+  entries,
+  kind,
+  confirmable = false,
+}: {
+  entries: CurationEntry[]
+  kind: 'ability' | 'item'
+  /**
+   * Show a button that marks an entry curated without changing it.
+   *
+   * Needed wherever the value under review is already the one you might
+   * choose: selecting `situational` on an entry that is already `situational`
+   * fires no change event, so agreeing with the default would otherwise be
+   * unexpressible and the entry would reappear forever.
+   */
+  confirmable?: boolean
+}) {
   const [edits, setEdits] = useState<Record<string, Edit>>({})
   const [copied, setCopied] = useState(false)
 
@@ -158,6 +174,15 @@ export function CurationList({ entries, kind }: { entries: CurationEntry[]; kind
                     placeholder="Why this answers it — shown to users"
                     className="min-w-0 flex-1 rounded-md bg-surface-elevated p-sm text-caption text-text"
                   />
+                  {confirmable && !dirty ? (
+                    <button
+                      type="button"
+                      onClick={() => update(entry, {})}
+                      className="rounded-pill border-2 border-hairline px-md py-xs text-micro text-text-muted hover:border-brand"
+                    >
+                      Confirm as-is
+                    </button>
+                  ) : null}
                 </div>
               ) : null}
 
