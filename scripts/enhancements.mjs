@@ -6,13 +6,15 @@
  *   - scripts/render-backlog.mjs -> regenerates docs/BACKLOG.md
  *
  * Edit here, then run `npm run backlog` to regenerate the doc.
+ *
+ * IDs are stable once issues exist. Do not renumber after seeding.
  */
 
 export const EPICS = {
   foundation: {
     label: 'epic:foundation',
     color: '5319e7',
-    description: 'Data pipeline, derivation engine, patch resilience',
+    description: 'Design language, data pipeline, derivation engine, patch resilience',
   },
   ux: {
     label: 'epic:ux',
@@ -71,6 +73,75 @@ fails loudly when something breaks.
   },
   {
     id: 'E02',
+    title: 'Design profile — visual identity and design system foundation',
+    epic: 'foundation',
+    priority: 'p0',
+    depends: ['E01'],
+    body: `
+### Problem
+Every interface enhancement in this backlog assumes a design language that does not exist
+yet. Without one we end up doing what the original site did: ad-hoc uppercase text blocks,
+meaning carried entirely by colour, no consistent density, and no answer to "what should a
+new component look like". Defining this **before** the UX work means E08 onwards has
+something to build against instead of inventing styles per screen.
+
+This is also a differentiator. The tool is used mid-match, glanced at for a few seconds, in a
+dark room, often on a second monitor. That is a real and specific design brief, and nothing
+in this space is designed for it.
+
+### Scope
+
+**1. Design profile document** (\`docs/DESIGN.md\`) — the written direction:
+- **Positioning and tone.** Deadlock's own art direction is dieselpunk/occult noir. We should
+  feel adjacent and native to the game without cloning Valve's assets or implying official
+  status. Decide explicitly how close we sit.
+- **Usage context as constraints.** Glanceable in under three seconds. Legible at arm's length
+  on a second monitor. Dark-first, because the game is dark and the room usually is too.
+  Information density over whitespace — this is a reference tool, not a landing page.
+- **Design principles**, three to five, each written so it can settle an actual argument.
+  Draft: *scannable beats beautiful*; *never encode meaning in colour alone*; *density with
+  hierarchy*; *show provenance, always*.
+
+**2. Design tokens** (implemented, not just described):
+- Colour: dark-first palette with a documented light mode. Semantic tokens
+  (\`--surface\`, \`--threat-high\`, \`--counter-hard\`, \`--provenance-stale\`) rather than raw
+  hues, so ranking, threat severity, and item categories stay consistent everywhere.
+- Type scale: one display face for identity, one highly legible UI face. The original set
+  everything in uppercase, which is actively harder to scan — we will not.
+- Spacing, radius, elevation, and a compact/comfortable density switch feeding E27.
+- Motion: durations and easings, with a \`prefers-reduced-motion\` path defined up front.
+- Delivered as CSS custom properties wired into the Tailwind v4 theme, so tokens are the only
+  source of style values.
+
+**3. Core primitives** — the small set every later issue reuses:
+Hero chip, item card, threat tag, coverage badge, provenance dot, accordion, slot,
+empty state, loading skeleton.
+
+**4. Accessibility baked in, not retrofitted:**
+- Every semantic colour pair verified at WCAG AA against its intended background, with the
+  contrast check automated so a token change cannot silently break it.
+- Every state that uses colour also carries a shape, icon, or text affordance.
+- Focus-visible styling defined once, as a token.
+
+### Acceptance criteria
+- \`docs/DESIGN.md\` exists and states the principles, the usage context, and the rationale.
+- A \`/styleguide\` route renders every token and primitive in light and dark, at both
+  densities — reviewable in a PR preview.
+- No component in any later PR introduces a raw hex value, font size, or spacing literal;
+  enforced by a lint rule.
+- Contrast checks run in CI.
+
+### Notes
+Deliberately scoped as **one** issue covering both the profile and its token implementation.
+A design profile that is only a document gets ignored; tokens without a documented rationale
+get argued about forever. They ship together.
+
+Art assets themselves (hero portraits, item icons) come from the assets API in E12 — this
+issue covers everything around them.
+`,
+  },
+  {
+    id: 'E03',
     title: 'Deadlock assets API sync pipeline',
     epic: 'foundation',
     priority: 'p0',
@@ -105,11 +176,11 @@ Upstream schema reference: items expose \`id\`, \`class_name\`, \`name\`, \`type
 `,
   },
   {
-    id: 'E03',
+    id: 'E04',
     title: 'Threat-tag overlay schema (abilities and items)',
     epic: 'foundation',
     priority: 'p0',
-    depends: ['E02'],
+    depends: ['E03'],
     body: `
 ### Problem
 Counter advice is currently hand-written prose per hero, which is why the same eight items
@@ -136,11 +207,11 @@ This is the only file a human edits per patch. Everything else derives from it.
 `,
   },
   {
-    id: 'E04',
+    id: 'E05',
     title: 'Counter derivation engine',
     epic: 'foundation',
     priority: 'p0',
-    depends: ['E03'],
+    depends: ['E04'],
     body: `
 ### Problem
 Counters should be computed, not authored. Add a hero, and it should inherit sensible
@@ -162,11 +233,11 @@ refinement rather than authorship.
 `,
   },
   {
-    id: 'E05',
+    id: 'E06',
     title: 'CI patch-diff detection and needs-review flagging',
     epic: 'foundation',
     priority: 'p0',
-    depends: ['E02', 'E03'],
+    depends: ['E03', 'E04'],
     body: `
 ### Problem
 We need to find out that a patch landed before our users do.
@@ -189,11 +260,11 @@ Public repo, so scheduled Actions minutes are free.
 `,
   },
   {
-    id: 'E06',
+    id: 'E07',
     title: 'Patch version stamp and data provenance UI',
     epic: 'foundation',
     priority: 'p0',
-    depends: ['E05'],
+    depends: ['E06', 'E02'],
     body: `
 ### Problem
 Trust is the entire value proposition of a counter tool, and no competitor displays where
@@ -201,23 +272,24 @@ their data came from or how old it is.
 
 ### Scope
 - Persistent header badge: "Data synced from patch X — verified <date>".
-- Per-item provenance dot: green (auto-verified this patch), amber (patch changed this item,
-  curation not yet reviewed).
+- Per-item provenance dot (primitive defined in E02): green (auto-verified this patch),
+  amber (patch changed this item, curation not yet reviewed).
 - Hovering the badge explains the pipeline in one sentence and links to the changelog.
 
 ### Acceptance criteria
 - The stamp is generated from snapshot metadata, never hand-edited.
-- Amber state appears automatically from the \`needs_review\` flag set in E05.
+- Amber state appears automatically from the \`needs_review\` flag set in E06.
+- Provenance state is distinguishable without colour vision.
 `,
   },
 
   // ----------------------------------------------------------------------- ux
   {
-    id: 'E07',
+    id: 'E08',
     title: 'Accessible hero picker with portraits and keyboard navigation',
     epic: 'ux',
     priority: 'p0',
-    depends: ['E02'],
+    depends: ['E03', 'E02'],
     body: `
 ### Problem
 On the original site every hero chip is a \`div.hero-chip\` with no \`tabindex\` and no \`role\`.
@@ -225,7 +297,7 @@ The entire page contains exactly one \`<button>\` (the nav hamburger). It is unu
 keyboard and opaque to screen readers.
 
 ### Scope
-- Real \`<button>\` elements with \`aria-pressed\`.
+- Real \`<button>\` elements with \`aria-pressed\`, built on the hero chip primitive from E02.
 - Roving tabindex with arrow-key navigation across the grid; Enter/Space to toggle.
 - \`/\` focuses the search box; fuzzy search tolerant of "greytalon", "mo krill", "doorman".
 - Hero portraits from \`icon_image_small\`; \`minimap_image\` for compact chips.
@@ -237,11 +309,11 @@ keyboard and opaque to screen readers.
 `,
   },
   {
-    id: 'E08',
+    id: 'E09',
     title: 'Enemy team builder (6 slots)',
     epic: 'ux',
     priority: 'p0',
-    depends: ['E07', 'E04'],
+    depends: ['E08', 'E05'],
     body: `
 ### Problem
 The original caps at 6 by silently adding a \`disabled\` class to remaining chips, with no
@@ -251,7 +323,7 @@ explanation and no sense of a team being assembled.
 - Six explicit slots rendered as a persistent team bar.
 - Click a filled slot to clear it; clear-all control.
 - When six are picked, remaining chips are disabled **with visible text** explaining why.
-- Slots survive reload (see E19 for URL state).
+- Slots survive reload (see E20 for URL state).
 
 ### Acceptance criteria
 - The team bar is always visible while scrolling the results.
@@ -259,11 +331,11 @@ explanation and no sense of a team being assembled.
 `,
   },
   {
-    id: 'E09',
+    id: 'E10',
     title: 'Aggregated counter shortlist with coverage counts',
     epic: 'ux',
     priority: 'p0',
-    depends: ['E08'],
+    depends: ['E09'],
     body: `
 ### Problem
 This is the headline feature: see every counter item for the whole enemy team on one page.
@@ -281,11 +353,11 @@ This is the headline feature: see every counter item for the whole enemy team on
 `,
   },
   {
-    id: 'E10',
+    id: 'E11',
     title: 'Retain per-hero detail in team mode',
     epic: 'ux',
     priority: 'p0',
-    depends: ['E09'],
+    depends: ['E10'],
     body: `
 ### Problem
 **The single biggest functional flaw in the original.** Selecting one hero gives you a
@@ -294,7 +366,7 @@ second hero *deletes all of it* and replaces it with a flat shared-counters list
 view is strictly less useful than the single view.
 
 ### Scope
-- Two-pane layout: aggregated shortlist (E09) on the left, per-hero detail on the right.
+- Two-pane layout: aggregated shortlist (E10) on the left, per-hero detail on the right.
 - Per-hero detail as expandable accordions, one per selected enemy, each retaining matchup
   overview, lane tips, ability notes, and item reasoning.
 - Nothing is lost by adding heroes — detail accumulates rather than being replaced.
@@ -304,11 +376,11 @@ view is strictly less useful than the single view.
 `,
   },
   {
-    id: 'E11',
+    id: 'E12',
     title: 'Item and hero artwork integration',
     epic: 'ux',
     priority: 'p0',
-    depends: ['E02'],
+    depends: ['E03', 'E02'],
     body: `
 ### Problem
 \`document.images.length === 0\` on the original page. No hero portraits, no item icons, no
@@ -320,6 +392,7 @@ sight, not by name.
 - Hero portraits, minimap icons, and ability icons from the assets API.
 - Served through \`next/image\` with explicit dimensions so the grid never shifts.
 - Local fallback placeholder if an upstream asset 404s after a patch.
+- Treatment (framing, masking, glow on selection) follows the design profile from E02.
 
 ### Acceptance criteria
 - Zero cumulative layout shift from images.
@@ -327,11 +400,11 @@ sight, not by name.
 `,
   },
   {
-    id: 'E12',
+    id: 'E13',
     title: 'Show item cost, tier, and slot category',
     epic: 'ux',
     priority: 'p0',
-    depends: ['E02'],
+    depends: ['E03', 'E02'],
     body: `
 ### Problem
 The original shows none of these. Counter advice without "can I afford this, and do I have a
@@ -340,18 +413,18 @@ slot free" is not actionable mid-match.
 ### Scope
 - Every item card shows soul cost, tier, and category (Weapon / Vitality / Spirit).
 - All three read from the snapshot so they track patches automatically.
-- Category conveyed by icon and label, not colour alone.
+- Category conveyed by icon and label, not colour alone, using the E02 semantic tokens.
 
 ### Acceptance criteria
 - Costs and tiers are never hardcoded in the repo.
 `,
   },
   {
-    id: 'E13',
+    id: 'E14',
     title: 'Soul budget filter',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E12'],
+    depends: ['E13'],
     body: `
 ### Problem
 Mid-match, the only question that matters is "what can I buy *right now*".
@@ -365,11 +438,11 @@ Mid-match, the only question that matters is "what can I buy *right now*".
 `,
   },
   {
-    id: 'E14',
+    id: 'E15',
     title: 'Slot economy view — present counters as a build, not a wishlist',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E12'],
+    depends: ['E13'],
     body: `
 ### Problem
 You have a limited number of slots per category. A flat list of twelve recommended items
@@ -385,11 +458,11 @@ hides the actual decision, which is a tradeoff.
 `,
   },
   {
-    id: 'E15',
+    id: 'E16',
     title: 'Game-phase tabs (lane / mid / late)',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E04'],
+    depends: ['E05'],
     body: `
 ### Problem
 The original half-acknowledges this with a "How to counter during lane phase" prose block,
@@ -398,18 +471,18 @@ problems.
 
 ### Scope
 - Lane / Mid / Late tabs that re-rank the shortlist.
-- Phase preference expressed in the overlay (E03) rather than hardcoded in the UI.
+- Phase preference expressed in the overlay (E04) rather than hardcoded in the UI.
 
 ### Acceptance criteria
 - Switching phase visibly changes ranking, not just prose.
 `,
   },
   {
-    id: 'E16',
+    id: 'E17',
     title: 'Ability-level counter granularity',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E04', 'E11'],
+    depends: ['E05', 'E12'],
     body: `
 ### Problem
 The original says "counter Haze" and buries the specifics in prose — "Metal Skin for bullet
@@ -426,11 +499,11 @@ immunity during her ult". It never attaches a counter to a named ability as data
 `,
   },
   {
-    id: 'E17',
+    id: 'E18',
     title: '"Your hero" context filter',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E04'],
+    depends: ['E05'],
     body: `
 ### Problem
 Counters are asymmetric. Metal Skin is excellent on a frontliner standing in a carry's face
@@ -447,11 +520,11 @@ and much weaker on Grey Talon. The original has no concept of who *you* are play
 `,
   },
   {
-    id: 'E18',
+    id: 'E19',
     title: 'Copy-to-clipboard team chat export',
     epic: 'ux',
     priority: 'p1',
-    depends: ['E09'],
+    depends: ['E10'],
     body: `
 ### Problem
 The real in-game workflow is telling four teammates what to buy, in chat, in about eight
@@ -468,11 +541,11 @@ seconds.
 
   // ------------------------------------------------------------- distribution
   {
-    id: 'E19',
+    id: 'E20',
     title: 'URL state and deep links',
     epic: 'distribution',
     priority: 'p0',
-    depends: ['E08'],
+    depends: ['E09'],
     body: `
 ### Problem
 On the original, \`location.href\` never changes no matter what you select. You cannot
@@ -488,11 +561,11 @@ bookmark, share, or link a matchup or a team comp. Every visit starts from zero.
 `,
   },
   {
-    id: 'E20',
+    id: 'E21',
     title: 'Per-hero static SEO pages',
     epic: 'distribution',
     priority: 'p0',
-    depends: ['E19', 'E10'],
+    depends: ['E20', 'E11'],
     body: `
 ### Problem
 "how to counter haze deadlock" is the query people actually type, and the original has no
@@ -510,11 +583,11 @@ page that can rank for it — the tool is one client-rendered route with a singl
 `,
   },
   {
-    id: 'E21',
+    id: 'E22',
     title: 'OG image generation for shared comps',
     epic: 'distribution',
     priority: 'p1',
-    depends: ['E19', 'E11'],
+    depends: ['E20', 'E12'],
     body: `
 ### Problem
 Shared in Discord, a link with no preview is invisible. This is how the tool spreads.
@@ -522,17 +595,18 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
 ### Scope
 - Dynamic OG images via \`next/og\` showing the six enemy portraits and top counters.
 - Static OG images for the per-hero pages.
+- Uses the E02 design tokens so previews look like the site, not like a default template.
 
 ### Acceptance criteria
 - A pasted team-comp link renders a readable preview in Discord.
 `,
   },
   {
-    id: 'E22',
+    id: 'E23',
     title: 'Structured data (JSON-LD)',
     epic: 'distribution',
     priority: 'p2',
-    depends: ['E20'],
+    depends: ['E21'],
     body: `
 ### Scope
 - \`FAQPage\` JSON-LD on hero pages for the matchup Q&A.
@@ -544,17 +618,17 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
 `,
   },
   {
-    id: 'E23',
+    id: 'E24',
     title: 'Patch changelog page',
     epic: 'distribution',
     priority: 'p1',
-    depends: ['E05'],
+    depends: ['E06'],
     body: `
 ### Problem
 Recurring traffic magnet, and doubles as public proof the site is actually maintained.
 
 ### Scope
-- \`/changelog\` generated from the snapshot diffs produced in E05.
+- \`/changelog\` generated from the snapshot diffs produced in E06.
 - "What changed for counters in patch X" — items added/removed/renamed, abilities retuned,
   and which matchups were affected as a result.
 - RSS feed.
@@ -566,11 +640,11 @@ Recurring traffic magnet, and doubles as public proof the site is actually maint
 
   // ------------------------------------------------------------------ quality
   {
-    id: 'E24',
+    id: 'E25',
     title: 'Accessibility pass',
     epic: 'quality',
     priority: 'p1',
-    depends: ['E07', 'E10'],
+    depends: ['E08', 'E11'],
     body: `
 ### Problem
 The original is built almost entirely from non-semantic \`div\`s — \`div.hero-chip\`,
@@ -586,10 +660,14 @@ The original is built almost entirely from non-semantic \`div\`s — \`div.hero-
 ### Acceptance criteria
 - Automated axe checks run in CI and block merges on violations.
 - Manual NVDA walkthrough of the core flow documented.
+
+### Notes
+E02 establishes the accessible defaults; this issue is the end-to-end audit that confirms
+they survived contact with real screens.
 `,
   },
   {
-    id: 'E25',
+    id: 'E26',
     title: 'Performance budget and analytics discipline',
     epic: 'quality',
     priority: 'p1',
@@ -612,18 +690,19 @@ stacks — on a tool people alt-tab into during a match.
 `,
   },
   {
-    id: 'E26',
+    id: 'E27',
     title: 'Mobile and compact companion mode',
     epic: 'quality',
     priority: 'p1',
-    depends: ['E09', 'E11'],
+    depends: ['E10', 'E12'],
     body: `
 ### Problem
 Real usage is a second monitor or a phone propped beside the keyboard, mid-match.
 
 ### Scope
 - Portraits-only grid at narrow widths; tap opens a bottom sheet.
-- A dense \`?compact=1\` layout for small windows and second monitors.
+- A dense \`?compact=1\` layout for small windows and second monitors, driven by the density
+  switch defined in E02.
 - Touch targets at least 44px.
 
 ### Acceptance criteria
@@ -634,11 +713,11 @@ Real usage is a second monitor or a phone propped beside the keyboard, mid-match
 
   // ----------------------------------------------------------------- advanced
   {
-    id: 'E27',
+    id: 'E28',
     title: 'Counter-the-counter (reverse view)',
     epic: 'advanced',
     priority: 'p2',
-    depends: ['E04'],
+    depends: ['E05'],
     body: `
 ### Problem
 Nobody offers this, and it is nearly free — it is the same engine run in reverse.
@@ -652,11 +731,11 @@ Nobody offers this, and it is nearly free — it is the same engine run in rever
 `,
   },
   {
-    id: 'E28',
+    id: 'E29',
     title: 'Win-rate grounding from match data',
     epic: 'advanced',
     priority: 'p2',
-    depends: ['E04'],
+    depends: ['E05'],
     body: `
 ### Problem
 Every competitor's advice is editorial opinion. Evidence is a real moat.
@@ -673,11 +752,11 @@ Every competitor's advice is editorial opinion. Evidence is a real moat.
 `,
   },
   {
-    id: 'E29',
+    id: 'E30',
     title: 'Threat explanations — teach the mechanic, not the shopping list',
     epic: 'advanced',
     priority: 'p2',
-    depends: ['E16'],
+    depends: ['E17'],
     body: `
 ### Problem
 "Buy Metal Skin" tells you what to click. "Her passive stacks and resets when you break line
@@ -692,11 +771,11 @@ of sight" tells you how to play the matchup — and makes the item choice obviou
 `,
   },
   {
-    id: 'E30',
+    id: 'E31',
     title: 'Community feedback loop on recommendations',
     epic: 'advanced',
     priority: 'p2',
-    depends: ['E09'],
+    depends: ['E10'],
     body: `
 ### Problem
 The overlay is curated by one person against a game that changes weekly. Crowdsourced QA is
@@ -713,11 +792,11 @@ cheap and catches drift fast.
 `,
   },
   {
-    id: 'E31',
+    id: 'E32',
     title: 'Deep links to the Deadlock wiki',
     epic: 'advanced',
     priority: 'p2',
-    depends: ['E16'],
+    depends: ['E17'],
     body: `
 ### Problem
 The community treats deadlock.wiki as canonical. Linking out costs nothing and buys

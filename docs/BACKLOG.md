@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-31 enhancements across 5 epics.
+32 enhancements across 5 epics.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -10,36 +10,37 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | ID | Enhancement | Epic | Priority | Depends on |
 | --- | --- | --- | --- | --- |
 | [E01](#e01) | Project scaffold, CI, and deploy pipeline | foundation | p0 | — |
-| [E02](#e02) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
-| [E03](#e03) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E02 |
-| [E04](#e04) | Counter derivation engine | foundation | p0 | E03 |
-| [E05](#e05) | CI patch-diff detection and needs-review flagging | foundation | p0 | E02, E03 |
-| [E06](#e06) | Patch version stamp and data provenance UI | foundation | p0 | E05 |
-| [E07](#e07) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E02 |
-| [E08](#e08) | Enemy team builder (6 slots) | ux | p0 | E07, E04 |
-| [E09](#e09) | Aggregated counter shortlist with coverage counts | ux | p0 | E08 |
-| [E10](#e10) | Retain per-hero detail in team mode | ux | p0 | E09 |
-| [E11](#e11) | Item and hero artwork integration | ux | p0 | E02 |
-| [E12](#e12) | Show item cost, tier, and slot category | ux | p0 | E02 |
-| [E13](#e13) | Soul budget filter | ux | p1 | E12 |
-| [E14](#e14) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E12 |
-| [E15](#e15) | Game-phase tabs (lane / mid / late) | ux | p1 | E04 |
-| [E16](#e16) | Ability-level counter granularity | ux | p1 | E04, E11 |
-| [E17](#e17) | "Your hero" context filter | ux | p1 | E04 |
-| [E18](#e18) | Copy-to-clipboard team chat export | ux | p1 | E09 |
-| [E19](#e19) | URL state and deep links | distribution | p0 | E08 |
-| [E20](#e20) | Per-hero static SEO pages | distribution | p0 | E19, E10 |
-| [E21](#e21) | OG image generation for shared comps | distribution | p1 | E19, E11 |
-| [E22](#e22) | Structured data (JSON-LD) | distribution | p2 | E20 |
-| [E23](#e23) | Patch changelog page | distribution | p1 | E05 |
-| [E24](#e24) | Accessibility pass | quality | p1 | E07, E10 |
-| [E25](#e25) | Performance budget and analytics discipline | quality | p1 | E01 |
-| [E26](#e26) | Mobile and compact companion mode | quality | p1 | E09, E11 |
-| [E27](#e27) | Counter-the-counter (reverse view) | advanced | p2 | E04 |
-| [E28](#e28) | Win-rate grounding from match data | advanced | p2 | E04 |
-| [E29](#e29) | Threat explanations — teach the mechanic, not the shopping list | advanced | p2 | E16 |
-| [E30](#e30) | Community feedback loop on recommendations | advanced | p2 | E09 |
-| [E31](#e31) | Deep links to the Deadlock wiki | advanced | p2 | E16 |
+| [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
+| [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
+| [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
+| [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
+| [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
+| [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
+| [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
+| [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
+| [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
+| [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
+| [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
+| [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
+| [E14](#e14) | Soul budget filter | ux | p1 | E13 |
+| [E15](#e15) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E13 |
+| [E16](#e16) | Game-phase tabs (lane / mid / late) | ux | p1 | E05 |
+| [E17](#e17) | Ability-level counter granularity | ux | p1 | E05, E12 |
+| [E18](#e18) | "Your hero" context filter | ux | p1 | E05 |
+| [E19](#e19) | Copy-to-clipboard team chat export | ux | p1 | E10 |
+| [E20](#e20) | URL state and deep links | distribution | p0 | E09 |
+| [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
+| [E22](#e22) | OG image generation for shared comps | distribution | p1 | E20, E12 |
+| [E23](#e23) | Structured data (JSON-LD) | distribution | p2 | E21 |
+| [E24](#e24) | Patch changelog page | distribution | p1 | E06 |
+| [E25](#e25) | Accessibility pass | quality | p1 | E08, E11 |
+| [E26](#e26) | Performance budget and analytics discipline | quality | p1 | E01 |
+| [E27](#e27) | Mobile and compact companion mode | quality | p1 | E10, E12 |
+| [E28](#e28) | Counter-the-counter (reverse view) | advanced | p2 | E05 |
+| [E29](#e29) | Win-rate grounding from match data | advanced | p2 | E05 |
+| [E30](#e30) | Threat explanations — teach the mechanic, not the shopping list | advanced | p2 | E17 |
+| [E31](#e31) | Community feedback loop on recommendations | advanced | p2 | E10 |
+| [E32](#e32) | Deep links to the Deadlock wiki | advanced | p2 | E17 |
 
 ## Foundation — data pipeline and patch resilience
 
@@ -67,6 +68,73 @@ fails loudly when something breaks.
 **Depends on:** nothing
 
 ### E02
+
+**Design profile — visual identity and design system foundation** — `p0`
+
+### Problem
+Every interface enhancement in this backlog assumes a design language that does not exist
+yet. Without one we end up doing what the original site did: ad-hoc uppercase text blocks,
+meaning carried entirely by colour, no consistent density, and no answer to "what should a
+new component look like". Defining this **before** the UX work means E08 onwards has
+something to build against instead of inventing styles per screen.
+
+This is also a differentiator. The tool is used mid-match, glanced at for a few seconds, in a
+dark room, often on a second monitor. That is a real and specific design brief, and nothing
+in this space is designed for it.
+
+### Scope
+
+**1. Design profile document** (`docs/DESIGN.md`) — the written direction:
+- **Positioning and tone.** Deadlock's own art direction is dieselpunk/occult noir. We should
+  feel adjacent and native to the game without cloning Valve's assets or implying official
+  status. Decide explicitly how close we sit.
+- **Usage context as constraints.** Glanceable in under three seconds. Legible at arm's length
+  on a second monitor. Dark-first, because the game is dark and the room usually is too.
+  Information density over whitespace — this is a reference tool, not a landing page.
+- **Design principles**, three to five, each written so it can settle an actual argument.
+  Draft: *scannable beats beautiful*; *never encode meaning in colour alone*; *density with
+  hierarchy*; *show provenance, always*.
+
+**2. Design tokens** (implemented, not just described):
+- Colour: dark-first palette with a documented light mode. Semantic tokens
+  (`--surface`, `--threat-high`, `--counter-hard`, `--provenance-stale`) rather than raw
+  hues, so ranking, threat severity, and item categories stay consistent everywhere.
+- Type scale: one display face for identity, one highly legible UI face. The original set
+  everything in uppercase, which is actively harder to scan — we will not.
+- Spacing, radius, elevation, and a compact/comfortable density switch feeding E27.
+- Motion: durations and easings, with a `prefers-reduced-motion` path defined up front.
+- Delivered as CSS custom properties wired into the Tailwind v4 theme, so tokens are the only
+  source of style values.
+
+**3. Core primitives** — the small set every later issue reuses:
+Hero chip, item card, threat tag, coverage badge, provenance dot, accordion, slot,
+empty state, loading skeleton.
+
+**4. Accessibility baked in, not retrofitted:**
+- Every semantic colour pair verified at WCAG AA against its intended background, with the
+  contrast check automated so a token change cannot silently break it.
+- Every state that uses colour also carries a shape, icon, or text affordance.
+- Focus-visible styling defined once, as a token.
+
+### Acceptance criteria
+- `docs/DESIGN.md` exists and states the principles, the usage context, and the rationale.
+- A `/styleguide` route renders every token and primitive in light and dark, at both
+  densities — reviewable in a PR preview.
+- No component in any later PR introduces a raw hex value, font size, or spacing literal;
+  enforced by a lint rule.
+- Contrast checks run in CI.
+
+### Notes
+Deliberately scoped as **one** issue covering both the profile and its token implementation.
+A design profile that is only a document gets ignored; tokens without a documented rationale
+get argued about forever. They ship together.
+
+Art assets themselves (hero portraits, item icons) come from the assets API in E12 — this
+issue covers everything around them.
+
+**Depends on:** E01
+
+### E03
 
 **Deadlock assets API sync pipeline** — `p0`
 
@@ -99,7 +167,7 @@ Upstream schema reference: items expose `id`, `class_name`, `name`, `type`, `ima
 
 **Depends on:** E01
 
-### E03
+### E04
 
 **Threat-tag overlay schema (abilities and items)** — `p0`
 
@@ -126,9 +194,9 @@ Proposed initial tag vocabulary:
 ### Notes
 This is the only file a human edits per patch. Everything else derives from it.
 
-**Depends on:** E02
+**Depends on:** E03
 
-### E04
+### E05
 
 **Counter derivation engine** — `p0`
 
@@ -150,9 +218,9 @@ refinement rather than authorship.
 - Given the same inputs, output ordering is stable.
 - Override entries appear in the UI as editorially curated, not derived.
 
-**Depends on:** E03
+**Depends on:** E04
 
-### E05
+### E06
 
 **CI patch-diff detection and needs-review flagging** — `p0`
 
@@ -175,9 +243,9 @@ We need to find out that a patch landed before our users do.
 ### Notes
 Public repo, so scheduled Actions minutes are free.
 
-**Depends on:** E02, E03
+**Depends on:** E03, E04
 
-### E06
+### E07
 
 **Patch version stamp and data provenance UI** — `p0`
 
@@ -187,20 +255,21 @@ their data came from or how old it is.
 
 ### Scope
 - Persistent header badge: "Data synced from patch X — verified <date>".
-- Per-item provenance dot: green (auto-verified this patch), amber (patch changed this item,
-  curation not yet reviewed).
+- Per-item provenance dot (primitive defined in E02): green (auto-verified this patch),
+  amber (patch changed this item, curation not yet reviewed).
 - Hovering the badge explains the pipeline in one sentence and links to the changelog.
 
 ### Acceptance criteria
 - The stamp is generated from snapshot metadata, never hand-edited.
-- Amber state appears automatically from the `needs_review` flag set in E05.
+- Amber state appears automatically from the `needs_review` flag set in E06.
+- Provenance state is distinguishable without colour vision.
 
-**Depends on:** E05
+**Depends on:** E06, E02
 
 
 ## Core UX — the counter helper itself
 
-### E07
+### E08
 
 **Accessible hero picker with portraits and keyboard navigation** — `p0`
 
@@ -210,7 +279,7 @@ The entire page contains exactly one `<button>` (the nav hamburger). It is unusa
 keyboard and opaque to screen readers.
 
 ### Scope
-- Real `<button>` elements with `aria-pressed`.
+- Real `<button>` elements with `aria-pressed`, built on the hero chip primitive from E02.
 - Roving tabindex with arrow-key navigation across the grid; Enter/Space to toggle.
 - `/` focuses the search box; fuzzy search tolerant of "greytalon", "mo krill", "doorman".
 - Hero portraits from `icon_image_small`; `minimap_image` for compact chips.
@@ -220,9 +289,9 @@ keyboard and opaque to screen readers.
 - Full flow completable with keyboard only.
 - Axe reports no violations on the picker.
 
-**Depends on:** E02
+**Depends on:** E03, E02
 
-### E08
+### E09
 
 **Enemy team builder (6 slots)** — `p0`
 
@@ -234,15 +303,15 @@ explanation and no sense of a team being assembled.
 - Six explicit slots rendered as a persistent team bar.
 - Click a filled slot to clear it; clear-all control.
 - When six are picked, remaining chips are disabled **with visible text** explaining why.
-- Slots survive reload (see E19 for URL state).
+- Slots survive reload (see E20 for URL state).
 
 ### Acceptance criteria
 - The team bar is always visible while scrolling the results.
 - Reaching the cap is explained, not just enforced.
 
-**Depends on:** E07, E04
+**Depends on:** E08, E05
 
-### E09
+### E10
 
 **Aggregated counter shortlist with coverage counts** — `p0`
 
@@ -260,9 +329,9 @@ This is the headline feature: see every counter item for the whole enemy team on
 - Coverage counts are derived, never hardcoded.
 - The list reflows sensibly from 1 to 6 selected heroes.
 
-**Depends on:** E08
+**Depends on:** E09
 
-### E10
+### E11
 
 **Retain per-hero detail in team mode** — `p0`
 
@@ -273,7 +342,7 @@ second hero *deletes all of it* and replaces it with a flat shared-counters list
 view is strictly less useful than the single view.
 
 ### Scope
-- Two-pane layout: aggregated shortlist (E09) on the left, per-hero detail on the right.
+- Two-pane layout: aggregated shortlist (E10) on the left, per-hero detail on the right.
 - Per-hero detail as expandable accordions, one per selected enemy, each retaining matchup
   overview, lane tips, ability notes, and item reasoning.
 - Nothing is lost by adding heroes — detail accumulates rather than being replaced.
@@ -281,9 +350,9 @@ view is strictly less useful than the single view.
 ### Acceptance criteria
 - Every piece of information available at 1 selected hero is still reachable at 6.
 
-**Depends on:** E09
+**Depends on:** E10
 
-### E11
+### E12
 
 **Item and hero artwork integration** — `p0`
 
@@ -297,14 +366,15 @@ sight, not by name.
 - Hero portraits, minimap icons, and ability icons from the assets API.
 - Served through `next/image` with explicit dimensions so the grid never shifts.
 - Local fallback placeholder if an upstream asset 404s after a patch.
+- Treatment (framing, masking, glow on selection) follows the design profile from E02.
 
 ### Acceptance criteria
 - Zero cumulative layout shift from images.
 - A missing upstream asset degrades to a placeholder, never a broken image.
 
-**Depends on:** E02
+**Depends on:** E03, E02
 
-### E12
+### E13
 
 **Show item cost, tier, and slot category** — `p0`
 
@@ -315,14 +385,14 @@ slot free" is not actionable mid-match.
 ### Scope
 - Every item card shows soul cost, tier, and category (Weapon / Vitality / Spirit).
 - All three read from the snapshot so they track patches automatically.
-- Category conveyed by icon and label, not colour alone.
+- Category conveyed by icon and label, not colour alone, using the E02 semantic tokens.
 
 ### Acceptance criteria
 - Costs and tiers are never hardcoded in the repo.
 
-**Depends on:** E02
+**Depends on:** E03, E02
 
-### E13
+### E14
 
 **Soul budget filter** — `p1`
 
@@ -336,9 +406,9 @@ Mid-match, the only question that matters is "what can I buy *right now*".
 ### Acceptance criteria
 - Filtering is instant and does not refetch.
 
-**Depends on:** E12
+**Depends on:** E13
 
-### E14
+### E15
 
 **Slot economy view — present counters as a build, not a wishlist** — `p1`
 
@@ -354,9 +424,9 @@ hides the actual decision, which is a tradeoff.
 ### Acceptance criteria
 - Output reads as a buildable loadout, not a shopping list.
 
-**Depends on:** E12
+**Depends on:** E13
 
-### E15
+### E16
 
 **Game-phase tabs (lane / mid / late)** — `p1`
 
@@ -367,14 +437,14 @@ problems.
 
 ### Scope
 - Lane / Mid / Late tabs that re-rank the shortlist.
-- Phase preference expressed in the overlay (E03) rather than hardcoded in the UI.
+- Phase preference expressed in the overlay (E04) rather than hardcoded in the UI.
 
 ### Acceptance criteria
 - Switching phase visibly changes ranking, not just prose.
 
-**Depends on:** E04
+**Depends on:** E05
 
-### E16
+### E17
 
 **Ability-level counter granularity** — `p1`
 
@@ -391,9 +461,9 @@ immunity during her ult". It never attaches a counter to a named ability as data
 - Every recommended item states which specific ability or abilities it answers.
 - Retuning one ability upstream updates only that ability's entry.
 
-**Depends on:** E04, E11
+**Depends on:** E05, E12
 
-### E17
+### E18
 
 **"Your hero" context filter** — `p1`
 
@@ -410,9 +480,9 @@ and much weaker on Grey Talon. The original has no concept of who *you* are play
 - Selecting your hero measurably reorders results.
 - The feature is optional and the tool works fully without it.
 
-**Depends on:** E04
+**Depends on:** E05
 
-### E18
+### E19
 
 **Copy-to-clipboard team chat export** — `p1`
 
@@ -427,12 +497,12 @@ seconds.
 ### Acceptance criteria
 - Pasted output is readable without formatting.
 
-**Depends on:** E09
+**Depends on:** E10
 
 
 ## Distribution — URLs, SEO, sharing
 
-### E19
+### E20
 
 **URL state and deep links** — `p0`
 
@@ -448,9 +518,9 @@ bookmark, share, or link a matchup or a team comp. Every visit starts from zero.
 ### Acceptance criteria
 - Pasting a URL reproduces the exact tool state.
 
-**Depends on:** E08
+**Depends on:** E09
 
-### E20
+### E21
 
 **Per-hero static SEO pages** — `p0`
 
@@ -468,9 +538,9 @@ page that can rank for it — the tool is one client-rendered route with a singl
 - Content is present with JavaScript disabled.
 - Adding a hero to the snapshot adds a page and a sitemap entry with no other change.
 
-**Depends on:** E19, E10
+**Depends on:** E20, E11
 
-### E21
+### E22
 
 **OG image generation for shared comps** — `p1`
 
@@ -480,13 +550,14 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
 ### Scope
 - Dynamic OG images via `next/og` showing the six enemy portraits and top counters.
 - Static OG images for the per-hero pages.
+- Uses the E02 design tokens so previews look like the site, not like a default template.
 
 ### Acceptance criteria
 - A pasted team-comp link renders a readable preview in Discord.
 
-**Depends on:** E19, E11
+**Depends on:** E20, E12
 
-### E22
+### E23
 
 **Structured data (JSON-LD)** — `p2`
 
@@ -498,9 +569,9 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
 ### Acceptance criteria
 - Passes Google's Rich Results test with no errors.
 
-**Depends on:** E20
+**Depends on:** E21
 
-### E23
+### E24
 
 **Patch changelog page** — `p1`
 
@@ -508,7 +579,7 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
 Recurring traffic magnet, and doubles as public proof the site is actually maintained.
 
 ### Scope
-- `/changelog` generated from the snapshot diffs produced in E05.
+- `/changelog` generated from the snapshot diffs produced in E06.
 - "What changed for counters in patch X" — items added/removed/renamed, abilities retuned,
   and which matchups were affected as a result.
 - RSS feed.
@@ -516,12 +587,12 @@ Recurring traffic magnet, and doubles as public proof the site is actually maint
 ### Acceptance criteria
 - Entries are generated from real diffs, not written by hand.
 
-**Depends on:** E05
+**Depends on:** E06
 
 
 ## Quality — accessibility, performance, mobile
 
-### E24
+### E25
 
 **Accessibility pass** — `p1`
 
@@ -540,9 +611,13 @@ The original is built almost entirely from non-semantic `div`s — `div.hero-chi
 - Automated axe checks run in CI and block merges on violations.
 - Manual NVDA walkthrough of the core flow documented.
 
-**Depends on:** E07, E10
+### Notes
+E02 establishes the accessible defaults; this issue is the end-to-end audit that confirms
+they survived contact with real screens.
 
-### E25
+**Depends on:** E08, E11
+
+### E26
 
 **Performance budget and analytics discipline** — `p1`
 
@@ -563,7 +638,7 @@ stacks — on a tool people alt-tab into during a match.
 
 **Depends on:** E01
 
-### E26
+### E27
 
 **Mobile and compact companion mode** — `p1`
 
@@ -572,19 +647,20 @@ Real usage is a second monitor or a phone propped beside the keyboard, mid-match
 
 ### Scope
 - Portraits-only grid at narrow widths; tap opens a bottom sheet.
-- A dense `?compact=1` layout for small windows and second monitors.
+- A dense `?compact=1` layout for small windows and second monitors, driven by the density
+  switch defined in E02.
 - Touch targets at least 44px.
 
 ### Acceptance criteria
 - Fully usable at 360px wide.
 - Compact mode fits the core flow without scrolling on a 1280x400 window.
 
-**Depends on:** E09, E11
+**Depends on:** E10, E12
 
 
 ## Advanced — differentiators
 
-### E27
+### E28
 
 **Counter-the-counter (reverse view)** — `p2`
 
@@ -598,9 +674,9 @@ Nobody offers this, and it is nearly free — it is the same engine run in rever
 ### Acceptance criteria
 - Reuses `deriveCounters` with inverted inputs, no duplicated logic.
 
-**Depends on:** E04
+**Depends on:** E05
 
-### E28
+### E29
 
 **Win-rate grounding from match data** — `p2`
 
@@ -617,9 +693,9 @@ Every competitor's advice is editorial opinion. Evidence is a real moat.
 - No statistic is displayed without its sample size.
 - Low-confidence data is hidden, not caveated in small print.
 
-**Depends on:** E04
+**Depends on:** E05
 
-### E29
+### E30
 
 **Threat explanations — teach the mechanic, not the shopping list** — `p2`
 
@@ -634,9 +710,9 @@ of sight" tells you how to play the matchup — and makes the item choice obviou
 ### Acceptance criteria
 - Every threat tag on a hero has a plain-English explanation attached.
 
-**Depends on:** E16
+**Depends on:** E17
 
-### E30
+### E31
 
 **Community feedback loop on recommendations** — `p2`
 
@@ -653,9 +729,9 @@ cheap and catches drift fast.
 - Votes never directly mutate rankings.
 - Rate limited and abuse resistant.
 
-**Depends on:** E09
+**Depends on:** E10
 
-### E31
+### E32
 
 **Deep links to the Deadlock wiki** — `p2`
 
@@ -670,5 +746,5 @@ credibility.
 ### Acceptance criteria
 - A broken wiki link fails the scheduled check.
 
-**Depends on:** E16
+**Depends on:** E17
 

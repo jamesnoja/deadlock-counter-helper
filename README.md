@@ -54,13 +54,20 @@ Useful scripts:
 
 ## Roadmap
 
-31 enhancements across five epics — see **[docs/BACKLOG.md](docs/BACKLOG.md)**.
+32 enhancements across five epics — see **[docs/BACKLOG.md](docs/BACKLOG.md)**.
 
 The spec for each lives in `scripts/enhancements.mjs`, which is the single source of truth
 for both the backlog doc and the GitHub issues. Edit there, run `npm run backlog`, commit.
 
-Rough order: foundation (data pipeline) → core UX (team builder) → distribution (SEO and
-sharing) → quality → advanced.
+Rough order: foundation (design profile + data pipeline) → core UX (team builder) →
+distribution (SEO and sharing) → quality → advanced.
+
+## Design
+
+The design profile lives in [docs/DESIGN.md](docs/DESIGN.md) (see E02) and is implemented as
+tokens, not prose. The brief is specific: this tool is glanced at for a few seconds mid-match,
+in a dark room, often on a second monitor. Dark-first, dense, scannable, and never encoding
+meaning in colour alone.
 
 ## Credits
 
