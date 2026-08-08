@@ -361,15 +361,29 @@ explanation and no sense of a team being assembled.
 This is the headline feature: see every counter item for the whole enemy team on one page.
 
 ### Scope
-- Deduped list of every recommended item across the selected enemies.
-- Sorted by how many enemies each item answers.
-- Each row shows the **portraits of the enemies it counters**, so "Indomitable — 5/6" is
-  obvious at a glance rather than requiring you to read a name list.
-- Clicking a coverage portrait jumps to that hero's detail card.
+- Deduped list of every recommended item across the selected enemies, ranked by the E05
+  engine.
+- **A coverage matrix, not a portrait pile.** Every row carries one cell per selected enemy,
+  in a fixed column order shared by every row, so the table reads down a column as well as
+  across. Four states per cell: strong / moderate / situational / not addressed. All four are
+  derived — item strength times the severity of the tag that matched for *that* enemy — so
+  the matrix needs no curation beyond the tags already in the overlay.
+- A legend. Four states is one more than anyone will guess.
+- Each row also shows category, tier, cost, a one-line purpose, and the coverage count.
+- Filter chips by category with live counts ("5 weapon · 15 vitality · 7 spirit"), and a
+  search box, because six enemies can produce fifty rows.
+- Clicking a coverage cell jumps to that hero in the heroes lens (E11).
 
 ### Acceptance criteria
-- Coverage counts are derived, never hardcoded.
+- Coverage counts and cell states are derived, never hardcoded.
+- Column order is identical on every row, and stable across re-renders.
 - The list reflows sensibly from 1 to 6 selected heroes.
+- Cell state is distinguishable without colour vision — per the design profile, state carries
+  a shape or glyph as well as a tint.
+
+### Notes
+Information architecture follows lockblaze.com/counters, which gets the density right. The
+visual language stays ours.
 `,
   },
   {
@@ -386,13 +400,23 @@ second hero *deletes all of it* and replaces it with a flat shared-counters list
 view is strictly less useful than the single view.
 
 ### Scope
-- Two-pane layout: aggregated shortlist (E10) on the left, per-hero detail on the right.
-- Per-hero detail as expandable accordions, one per selected enemy, each retaining matchup
-  overview, lane tips, ability notes, and item reasoning.
+- **Two lenses over one result set, toggled: Items and Heroes.** Items is E10's matrix.
+  Heroes is the same derivation grouped the other way — one card per selected enemy, showing
+  its role and counter count, with items split into "core / strong" and "situational".
+- An "all threats combined" strip above the per-hero cards: the highest-impact items across
+  the whole lineup, so the aggregate view is never more than one glance away.
+- A per-hero tab strip, so focusing on a single enemy is one click rather than a scroll.
 - Nothing is lost by adding heroes — detail accumulates rather than being replaced.
 
 ### Acceptance criteria
 - Every piece of information available at 1 selected hero is still reachable at 6.
+- Switching lens preserves the selection and the scroll position of the shared result.
+- Both lenses read from the same \`deriveCounters\` output; neither recomputes or re-ranks.
+
+### Notes
+Two lenses rather than the two-pane layout originally sketched here. Panes split attention at
+six enemies; a toggle keeps one thing on screen at a time, which suits a tool glanced at
+mid-match.
 `,
   },
   {
@@ -829,6 +853,89 @@ credibility.
 
 ### Acceptance criteria
 - A broken wiki link fails the scheduled check.
+`,
+  },
+
+  // ------------------------------------------------ counter-plan layout (E33+)
+  {
+    id: 'E33',
+    title: 'Counter plan summary — the three items that matter',
+    epic: 'ux',
+    priority: 'p1',
+    depends: ['E10'],
+    body: `
+### Problem
+A ranked list of fifty items is complete but not decisive. Mid-match the question is not
+"what are all my options", it is "what do I buy". The shortlist needs a layer above it that
+answers that in one glance.
+
+### Scope
+- Three cards above the shortlist: the highest-impact items for this lineup.
+- Each badged **core** (answers a threat most of the lineup presents) or **flexible**
+  (answers fewer enemies but answers them hard), with its coverage count, category, one-line
+  purpose, and the portraits it covers.
+- Classification is derived from coverage and strength, not authored.
+
+### Acceptance criteria
+- Selecting a different lineup changes the three cards.
+- The badge rule is stated in one sentence in the code and testable.
+- Nothing appears here that is not also in the full shortlist — this is a lens, not a
+  separate recommendation.
+`,
+  },
+  {
+    id: 'E34',
+    title: 'Item detail panel with per-hero effectiveness',
+    epic: 'ux',
+    priority: 'p1',
+    depends: ['E10', 'E17'],
+    body: `
+### Problem
+"Knockdown counters 5 of 6" tells you to buy it. It does not tell you that it is a core
+answer to Grey Talon and merely situational into Dynamo — and that difference decides
+whether you buy it first or third.
+
+### Scope
+- Selecting an item opens a detail panel: icon, name, category, tier, cost, coverage.
+- A "works against" portrait row.
+- **Per-hero effectiveness** — one line per selected enemy, each with its own strength badge.
+  The line is derived by default, naming the specific ability and threat it answers
+  ("Answers Grey Talon's Charged Shot — gun DPS"). The overlay may carry an authored line for
+  a pair worth hand-writing, which is shown instead and marked as editorial.
+- Strength per pair is derived: item strength weighted by the severity of the tag that
+  matched for that enemy.
+
+### Acceptance criteria
+- Every selected enemy appears in the panel, including ones the item does not address.
+- A derived line names a real ability from the snapshot, so a rename cannot orphan it.
+- An authored line is visibly editorial, per the provenance rules in E07.
+
+### Notes
+The reference implementation hand-writes every pair. That reads better and does not survive
+a patch. Deriving by default and authoring by exception is the whole point of the overlay.
+`,
+  },
+  {
+    id: 'E35',
+    title: 'Item stat card on hover and focus',
+    epic: 'ux',
+    priority: 'p2',
+    depends: ['E13'],
+    body: `
+### Problem
+Deciding between two counters usually comes down to numbers — cooldown, duration, range. The
+snapshot has them; the UI currently throws them away.
+
+### Scope
+- A stat card on an item showing its mechanical description and labelled numeric properties.
+- Reachable by keyboard and on touch, not hover alone — see the provenance stamp in E07 for
+  the precedent.
+- Requires extending the snapshot projection to retain item properties, which E03
+  deliberately dropped. All 173 items carry at least one labelled numeric property.
+
+### Acceptance criteria
+- Values come from the snapshot and change with a patch.
+- The card is dismissible and never traps focus.
 `,
   },
 ]
