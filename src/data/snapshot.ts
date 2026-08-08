@@ -59,6 +59,18 @@ export const abilityByClassName = (className: string): Ability | undefined =>
 
 export const itemByClassName = (className: string): Item | undefined => itemsByClassName.get(className)
 
+/**
+ * The artwork to show for an item.
+ *
+ * `shop_image` first: it is the art players actually recognise from the shop,
+ * and it is the more consistently sized of the two. `image` is the fallback for
+ * the handful of items that lack a shop asset.
+ *
+ * Stated once here rather than repeated at each call site, so the preference
+ * cannot drift between the table, the plan cards and the detail panel.
+ */
+export const itemArtwork = (item: Item): string | null => item.shop_icon ?? item.icon
+
 /** A hero's four signature abilities, in slot order. */
 export const abilitiesForHero = (hero: Hero): Ability[] =>
   hero.abilities

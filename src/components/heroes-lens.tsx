@@ -19,6 +19,7 @@ import { STRENGTH_GLYPH, STRENGTH_LABEL } from './coverage-cell.tsx'
 import { GameImage } from './game-image.tsx'
 import type { PairStrength, RankedCounter } from '@/data/derive.ts'
 import type { Hero } from '@/data/schema.ts'
+import { itemArtwork } from '@/data/snapshot.ts'
 
 interface HeroesLensProps {
   counters: readonly RankedCounter[]
@@ -70,7 +71,7 @@ function ItemGrid({
             title={counter.why}
           >
             <GameImage
-              src={counter.item.icon ?? counter.item.shop_icon}
+              src={itemArtwork(counter.item)}
               fallback={counter.item.name}
               size={36}
               className="rounded-md"
