@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-32 enhancements across 5 epics — **4 done**, 0 in progress, 28 to go.
+32 enhancements across 5 epics — **5 done**, 0 in progress, 27 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -13,7 +13,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E02](#e02) | Design profile — visual identity and design system foundation | foundation | p0 | E01 |
 | [x] | [E03](#e03) | Deadlock assets API sync pipeline | foundation | p0 | E01 |
 | [x] | [E04](#e04) | Threat-tag overlay schema (abilities and items) | foundation | p0 | E03 |
-| [ ] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
+| [x] | [E05](#e05) | Counter derivation engine | foundation | p0 | E04 |
 | [ ] | [E06](#e06) | CI patch-diff detection and needs-review flagging | foundation | p0 | E03, E04 |
 | [ ] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
 | [ ] | [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
@@ -202,7 +202,7 @@ This is the only file a human edits per patch. Everything else derives from it.
 
 ### E05
 
-**Counter derivation engine** — `p0`
+**Counter derivation engine** — `p0` — **done**
 
 ### Problem
 Counters should be computed, not authored. Add a hero, and it should inherit sensible

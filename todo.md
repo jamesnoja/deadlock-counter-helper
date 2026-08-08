@@ -481,3 +481,72 @@ for it. Guarded by a test that stops the count growing.
 - [ ] Human curation pass — flip entries to `review: 'curated'`, starting with the heroes
       people actually look up.
 - [ ] Hero slug decision, still open from E03, still blocking E20/E21.
+
+## 2026-08-08 — E05: counter derivation engine
+
+### Intent
+
+Layer C. `deriveCounters(heroes, context) -> RankedCounter[]` — pure, deterministic, joining
+ability threat tags to item counter tags and ranking the result.
+
+### Plan
+
+- [ ] 1. Threat severity weights in `tags.ts` — the last editorial judgement the engine needs.
+- [ ] 2. `data/overlay/overrides.ts` — the editorial escape hatch, `reason` required.
+- [ ] 3. `src/data/derive.ts` — pure function, data injected rather than imported, so tests
+      run against fixtures and not the live snapshot.
+- [ ] 4. Tests: determinism, stable tie-breaks, coverage counting, override precedence, and
+      the acceptance criterion that a new tagged hero produces counters with no other change.
+- [x] 1. Threat severity weights in `tags.ts`.
+- [x] 2. `data/overlay/overrides.ts`, `reason` required by the type.
+- [x] 3. `src/data/derive.ts` pure engine + `src/data/counters.ts` bound to real data.
+- [x] 4. 21 unit tests on fixtures, 8 integration tests on the real snapshot.
+- [x] 5. Sanity-checked against a real comp.
+- [x] 6. Verify, PR.
+
+### Review
+
+121 tests green.
+
+**Scoring.** For each answered tag: `enemies presenting it × counter strength × tag severity`,
+summed across tags. Summing rather than taking the best single tag is deliberate — an item
+answering two different threats across a team really is more useful than one answering a
+single threat, and the shortlist should say so.
+
+**Determinism** is enforced by a three-key sort: score, then coverage size, then `class_name`.
+The last key guarantees a total order, so output cannot depend on the order items or heroes
+arrived in. Both are tested by reversing the inputs.
+
+**Two editorial judgements**, both isolated so the argument happens in one place:
+
+- `THREAT_SEVERITY` in `tags.ts` — how much each threat hurts unanswered, 1–3. This drives
+  ranking order more than anything else in the repo.
+- `STRENGTH_WEIGHT` — hard 3, soft 2, situational 1.
+
+**Overrides** carry a required `reason`. The file ships empty on purpose: the tags are still
+unconfirmed, so overriding them now would be correcting one guess with another. Exclusion
+beats a contradictory include — a contradictory pair is a curation mistake, and refusing to
+show a banned item is the safer failure.
+
+**Real output, six-hero comp** (Abrams, Bebop, Lady Geist, Haze, Infernus, Wraith):
+
+```
+63  Cursed Relic          5/6  hard         channeled_ult+hard_cc
+45  Counterspell          5/6  hard         burst_spirit+hard_cc
+42  Celestial Blessing    4/6  hard         dot_debuff+hard_cc
+36  Cloak of Opportunity  4/6  hard         hard_cc
+28  Debuff Reducer        4/6  soft         dot_debuff+hard_cc
+```
+
+Every hero in the snapshot returns at least one counter, asserted by test.
+
+**What the sanity check exposed about the data, not the engine.** Unstoppable ranks 7th at
+`situational`, because the scaffold defaulted its strength. It is one of the game's premier
+CC-immunity items and should almost certainly be `hard` for `hard_cc`. The engine ranked the
+data it was given correctly — this is a curation fix, and a good example of why every entry
+is still `review: "suggested"`.
+
+### Follow-ups
+
+- [ ] Curation pass, now with visible consequences: strength values directly move the ranking.
+- [ ] E10 truncates the shortlist; the engine returns all 58 matching items by design.
