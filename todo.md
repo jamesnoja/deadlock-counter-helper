@@ -127,3 +127,45 @@ Deviations from plan, all noted above: one fewer dependency than approved, cover
 thresholds deferred with a rationale comment, issues turned out to be already seeded.
 
 Not done, owner action: Vercel preview deploys.
+
+## 2026-08-08 — Housekeeping: Node pinning and dependency majors
+
+### Intent
+
+Align Node across local / CI / Vercel, then clear the five open Dependabot PRs before
+starting feature work. Cheap now; much more annoying to debug mid-E03.
+
+### Findings
+
+- `typescript@7.0.2` and `eslint@10.8.1` are both `latest`, not prereleases. TS 7 is the
+  native (Go) compiler rewrite, so peer ranges being satisfied proves nothing — test it.
+- `eslint-config-next@16.3.0` peers: `eslint >=9.0.0`, `typescript >=3.3.1`. Both majors
+  are permitted.
+- **Dependabot #37 is wrong for us.** `@types/node` majors track the Node *runtime*, and
+  26.x describes APIs Node 24 does not have. Typecheck would go green on code that throws
+  in production. We want `^24` while we run Node 24.
+
+### Plan
+
+One concern per branch. Riskiest last.
+
+- [x] 1. `chore/pin-node-24` — `engines.node`, `.nvmrc`, CI `node-version` 22 -> 24.
+      → **PR #39**, green. CI reads `.nvmrc` via `node-version-file` rather than repeating
+      the number.
+- [x] 2. Dependabot #34 / #35 — `actions/checkout` and `actions/setup-node` 5 -> 7.
+      Mechanical, CI green on both. *Awaiting merge — see note below.*
+- [x] 3. `chore/constrain-dependency-majors` — `@types/node` to `^24` plus Dependabot
+      `ignore` rules. → **PR #41**, green.
+- [x] 4. Dependabot #38 — `eslint` 9 -> 10. **Rejected.** Breaks lint outright.
+- [x] 5. Dependabot #36 — `typescript` 5 -> 7. **Rejected.** Typecheck and build pass;
+      lint dies.
+- [x] 6. Unplanned: `chore/lint-ignore-coverage-output` → **PR #40**. `npm run test:coverage`
+      left `coverage/` being linted; flat config does not read `.gitignore`.
+- [x] 7. Review section.
+
+**Blocked:** I cannot merge PRs — the action is denied by the harness permission
+classifier. All four PRs are green and waiting on the owner.
+
+### Review
+
+_Pending._
