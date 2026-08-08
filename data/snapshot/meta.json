@@ -1,0 +1,21 @@
+{
+  "sources": {
+    "heroes": "https://api.deadlock-api.com/v1/assets/heroes",
+    "items": "https://api.deadlock-api.com/v1/assets/items",
+    "patches": "https://api.deadlock-api.com/v1/patches",
+    "clientVersions": "https://api.deadlock-api.com/v1/assets/client-versions"
+  },
+  "patch": {
+    "title": "06-30-2026 Update",
+    "published_at": "2026-07-28T20:28:07Z",
+    "link": "https://forums.playdeadlock.com/threads/06-30-2026-update.146261/"
+  },
+  "client_version": 6670,
+  "counts": {
+    "heroes": 38,
+    "abilities": 152,
+    "items": 173
+  },
+  "content_hash": "268f463afca97ee2d607f0b9239a90a08f2ee82744396fd625bffb7c7299c34a",
+  "synced_at": "2026-08-08T04:21:41.166Z"
+}
