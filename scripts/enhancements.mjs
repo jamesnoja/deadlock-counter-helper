@@ -228,6 +228,7 @@ This is the only file a human edits per patch. Everything else derives from it.
     title: 'Counter derivation engine',
     epic: 'foundation',
     priority: 'p0',
+    status: 'done',
     depends: ['E04'],
     body: `
 ### Problem
