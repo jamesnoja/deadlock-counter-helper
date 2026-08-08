@@ -137,18 +137,18 @@ describe('coverage', () => {
   const coverage = overlayCoverage()
 
   it('keeps ability tagging at or above its current level', () => {
-    expect(coverage.abilities.tagged).toBeGreaterThanOrEqual(101)
+    expect(coverage.abilities.tagged).toBeGreaterThanOrEqual(143)
   })
 
   it('keeps item tagging at or above its current level', () => {
-    expect(coverage.items.tagged).toBeGreaterThanOrEqual(49)
+    expect(coverage.items.tagged).toBeGreaterThanOrEqual(58)
   })
 
-  it('does not let more heroes fall out of the engine', () => {
+  it('leaves no hero invisible to the engine', () => {
     // A hero with no tagged ability is invisible to E05 — picking it would
-    // return nothing. Currently one (hero_mirage, whose ability text the rules
-    // could not read). This must not grow.
-    expect(coverage.heroesWithNoThreats.length).toBeLessThanOrEqual(1)
+    // return nothing. Now zero, after the drafting pass covered hero_mirage.
+    // Held at zero: a new hero must be tagged before it ships.
+    expect(coverage.heroesWithNoThreats).toEqual([])
   })
 
   it('reports how much is still machine-suggested rather than confirmed', () => {
