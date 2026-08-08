@@ -59,6 +59,7 @@ export interface CurationEntry {
   /** Items only. */
   strength?: string
   why?: string
+  cost?: number
 }
 
 const bucketFor = (
@@ -100,8 +101,52 @@ export function itemCurationQueue(): CurationEntry[] {
       tags: entry?.answers ?? [],
       strength: entry?.strength,
       why: entry?.why,
+      cost: item.cost,
     }
   }).sort((a, b) => a.name.localeCompare(b.name))
+}
+
+/**
+ * How many heroes present each threat tag.
+ *
+ * Curation reach: an item answering a tag no hero presents can be curated
+ * perfectly and change nothing. Ordering the worklist by this puts the work
+ * that moves rankings first.
+ */
+export function heroesPresentingTag(): Map<ThreatTag, number> {
+  const counts = new Map<ThreatTag, number>()
+  for (const hero of HEROES) {
+    for (const tag of threatsForHero(hero)) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1)
+    }
+  }
+  return counts
+}
+
+/**
+ * Tagged items nobody has judged the strength of.
+ *
+ * Strength is the largest single lever on ranking quality and `situational` is
+ * both the scaffold's default and the weakest multiplier, so an unreviewed
+ * item is live in the rankings at the lowest weight it can have. That is worse
+ * than being untagged, which is why this leads the worklist.
+ *
+ * Filtered on `bucket`, not on strength. The default value cannot distinguish
+ * "decided: weak" from "nobody looked", but curating anything sets
+ * `review: "curated"` whatever strength is chosen — so an item deliberately
+ * judged situational leaves this list, and the list drains.
+ */
+export function strengthWorklist(): CurationEntry[] {
+  const reach = heroesPresentingTag()
+  const reachOf = (entry: CurationEntry) =>
+    Math.max(0, ...entry.tags.map((tag) => reach.get(tag) ?? 0))
+
+  return itemCurationQueue()
+    .filter(
+      (entry) =>
+        entry.bucket === 'suggested' && entry.tags.length > 0 && entry.strength === 'situational',
+    )
+    .sort((a, b) => reachOf(b) - reachOf(a) || (a.cost ?? 0) - (b.cost ?? 0))
 }
 
 /**

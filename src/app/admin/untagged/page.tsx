@@ -4,6 +4,7 @@ import {
   itemCurationQueue,
   overlayCoverage,
   nonRankedItems,
+  strengthWorklist,
   type CurationEntry,
 } from '@/data/overlay.ts'
 import { RANKED_MAX_COST } from '@/data/schema.ts'
@@ -49,6 +50,8 @@ export default function UntaggedAdmin() {
   const itemQueue = allItems.filter(needsWork)
   const abilities = abilityQueue.slice(0, PAGE_SIZE)
   const items = itemQueue.slice(0, PAGE_SIZE)
+  const strengthQueue = strengthWorklist()
+  const strengths = strengthQueue.slice(0, PAGE_SIZE)
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col gap-xl p-xl">
@@ -64,6 +67,29 @@ export default function UntaggedAdmin() {
         <Stat label="Abilities tagged" value={coverage.abilities.tagged} of={coverage.abilities.total} />
         <Stat label="Items tagged" value={coverage.items.tagged} of={coverage.items.total} />
         <Stat label="Blocked, no upstream text" value={blocked} of={abilities.length + items.length} />
+        <Stat
+          label="Tagged, strength unjudged"
+          value={strengthQueue.length}
+          of={allItems.filter((entry) => entry.tags.length > 0).length}
+        />
+      </section>
+
+      <section className="flex flex-col gap-md">
+        <h2 className="text-display">Strength unjudged — start here</h2>
+        <p className="text-caption text-text-muted">
+          These already answer something, so they are <em>live in the rankings right now</em> at{' '}
+          <code>situational</code> — the weakest multiplier the engine has. An item nobody has
+          judged is doing more harm than an untagged one, which at least says nothing. Ordered by
+          how many heroes present a tag it answers: curating the top of this list moves rankings,
+          curating the bottom moves almost nothing.
+        </p>
+        <p className="text-caption text-text-muted">
+          Showing {strengths.length} of {strengthQueue.length}. Changing the strength marks the
+          entry curated and removes it from this list; if <code>situational</code> is already the
+          right call, <strong>Confirm as-is</strong> says so — agreeing with the default is a
+          decision too, and one the list cannot otherwise hear.
+        </p>
+        <CurationList entries={strengths} kind="item" confirmable />
       </section>
 
       <section className="rounded-card bg-surface p-card">

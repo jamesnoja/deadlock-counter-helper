@@ -964,7 +964,7 @@ Cleared the small stuff so the curation branch starts from a clean tree.
       unreachable by keyboard and absent on touch. The capability is there, the trigger is
       not the one specified. Recorded rather than closed silently as done.
 - [x] Merged #69 (actions/checkout 5→7). `ci.yml` was already on v7; only `sync.yml` lagged.
-- [ ] #68 (actions/setup-node 5→7) — blocked, see below.
+- [x] #68 (actions/setup-node 5→7) — merged after dependabot rebased itself; see below.
 - [x] Removed `33` and `Echo Shard`, two empty files that entered in #49.
 - [x] Committed the three lines npm writes into the lockfile for `engines.node`.
 
@@ -981,4 +981,125 @@ rebase itself; it needs a manual merge once that lands. Fix for next time is
 `flutter test`, goldens, `build_runner`, and "state management is Riverpod-only". None of it
 applies. The real gate is `npm run verify`. Left alone because it is a separate concern from
 this branch, but any agent reading it will be told to run commands that do not exist here.
+## 2026-08-09 — Strength worklist: make the 37 default-strength items reachable
 
+**Intent.** The curation page can already set strength; it just never shows the items that
+need it. Add the missing section so the biggest lever on ranking quality is clickable.
+
+### The problem
+
+`/admin/untagged` filters to `blocked` and `untagged` (`page.tsx:28`). The items that matter
+now are `suggested` **with** tags — they have an answer but nobody has judged how strongly it
+answers. They are the one bucket the worklist cannot reach, and `CurationList` already has
+the strength dropdown, the why field and the paste-ready output. This is a filter, not a
+feature.
+
+**37 items, not 51.** The previous entry said 51. That is 54 ranked+tagged minus the 3
+curated — *not curated*, which is a different thing from *still situational*. 17 already
+carry soft or hard. Corrected here so the next person does not plan against a number that is
+40% too big.
+
+### Reach, and why the list is ordered by it
+
+Setting strength on an item answering a tag no hero presents changes nothing. Counting heroes
+per tag:
+
+| Tag | Heroes | Tag | Heroes |
+| --- | --- | --- | --- |
+| `hard_cc` | 27 | `burst_spirit` | 10 |
+| `sustain` | 24 | `airborne` | 10 |
+| `channeled_ult` | 16 | `summon_pressure` | 6 |
+| `displacement` | 15 | `high_dps_gun` | 4 |
+| `dot_debuff` | 14 | `stealth` | 4 |
+| `zone_denial` | 12 | | |
+| `melee_pressure` | 11 | | |
+
+14 of the 37 answer only `high_dps_gun` or `stealth` — a third of the list for a twentieth of
+the value. Ordering by reach puts the 14 items covering `hard_cc`, `sustain` and
+`channeled_ult` first, so a short session still moves the rankings.
+
+### Plan
+
+- [x] Add `heroesPresentingTag()` to `src/data/overlay.ts` — heroes per threat tag, built on
+      the existing `threatsForHero`. Pure, no new data.
+- [x] Add `strengthWorklist()` beside `itemCurationQueue()`: ranked items, `bucket ===
+      'suggested'`, at least one tag, `strength === 'situational'`, sorted by reach then cost.
+- [x] New section on `/admin/untagged` rendering it through the existing `CurationList`.
+      No change to that component.
+- [x] A stat card for the count, so the number is on screen rather than in a log entry.
+- [x] Tests in `src/data/overlay.test.ts` for both functions, including that a curated
+      entry leaves the list.
+- [x] `npm run verify`, then load the page and confirm the items actually render.
+
+### The list drains correctly — worth stating
+
+`situational` is both "decided: weak" and "nobody looked". The scaffold writes it as the
+default, so the value alone cannot tell them apart. Filtering on `bucket === 'suggested'`
+rather than on strength is what makes this work: curating anything sets `review: 'curated'`,
+which moves it out of the bucket whatever strength is chosen. An item deliberately judged
+situational leaves the list. No schema change needed.
+
+### Some of these need a tag fix, not a strength
+
+Flagging before curation starts, because rating these `situational` would bury a wrong answer
+rather than remove it:
+
+- **Healing Rite** — tagged `hard_cc`, justified by "Grant Regen and Sprint Speed".
+- **Blood Tribute** — tagged `hard_cc` off "Debuff Resistance" in a fire-rate toggle.
+- **Crushing Fists** — tagged `hard_cc` + `high_dps_gun` + `melee_pressure`, all three.
+
+`CurationList` already toggles tags, so the same pass can clear them. Not touching them here.
+
+### Out of scope
+
+Knockdown's `airborne` tag, still parked from #67. `CLAUDE.md` being Flutter/Riverpod
+boilerplate on a Next.js project — real, but a separate branch.
+
+
+### Review — strength worklist
+
+Shipped. `/admin/untagged` now leads with the 37 tagged items nobody has judged the strength
+of, ordered by reach. 226 tests, verify clean, page confirmed rendering `Showing 37 of 37`
+with the new section first and Healing Rite at the top.
+
+**A bug in my own plan, caught before it shipped.** The plan claimed picking any strength —
+including `situational` — would mark an entry curated and drain it from the list. That was
+false. `CurationList` only emits entries the user *changed*, and selecting `situational` on
+an entry already set to `situational` fires no change event. Agreeing with the default was
+unexpressible, so every item judged genuinely situational would have reappeared forever —
+the exact failure the bucket filter was designed to avoid.
+
+Fixed with a **Confirm as-is** button, shown only where the value under review is already the
+one you might pick, and withdrawn the moment an entry is dirty by any other route. The plan
+said "no change to `CurationList`"; that was wrong and the component changed.
+
+**Three deviations from the approved plan**, all small, none silent:
+
+| Planned | Done | Why |
+| --- | --- | --- |
+| Sort by reach then cost | Added `cost?` to `CurationEntry` | The type did not carry cost. Sorting by name instead would have quietly not been the plan. |
+| No change to `CurationList` | Added a `confirmable` prop | The list could not otherwise drain. |
+| Tests in `overlay.test.ts` | Also a new component test file | The confirm path is client-side; a data test cannot reach it. |
+
+**First component test in the repo.** `@testing-library/react` and jsdom were installed and
+unused. Chrome is not on this machine so Playwright could not drive the page, and asserting
+on rendered HTML would not have exercised the click — the interaction is the part worth
+proving, so it is tested directly, including that the clipboard payload carries
+`review: "curated"` with tags and strength intact.
+
+Two things it surfaced: the config does not set `globals`, so testing-library's automatic
+cleanup never registers and renders leak between tests (explicit `cleanup()` in this file
+rather than changing the suite for one file); and `@testing-library/user-event` is not
+installed, so this uses `fireEvent` rather than adding a dependency without asking.
+
+### Follow-ups
+
+- [ ] Curate the 37. Top 14 cover `hard_cc` (27 heroes), `sustain` (24) and `channeled_ult`
+      (16); the last 14 answer `high_dps_gun` or `stealth`, which 4 heroes each present.
+- [ ] Healing Rite, Blood Tribute and Crushing Fists need their **tags** corrected, not their
+      strength. Doing the strength pass first would bury three wrong answers rather than
+      remove them.
+- [ ] Knockdown's `airborne` tag, still parked from #67.
+- [ ] `CLAUDE.md` is Flutter/Riverpod boilerplate on a Next.js project — it mandates
+      `dart analyze`, `flutter test` and Riverpod-only state. The real gate is
+      `npm run verify`. Separate branch.
