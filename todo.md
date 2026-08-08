@@ -782,3 +782,63 @@ per-hero line names abilities straight from the engine's `perHero` attribution, 
 already provides. E17 adds ability icons and live numbers *on top of* this panel. Fixed the
 spec rather than leaving a dependency that would have blocked the invariant test for no
 reason.
+
+## 2026-08-08 — Remaining UX epic (E13–E19, E35)
+
+Eight left. Grouped into four PRs by what they share, rather than one per issue.
+
+1. **E13 + E35** — item metadata and the stat card. Both about what a single item tells you.
+2. **E14 + E15** — soul budget and slot economy. Both about affordability and build shape.
+3. **E16 + E17** — game phase and ability granularity. Both need an overlay dimension added.
+4. **E18 + E19** — your-hero context and chat export.
+
+### Data findings before starting
+
+- **E15's spec assumed a "per-category slot count".** Upstream actually models
+  `item_slot_info: { weapon: { max_purchases_for_tier: [6,6,6] }, ... }` — a cap on purchases
+  per tier per category, not a flat slot count. Building against the real shape.
+- **E16 needs a phase dimension the overlay does not have.** Adding `phases` to item entries
+  with a tier-derived default, marked suggested, so curation refines rather than authors.
+- **E18 cannot be built in full.** Its redundancy warnings ("your ult already grants CC
+  immunity") need to know what an ability *provides*; the overlay only records what an
+  ability *threatens*. Role-weighted re-ranking is derivable and will ship; redundancy
+  detection needs a new overlay dimension and will be split into a follow-up rather than
+  faked.
+
+### Review — remaining UX epic
+
+All fifteen UX enhancements done. 200 tests.
+
+**Architecture that made this cheap.** The engine ranks once against the lineup; the context
+filters then narrow or re-weight that single result. Phase, budget and role cannot see each
+other and none can change what the engine believes — which is why the three lenses never
+disagree about what matters.
+
+**E13/E35.** Category is a glyph *and* a label everywhere, via one `ItemMeta` component
+rather than the same markup in four places. Stats are a `<details>` disclosure per row, not
+a hover tooltip — hover is unreachable by keyboard and absent on touch.
+
+**E14.** Splits rather than filters: hiding the next tier entirely would answer "what can I
+buy" while destroying "what am I saving for".
+
+**E15.** The spec assumed a flat per-category slot count. Upstream models
+`max_purchases_for_tier` per category — currently 6 — so it is built against the real shape,
+and the opportunity cost of the last pick is stated rather than implied.
+
+**E16.** Phase lives in the overlay, defaulting from tier, so curation refines rather than
+authors and switching phase re-ranks rather than changing prose.
+
+**E17.** Per-ability breakdown with live numbers, shown when focused on one hero. An item
+appears against an ability only if a tag it answers is one *that ability* presents.
+
+**E18 — partial, and split rather than faked.** Role weighting shipped. Redundancy warnings
+did not: they need the overlay to record what an ability *provides*, and it only records what
+it *threatens*. New **E36** carries that properly instead of inventing a schema inside a UI
+issue. The UI says so on screen rather than implying the feature is complete.
+
+**E19.** Truncates on whole items — a message cut mid-name is worse than a shorter complete
+one — and shows the text before you paste it into team chat.
+
+**A bug the tests caught.** With no role affinity, re-sorting still reshuffled equal-scoring
+items alphabetically, so picking a hero with an unknown role looked like it had done
+something. No opinion now means no reorder.

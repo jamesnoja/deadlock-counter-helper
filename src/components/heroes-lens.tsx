@@ -16,10 +16,11 @@
 
 import { useMemo, useState } from 'react'
 import { STRENGTH_GLYPH, STRENGTH_LABEL } from './coverage-cell.tsx'
+import { AbilityBreakdown } from './ability-breakdown.tsx'
 import { GameImage } from './game-image.tsx'
 import type { PairStrength, RankedCounter } from '@/data/derive.ts'
 import type { Hero } from '@/data/schema.ts'
-import { itemArtwork } from '@/data/snapshot.ts'
+import { abilitiesForHero, itemArtwork } from '@/data/snapshot.ts'
 
 interface HeroesLensProps {
   counters: readonly RankedCounter[]
@@ -27,6 +28,7 @@ interface HeroesLensProps {
   /** Which hero to focus, or null for the combined view. */
   focus: string | null
   onFocus: (className: string | null) => void
+  onSelectItem?: (className: string) => void
 }
 
 interface HeroCounters {
@@ -93,7 +95,7 @@ function ItemGrid({
   )
 }
 
-export function HeroesLens({ counters, team, focus, onFocus }: HeroesLensProps) {
+export function HeroesLens({ counters, team, focus, onFocus, onSelectItem }: HeroesLensProps) {
   const [showAll, setShowAll] = useState(false)
 
   /** Highest-impact items across the lineup — the aggregate is never a click away. */
@@ -196,6 +198,17 @@ export function HeroesLens({ counters, team, focus, onFocus }: HeroesLensProps) 
                     heroClassName={hero.class_name}
                   />
                 </div>
+
+                {/* E17: per-ability detail, shown when focused on one hero so
+                    the combined view stays scannable. */}
+                {focus === hero.class_name ? (
+                  <AbilityBreakdown
+                    hero={hero}
+                    abilities={abilitiesForHero(hero)}
+                    counters={counters}
+                    onSelectItem={onSelectItem}
+                  />
+                ) : null}
               </div>
             </section>
           )

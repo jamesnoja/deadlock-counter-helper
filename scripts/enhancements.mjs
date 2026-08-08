@@ -453,6 +453,7 @@ sight, not by name.
     title: 'Show item cost, tier, and slot category',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E03', 'E02'],
     body: `
 ### Problem
@@ -473,6 +474,7 @@ slot free" is not actionable mid-match.
     title: 'Soul budget filter',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E13'],
     body: `
 ### Problem
@@ -491,6 +493,7 @@ Mid-match, the only question that matters is "what can I buy *right now*".
     title: 'Slot economy view — present counters as a build, not a wishlist',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E13'],
     body: `
 ### Problem
@@ -511,6 +514,7 @@ hides the actual decision, which is a tradeoff.
     title: 'Game-phase tabs (lane / mid / late)',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E05'],
     body: `
 ### Problem
@@ -531,6 +535,7 @@ problems.
     title: 'Ability-level counter granularity',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E05', 'E12'],
     body: `
 ### Problem
@@ -552,6 +557,7 @@ immunity during her ult". It never attaches a counter to a named ability as data
     title: '"Your hero" context filter',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E05'],
     body: `
 ### Problem
@@ -573,6 +579,7 @@ and much weaker on Grey Talon. The original has no concept of who *you* are play
     title: 'Copy-to-clipboard team chat export',
     epic: 'ux',
     priority: 'p1',
+    status: 'done',
     depends: ['E10'],
     body: `
 ### Problem
@@ -860,6 +867,38 @@ credibility.
 - A broken wiki link fails the scheduled check.
 `,
   },
+  {
+    id: 'E36',
+    title: 'Ability "provides" tags, for redundancy warnings',
+    epic: 'advanced',
+    priority: 'p2',
+    depends: ['E04', 'E18'],
+    body: `
+### Problem
+E18 shipped role-weighted ranking but not the half that matters most: telling you an item is
+pointless *because your own kit already does it*. "Your ult already grants CC immunity, so
+skip Unstoppable" is the advice that saves 6,400 souls.
+
+### Why it was not built with E18
+The overlay records what an ability **threatens**. It has no notion of what an ability
+**provides**. Redundancy needs the second dimension, and inventing it inside E18 would have
+been a schema change smuggled into a UI issue.
+
+### Scope
+- A \`provides\` tag vocabulary — \`cc_immunity\`, \`bullet_immunity\`, \`cleanse\`,
+  \`sustain\`, \`unstoppable\`, and so on. Deliberately separate from the threat vocabulary:
+  the same word means different things applied to an enemy and to yourself.
+- \`ability-provides.ts\` alongside the existing overlay files, same scaffold treatment.
+- Items whose answers duplicate what your hero already provides are demoted and labelled,
+  not hidden — a redundant item is sometimes still worth stacking, and the user should get
+  to decide.
+
+### Acceptance criteria
+- Selecting a hero whose kit provides CC immunity visibly demotes CC-immunity items.
+- The warning names the ability responsible, so it can be checked.
+- Nothing is hidden purely for being redundant.
+`,
+  },
 
   // ------------------------------------------------ counter-plan layout (E33+)
   {
@@ -931,6 +970,7 @@ a patch. Deriving by default and authoring by exception is the whole point of th
     title: 'Item stat card on hover and focus',
     epic: 'ux',
     priority: 'p2',
+    status: 'done',
     depends: ['E13'],
     body: `
 ### Problem

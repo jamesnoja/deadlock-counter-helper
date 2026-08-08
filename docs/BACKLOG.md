@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-35 enhancements across 5 epics — **14 done**, 0 in progress, 21 to go.
+36 enhancements across 5 epics — **22 done**, 0 in progress, 14 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -21,13 +21,13 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
 | [x] | [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
 | [x] | [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
-| [ ] | [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
-| [ ] | [E14](#e14) | Soul budget filter | ux | p1 | E13 |
-| [ ] | [E15](#e15) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E13 |
-| [ ] | [E16](#e16) | Game-phase tabs (lane / mid / late) | ux | p1 | E05 |
-| [ ] | [E17](#e17) | Ability-level counter granularity | ux | p1 | E05, E12 |
-| [ ] | [E18](#e18) | "Your hero" context filter | ux | p1 | E05 |
-| [ ] | [E19](#e19) | Copy-to-clipboard team chat export | ux | p1 | E10 |
+| [x] | [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
+| [x] | [E14](#e14) | Soul budget filter | ux | p1 | E13 |
+| [x] | [E15](#e15) | Slot economy view — present counters as a build, not a wishlist | ux | p1 | E13 |
+| [x] | [E16](#e16) | Game-phase tabs (lane / mid / late) | ux | p1 | E05 |
+| [x] | [E17](#e17) | Ability-level counter granularity | ux | p1 | E05, E12 |
+| [x] | [E18](#e18) | "Your hero" context filter | ux | p1 | E05 |
+| [x] | [E19](#e19) | Copy-to-clipboard team chat export | ux | p1 | E10 |
 | [ ] | [E20](#e20) | URL state and deep links | distribution | p0 | E09 |
 | [ ] | [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
 | [ ] | [E22](#e22) | OG image generation for shared comps | distribution | p1 | E20, E12 |
@@ -41,9 +41,10 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [ ] | [E30](#e30) | Threat explanations — teach the mechanic, not the shopping list | advanced | p2 | E17 |
 | [ ] | [E31](#e31) | Community feedback loop on recommendations | advanced | p2 | E10 |
 | [ ] | [E32](#e32) | Deep links to the Deadlock wiki | advanced | p2 | E17 |
+| [ ] | [E36](#e36) | Ability "provides" tags, for redundancy warnings | advanced | p2 | E04, E18 |
 | [x] | [E33](#e33) | Counter plan summary — the three items that matter | ux | p1 | E10 |
 | [x] | [E34](#e34) | Item detail panel with per-hero effectiveness | ux | p1 | E10 |
-| [ ] | [E35](#e35) | Item stat card on hover and focus | ux | p2 | E13 |
+| [x] | [E35](#e35) | Item stat card on hover and focus | ux | p2 | E13 |
 
 ## Foundation — data pipeline and patch resilience
 
@@ -407,7 +408,7 @@ sight, not by name.
 
 ### E13
 
-**Show item cost, tier, and slot category** — `p0`
+**Show item cost, tier, and slot category** — `p0` — **done**
 
 ### Problem
 The original shows none of these. Counter advice without "can I afford this, and do I have a
@@ -425,7 +426,7 @@ slot free" is not actionable mid-match.
 
 ### E14
 
-**Soul budget filter** — `p1`
+**Soul budget filter** — `p1` — **done**
 
 ### Problem
 Mid-match, the only question that matters is "what can I buy *right now*".
@@ -441,7 +442,7 @@ Mid-match, the only question that matters is "what can I buy *right now*".
 
 ### E15
 
-**Slot economy view — present counters as a build, not a wishlist** — `p1`
+**Slot economy view — present counters as a build, not a wishlist** — `p1` — **done**
 
 ### Problem
 You have a limited number of slots per category. A flat list of twelve recommended items
@@ -459,7 +460,7 @@ hides the actual decision, which is a tradeoff.
 
 ### E16
 
-**Game-phase tabs (lane / mid / late)** — `p1`
+**Game-phase tabs (lane / mid / late)** — `p1` — **done**
 
 ### Problem
 The original half-acknowledges this with a "How to counter during lane phase" prose block,
@@ -477,7 +478,7 @@ problems.
 
 ### E17
 
-**Ability-level counter granularity** — `p1`
+**Ability-level counter granularity** — `p1` — **done**
 
 ### Problem
 The original says "counter Haze" and buries the specifics in prose — "Metal Skin for bullet
@@ -496,7 +497,7 @@ immunity during her ult". It never attaches a counter to a named ability as data
 
 ### E18
 
-**"Your hero" context filter** — `p1`
+**"Your hero" context filter** — `p1` — **done**
 
 ### Problem
 Counters are asymmetric. Metal Skin is excellent on a frontliner standing in a carry's face
@@ -515,7 +516,7 @@ and much weaker on Grey Talon. The original has no concept of who *you* are play
 
 ### E19
 
-**Copy-to-clipboard team chat export** — `p1`
+**Copy-to-clipboard team chat export** — `p1` — **done**
 
 ### Problem
 The real in-game workflow is telling four teammates what to buy, in chat, in about eight
@@ -586,7 +587,7 @@ a patch. Deriving by default and authoring by exception is the whole point of th
 
 ### E35
 
-**Item stat card on hover and focus** — `p2`
+**Item stat card on hover and focus** — `p2` — **done**
 
 ### Problem
 Deciding between two counters usually comes down to numbers — cooldown, duration, range. The
@@ -854,4 +855,34 @@ credibility.
 - A broken wiki link fails the scheduled check.
 
 **Depends on:** E17
+
+### E36
+
+**Ability "provides" tags, for redundancy warnings** — `p2`
+
+### Problem
+E18 shipped role-weighted ranking but not the half that matters most: telling you an item is
+pointless *because your own kit already does it*. "Your ult already grants CC immunity, so
+skip Unstoppable" is the advice that saves 6,400 souls.
+
+### Why it was not built with E18
+The overlay records what an ability **threatens**. It has no notion of what an ability
+**provides**. Redundancy needs the second dimension, and inventing it inside E18 would have
+been a schema change smuggled into a UI issue.
+
+### Scope
+- A `provides` tag vocabulary — `cc_immunity`, `bullet_immunity`, `cleanse`,
+  `sustain`, `unstoppable`, and so on. Deliberately separate from the threat vocabulary:
+  the same word means different things applied to an enemy and to yourself.
+- `ability-provides.ts` alongside the existing overlay files, same scaffold treatment.
+- Items whose answers duplicate what your hero already provides are demoted and labelled,
+  not hidden — a redundant item is sometimes still worth stacking, and the user should get
+  to decide.
+
+### Acceptance criteria
+- Selecting a hero whose kit provides CC immunity visibly demotes CC-immunity items.
+- The warning names the ability responsible, so it can be checked.
+- Nothing is hidden purely for being redundant.
+
+**Depends on:** E04, E18
 
