@@ -44,6 +44,82 @@ export const THREAT_TAG_LABELS: Record<ThreatTag, string> = {
 }
 
 /**
+ * What each tag means at the table, in game terms.
+ *
+ * Curation is only as consistent as the vocabulary is shared. These live beside
+ * the tags rather than in a doc nobody opens, and the curation page renders
+ * them — a curator reading `zone_denial` should not have to guess whether a
+ * slow field counts.
+ *
+ * Each says what the tag covers and what it does not, because the boundary is
+ * where curation actually goes wrong: `hard_cc` collecting slows, or
+ * `melee_pressure` collecting every ability that happens to be short-ranged.
+ */
+export const THREAT_TAG_MEANINGS: Record<ThreatTag, { covers: string; excludes: string }> = {
+  hard_cc: {
+    covers:
+      'Stuns, silences, sleeps, roots and immobilises — anything that takes control of your character away entirely for a duration.',
+    excludes:
+      'Slows. A slow reduces your options; hard CC removes them. Move-speed answers belong nowhere near this tag.',
+  },
+  channeled_ult: {
+    covers:
+      'Ultimates that must be channelled to work, so interrupting one wastes the whole cooldown. The highest-value interrupt targets in the game.',
+    excludes: 'Instant-cast ultimates, which nothing can interrupt after the fact.',
+  },
+  sustain: {
+    covers:
+      'Self-healing, lifesteal and regeneration that lets a hero win a fight of attrition or refuse to leave lane.',
+    excludes: 'Shields and barriers, which absorb a burst rather than out-heal sustained damage.',
+  },
+  burst_spirit: {
+    covers:
+      'Spirit damage delivered in one window large enough to kill from a healthy bar. The reason spirit resist gets bought.',
+    excludes: 'Spirit damage spread thin over time — that is `dot_debuff`.',
+  },
+  high_dps_gun: {
+    covers:
+      'Heroes whose damage comes primarily from sustained weapon fire rather than abilities. Bullet resist is the answer.',
+    excludes: 'Burst weapon damage from a single ability proc.',
+  },
+  airborne: {
+    covers:
+      'Threats that launch you, or that punish you specifically while you are off the ground and cannot change direction.',
+    excludes: 'Ground-level knockbacks — those are `displacement`.',
+  },
+  dot_debuff: {
+    covers:
+      'Damage over time, bleeds, poisons and lingering debuffs, including healing reduction that persists after the hit.',
+    excludes: 'One-shot burst of any damage type.',
+  },
+  displacement: {
+    covers:
+      'Being pulled, pushed, knocked back or otherwise moved against your will — out of position rather than out of control.',
+    excludes:
+      'Being held in place. Immobilise is `hard_cc`; displacement is about being moved somewhere worse.',
+  },
+  stealth: {
+    covers:
+      'Invisibility and unseen approaches, where the problem is information rather than damage.',
+    excludes: 'Fast flanks you can still see coming.',
+  },
+  zone_denial: {
+    covers:
+      'Persistent areas you cannot stand in — fields, walls and traps that take space away rather than damaging you directly.',
+    excludes: 'Instantaneous area damage, which is burst that happens to hit several people.',
+  },
+  summon_pressure: {
+    covers: 'Pets, turrets and summoned units that apply damage or map pressure independently.',
+    excludes: 'Temporary clones or illusions used to reposition.',
+  },
+  melee_pressure: {
+    covers:
+      'Heroes that must close to melee range to threaten you, where the counter is keeping them off you.',
+    excludes: 'Short-range abilities on heroes that are otherwise happy at range.',
+  },
+}
+
+/**
  * When an item is worth buying — E16.
  *
  * Expressed in the overlay rather than hardcoded in the UI, so switching phase
@@ -77,6 +153,21 @@ export const STRENGTH_WEIGHT: Record<CounterStrength, number> = {
   hard: 3,
   soft: 2,
   situational: 1,
+}
+
+/**
+ * The test to apply when judging strength, phrased as a question.
+ *
+ * Strength is the largest lever on ranking order, so the difference between
+ * these three has to mean the same thing to everyone who curates. Stated as
+ * "does buying this change the outcome" rather than "is this good", because
+ * good-in-general is what produced a whole overlay sitting at the default.
+ */
+export const STRENGTH_MEANINGS: Record<CounterStrength, string> = {
+  hard: 'Buying this neutralises the threat. The enemy has to change how they play, or the ability stops mattering — a cleanse against hard CC, an interrupt against a channelled ult.',
+  soft: 'Buying this meaningfully reduces the threat without removing it. You still lose the exchange, but you survive it — resist against burst, healing reduction against sustain.',
+  situational:
+    'Buying this helps in some matchups or some phases, but is not the reason you win the fight. The honest default when an item only glances at the threat.',
 }
 
 /**

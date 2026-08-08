@@ -1103,3 +1103,39 @@ installed, so this uses `fireEvent` rather than adding a dependency without aski
 - [ ] `CLAUDE.md` is Flutter/Riverpod boilerplate on a Next.js project — it mandates
       `dart analyze`, `flutter test` and Riverpod-only state. The real gate is
       `npm run verify`. Separate branch.
+
+## 2026-08-09 — Curation guidance: tag glossary and paste instructions
+
+Owner is about to curate 37 items and asked for three things: the link, an explanation of what
+each tag means in game, and where to put the output.
+
+### What changed
+
+- **`THREAT_TAG_MEANINGS`** in `tags.ts` — each tag gets a `covers` and an `excludes`. The
+  exclusion is the important half. Every mis-tag currently in the overlay is a boundary
+  error, not a comprehension one: `hard_cc` collecting slows is how Healing Rite and Blood
+  Tribute ended up answering crowd control they do nothing about.
+- **`STRENGTH_MEANINGS`** — hard/soft/situational as a question about outcome, not quality.
+  "Is this item good" is what produced an overlay sitting entirely at the default; "does
+  buying this change the fight" is answerable.
+- **`Glossary`** — collapsed by default, sorted by how many heroes present each tag, showing
+  severity and reach so the ordering of the worklist is explicable rather than arbitrary.
+- **`PasteInstructions`** — the four steps after the copy button, including the one that was
+  only implied: search for the `class_name` and **replace that line**, do not append. The file
+  is one line per item and a duplicate key silently wins, which would look like the edit
+  worked while doing something else.
+- Three tests that a tag cannot enter `THREAT_TAGS` without a meaning, label and severity. A
+  missing meaning would render a blank entry and invite guessing.
+
+Placed above the worklist, both collapsed. Someone who has curated before should not have to
+scroll past the manual to reach the work.
+
+### Verification
+
+229 tests, verify clean. Page loaded: glossary renders with counts ordered 27, 24, 16, 15;
+instructions present; worklist still leads with the 37.
+
+### Follow-ups
+
+- [ ] The three tag corrections are still pending — this branch explains the vocabulary, it
+      does not apply it.

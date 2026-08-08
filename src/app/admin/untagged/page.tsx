@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import {
   abilityCurationQueue,
+  heroesPresentingTag,
   itemCurationQueue,
   overlayCoverage,
   nonRankedItems,
@@ -9,6 +10,8 @@ import {
 } from '@/data/overlay.ts'
 import { RANKED_MAX_COST } from '@/data/schema.ts'
 import { CurationList } from './curation-list.tsx'
+import { Glossary } from './glossary.tsx'
+import { PasteInstructions } from './paste-instructions.tsx'
 
 export const metadata: Metadata = {
   title: 'Curation worklist',
@@ -73,6 +76,9 @@ export default function UntaggedAdmin() {
           of={allItems.filter((entry) => entry.tags.length > 0).length}
         />
       </section>
+
+      <Glossary heroCounts={heroesPresentingTag()} />
+      <PasteInstructions />
 
       <section className="flex flex-col gap-md">
         <h2 className="text-display">Strength unjudged — start here</h2>

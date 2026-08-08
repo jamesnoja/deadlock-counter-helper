@@ -9,7 +9,16 @@ import {
   threatsForHero,
 } from './overlay.ts'
 import { ABILITIES, HEROES, ITEMS } from './snapshot.ts'
-import { COUNTER_STRENGTHS, REVIEW_STATES, isThreatTag } from './tags.ts'
+import {
+  COUNTER_STRENGTHS,
+  REVIEW_STATES,
+  STRENGTH_MEANINGS,
+  THREAT_SEVERITY,
+  THREAT_TAGS,
+  THREAT_TAG_LABELS,
+  THREAT_TAG_MEANINGS,
+  isThreatTag,
+} from './tags.ts'
 
 /**
  * E04's acceptance criteria, as tests:
@@ -241,5 +250,34 @@ describe('strengthWorklist', () => {
     // If a sync adds tagged items this fails, which is the point: new items
     // arrive unjudged and someone should know.
     expect(worklist.length).toBeLessThanOrEqual(37)
+  })
+})
+
+describe('curation vocabulary', () => {
+  /**
+   * The glossary is the only thing making curation consistent between people.
+   * A tag added to THREAT_TAGS without a meaning would render a blank entry and
+   * quietly invite everyone to guess, so this fails the build instead.
+   */
+  it('explains every threat tag, with both a covers and an excludes', () => {
+    for (const tag of THREAT_TAGS) {
+      const meaning = THREAT_TAG_MEANINGS[tag]
+      expect(meaning, `no meaning for ${tag}`).toBeDefined()
+      expect(meaning.covers.trim().length, `empty covers for ${tag}`).toBeGreaterThan(0)
+      expect(meaning.excludes.trim().length, `empty excludes for ${tag}`).toBeGreaterThan(0)
+    }
+  })
+
+  it('explains every counter strength', () => {
+    for (const strength of COUNTER_STRENGTHS) {
+      expect(STRENGTH_MEANINGS[strength]?.trim().length, `no meaning for ${strength}`).toBeGreaterThan(0)
+    }
+  })
+
+  it('gives every tag a label and a severity, so the glossary can rank them', () => {
+    for (const tag of THREAT_TAGS) {
+      expect(THREAT_TAG_LABELS[tag], `no label for ${tag}`).toBeTruthy()
+      expect(THREAT_SEVERITY[tag], `no severity for ${tag}`).toBeGreaterThan(0)
+    }
   })
 })
