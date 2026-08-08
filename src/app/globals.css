@@ -1,26 +1,253 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens. See docs/DESIGN.md for the rationale and src/design/tokens.ts
+ * for the machine-readable mirror the styleguide and contrast tests read.
+ *
+ * Dark is the default, not a variant — the game is dark, the room usually is,
+ * and this is often on a second monitor mid-match.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand — the single voltage */
+  --brand: #69e799;
+  --brand-deep: #158048;
+  --brand-press: #146638;
+  --brand-soft: #a5f0c4;
+  --brand-subdued: #16301f;
+
+  /* Header gradient. Never behind body text. */
+  --hero-1: #a5f0c4;
+  --hero-2: #3fc9a3;
+  --hero-3: #127a5c;
+
+  /* Surfaces — depth comes from layered charcoal, not hairlines */
+  --canvas: #0e0e0f;
+  --surface: #1c1c1e;
+  --surface-elevated: #2a2a2c;
+  --hairline: #2e2e30;
+
+  /* Text */
+  --text: #eaeaea;
+  --text-muted: #9a9a9c;
+  --on-brand: #0d1f14;
+  --on-brand-deep: #ffffff;
+
+  /* Counter strength — a ladder, descending */
+  --counter-hard: #69e799;
+  --counter-soft: #8fb8a4;
+  --counter-situational: #9a9a9c;
+
+  /* Threat severity */
+  --threat-high: #ff5252;
+  --threat-medium: #ffb443;
+  --threat-low: #9a9a9c;
+
+  /* Provenance. Emerald is deliberately not the brand mint — see DESIGN.md. */
+  --provenance-verified: #1f9d55;
+  --provenance-stale: #ffb443;
+
+  /* Item categories */
+  --category-weapon: #f0a92e;
+  --category-vitality: #4ac1a0;
+  --category-spirit: #9b6bff;
+
+  /* Radius — everything is soft; a square corner reads as third-party */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-card: 24px;
+  --radius-pill: 9999px;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --card-padding: var(--space-xl);
+  --row-padding: 14px;
+
+  /* Elevation */
+  --shadow-1: 0 2px 8px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 12px 32px rgb(0 0 0 / 0.5);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Focus, defined once */
+  --focus-ring: 0 0 0 2px var(--canvas), 0 0 0 4px var(--brand);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/*
+ * Light mode. Documented and supported, but secondary — see DESIGN.md.
+ * Warm off-white, never sterile.
+ */
+[data-theme="light"] {
+  --canvas: #f7f5f2;
+  --surface: #ffffff;
+  --surface-elevated: #efece7;
+  --hairline: #e6e3df;
+  --text: #1a1a1a;
+  --text-muted: #6b6864;
+  --brand-subdued: #dff5e7;
+  --brand-soft: #146638;
+  --counter-hard: #158048;
+  --counter-soft: #4a7a61;
+  --counter-situational: #6b6864;
+  --provenance-verified: #157a42;
+  --provenance-stale: #9a6410;
+  --threat-medium: #9a6410;
+  --threat-high: #c62828;
+  --threat-low: #6b6864;
+  --category-weapon: #9a6410;
+  --category-vitality: #17705c;
+  --category-spirit: #6b3fd4;
+  --focus-ring: 0 0 0 2px var(--canvas), 0 0 0 4px var(--brand-deep);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --canvas: #f7f5f2;
+    --surface: #ffffff;
+    --surface-elevated: #efece7;
+    --hairline: #e6e3df;
+    --text: #1a1a1a;
+    --text-muted: #6b6864;
+    --brand-subdued: #dff5e7;
+    --brand-soft: #146638;
+    --counter-hard: #158048;
+    --counter-soft: #4a7a61;
+    --counter-situational: #6b6864;
+    --provenance-verified: #157a42;
+    --provenance-stale: #9a6410;
+    --threat-medium: #9a6410;
+    --threat-high: #c62828;
+    --threat-low: #6b6864;
+    --category-weapon: #9a6410;
+    --category-vitality: #17705c;
+    --category-spirit: #6b3fd4;
+    --focus-ring: 0 0 0 2px var(--canvas), 0 0 0 4px var(--brand-deep);
   }
 }
 
+/* Expose tokens to Tailwind so utilities are the only styling API. */
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-press: var(--brand-press);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-subdued: var(--brand-subdued);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-hairline: var(--hairline);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-on-brand: var(--on-brand);
+  --color-counter-hard: var(--counter-hard);
+  --color-counter-soft: var(--counter-soft);
+  --color-counter-situational: var(--counter-situational);
+  --color-threat-high: var(--threat-high);
+  --color-threat-medium: var(--threat-medium);
+  --color-threat-low: var(--threat-low);
+  --color-provenance-verified: var(--provenance-verified);
+  --color-provenance-stale: var(--provenance-stale);
+  --color-category-weapon: var(--category-weapon);
+  --color-category-vitality: var(--category-vitality);
+  --color-category-spirit: var(--category-spirit);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-card: var(--radius-card);
+  --radius-pill: var(--radius-pill);
+
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-card: var(--card-padding);
+  --spacing-row: var(--row-padding);
+
+  --font-sans: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+
+  --shadow-1: var(--shadow-1);
+  --shadow-2: var(--shadow-2);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Type tiers. Bold is the brand — dropping to 400 makes it timid. */
+.text-hero {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.text-display {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.text-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.text-tabular {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+.text-caption {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+/* Eyebrow labels only. The original site set everything in caps; we do not. */
+.text-micro {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-gradient {
+  background-image: linear-gradient(120deg, var(--hero-1), var(--hero-2), var(--hero-3));
+}
+
+/* Defined once, as a token, so no component reinvents it. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

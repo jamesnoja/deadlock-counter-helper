@@ -319,3 +319,100 @@ warning on every sync run.
 
 - [ ] Decide hero slug strategy before E20/E21 (see finding 1).
 - [ ] E06 will add the scheduled job; the content hash is already in place for it.
+
+## 2026-08-08 — E02: design profile and token system
+
+### Intent
+
+Implement the uploaded "Up Inspired" design spec, with primary swapped from `#ff7a64` to
+`#69e799`, adapted to a Deadlock counter tool and to E02's accessibility bar.
+
+### Source and adaptation
+
+Spec: `C:\Users\james\iCloudDrive\cc\filing-cabinet\deadlock\up\DESIGN.md`. It describes a
+banking app, so several tokens have no counterpart here and are translated rather than
+copied:
+
+| Up spec | Here |
+| --- | --- |
+| `balance-hero` (64px tabular money) | Coverage count — "answers 5 of 6" is our hero number |
+| `transaction-row` | Item card |
+| `emoji-avatar` | Hero portrait / item icon in the same circular slot. Real game art from E12 beats emoji, so the geometry is kept and the emoji is not. |
+| Saver accent palette (swappable) | Item category accents (weapon / vitality / spirit) |
+| `money-in` / `money-out` | Counter strength and threat severity |
+| `up.` wordmark | Not applicable — do not imply a brand that is not ours |
+
+### Decisions taken (confirmed with owner)
+
+1. **Two greens, clearly separated.** Brand mint `#69e799` stays the voltage and marks a
+   hard counter. Provenance-verified gets deep emerald `#1f9d55` — measured 2.24:1 apart
+   in luminance, and AA on both dark surfaces (5.52:1 canvas, 4.87:1 card). The obvious
+   candidate `#2ecc71` from the spec was rejected at 1.35:1 from the brand: same colour at
+   a glance.
+2. **Gradient re-derived around green** — mint -> teal -> deep green. Header only, never
+   behind body text.
+3. **Comfortable default, compact opt-in.** Up's generous spacing is the default; a
+   `data-density="compact"` switch tightens it, feeding E27.
+
+### Forced by accessibility, not a preference
+
+`on-primary: #ffffff` fails at **1.56:1** on `#69e799`. Dark ink gives 11.18:1. Note the
+spec was already non-compliant here — white on the original coral was 2.55:1, also under
+the 4.5 AA floor. E02 requires verified pairs, so this is fixed rather than inherited.
+
+### Plan
+
+- [ ] 1. `docs/DESIGN.md` — positioning, usage context, principles, full token rationale,
+      and an explicit record of where we diverge from the source spec and why.
+- [ ] 2. `src/app/globals.css` — every token as a CSS custom property, wired into the
+      Tailwind v4 theme. Dark default, documented light mode, density switch.
+- [ ] 3. `src/design/tokens.ts` — token metadata (name, value, intended background) so the
+      styleguide and the contrast test read from one source rather than duplicating hexes.
+- [ ] 4. Primitives: hero chip, item card, threat tag, coverage badge, provenance dot,
+      accordion, slot, empty state, skeleton.
+- [ ] 5. `/styleguide` route rendering every token and primitive, light and dark, both
+      densities.
+- [ ] 6. `src/design/contrast.test.ts` — every semantic pair asserted at WCAG AA, so a
+      token edit cannot silently break contrast. Runs in CI via `npm run test`.
+- [ ] 7. ESLint rule rejecting raw hex, px font sizes, and spacing literals in components.
+- [x] 8. Verify, PR.
+
+All eight done. 67 tests green.
+
+### Review
+
+**What shipped**
+
+`docs/DESIGN.md` (positioning, usage context, five principles, full rationale, and an
+explicit divergence table), tokens as CSS custom properties wired into Tailwind v4,
+`src/design/tokens.ts` as the machine-readable mirror, ten primitives, `/styleguide`, 24
+contrast assertions, and the raw-value lint rule.
+
+**Three defects the work surfaced, all fixed**
+
+1. `on-primary: #ffffff` on the mint is **1.56:1**. Now near-black at 11.03:1. The source
+   spec was already failing here at 2.55:1 on its coral, so this was a pre-existing bug
+   inherited with the spec rather than one the colour swap introduced.
+2. `--brand-deep` at `#2fb56b` was **2.64:1** on white — caught by the test as I wrote it,
+   not by eye. Now `#158048` at 4.98:1, which also lets it carry white text in light mode.
+3. A long item name collided with the strength label, because that label could shrink.
+   Caught only by loading the page — the tests were green throughout. Worth remembering:
+   the visual check in the working parameters earns its place.
+
+**Verification of the lint rule.** Ran it against a deliberate violation file to confirm it
+fires on all three shapes (raw hex, px literal, Tailwind arbitrary value) rather than
+passing silently. Removed the probe afterwards.
+
+**Divergences from the uploaded spec** are recorded in `docs/DESIGN.md` with reasons — the
+banking-specific pieces (balance hero, savers, money in/out, emoji primitive, `up.`
+wordmark) are translated rather than copied, and the wordmark is dropped outright because
+we must not imply a brand that is not ours.
+
+### Follow-ups
+
+- [ ] Hero slug decision still open from E03, and it now blocks E20/E21.
+- [ ] Snapshot/golden tests for primitives — deferred at E01, now has UI worth pinning.
+- [x] ~~E27 wires `?compact=1` to the density switch.~~ **Compact removed on request.** One
+      spacing scale ships instead. E27's spec updated: `?compact=1` changes layout (columns,
+      what collapses) rather than swapping spacing tokens, so the backlog no longer points
+      at a switch that does not exist.
