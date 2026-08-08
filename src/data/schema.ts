@@ -27,8 +27,18 @@ export interface AbilityStat {
 export interface Hero {
   class_name: string
   name: string
-  /** Derived from `class_name`, so a display-name change cannot break a URL. */
+  /**
+   * Derived from the display name, because the URL has to match what people
+   * search for — "counter abrams", not "counter atlas". `class_name` remains
+   * the internal key; nothing joins on the slug.
+   */
   slug: string
+  /**
+   * Slugs this hero used to have. The sync appends the old slug whenever a
+   * rename changes it, so a shared link never dies. Maintained automatically —
+   * do not hand-edit.
+   */
+  aliases: string[]
   images: {
     card: string | null
     portrait: string | null

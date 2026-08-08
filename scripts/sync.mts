@@ -17,7 +17,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { normalise } from '../src/data/normalise.ts'
-import type { SnapshotMeta } from '../src/data/schema.ts'
+import type { Hero, SnapshotMeta } from '../src/data/schema.ts'
 import {
   ENDPOINTS,
   type UpstreamHero,
@@ -54,7 +54,12 @@ async function main() {
   ])
   console.log(`  heroes: ${heroes.length}  items: ${items.length}`)
 
-  const snapshot = normalise(heroes, items)
+  // Feed the previous heroes in so a display-name change appends the old slug
+  // to aliases rather than quietly orphaning every link that used it.
+  const previousHeroesRaw = readIfPresent(join(SNAPSHOT_DIR, 'heroes.json'))
+  const previousHeroes = previousHeroesRaw ? (JSON.parse(previousHeroesRaw) as Hero[]) : []
+
+  const snapshot = normalise(heroes, items, previousHeroes)
   console.log(
     `Normalised to ${snapshot.heroes.length} heroes, ` +
       `${snapshot.abilities.length} abilities, ${snapshot.items.length} items.`,

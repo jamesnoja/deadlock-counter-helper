@@ -39,15 +39,30 @@ export function toPlainText(description: UpstreamDescription | undefined): strin
 }
 
 /**
- * Slugs come from `class_name`, never the display name — a rename upstream must
- * not break a shared link. `hero_atlas` -> `atlas`, `upgrade_metal_skin` ->
- * `metal-skin`.
+ * Item slugs come from `class_name`. Items have no pages of their own, so
+ * stability beats readability. `upgrade_metal_skin` -> `metal-skin`.
  */
 export function toSlug(className: string): string {
   return className
     .replace(/^(hero|upgrade|citadel_ability|ability)_/, '')
     .replace(/_/g, '-')
     .toLowerCase()
+}
+
+/**
+ * Hero slugs come from the display name, because E21's per-hero pages exist to
+ * rank for "how to counter abrams" — and 26 of 38 `class_name`s are unrelated
+ * development codenames (Abrams is `hero_atlas`, Paige is `hero_bookworm`).
+ *
+ * A rename therefore does change the slug, which is why `Hero.aliases` carries
+ * the old ones forward.
+ */
+export function toDisplaySlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
 }
 
 /** Upstream mixes `33` and `"1.4"` in the same field. */
@@ -97,7 +112,10 @@ export class NormaliseError extends Error {}
 export function normalise(
   upstreamHeroes: UpstreamHero[],
   upstreamItems: UpstreamItem[],
+  /** The previous snapshot's heroes, so renames accumulate aliases. */
+  previousHeroes: readonly Hero[] = [],
 ): Snapshot {
+  const previousByClassName = new Map(previousHeroes.map((hero) => [hero.class_name, hero]))
   const itemsByClassName = new Map<string, UpstreamItem>()
   for (const item of upstreamItems) {
     if (item.class_name) itemsByClassName.set(item.class_name, item)
@@ -131,10 +149,19 @@ export function normalise(
       })
     })
 
+    const name = upstreamHero.name ?? className
+    const slug = toDisplaySlug(name)
+    const previous = previousByClassName.get(className)
+    // Keep every slug this hero has ever had, minus the current one.
+    const aliases = [...new Set([...(previous?.aliases ?? []), previous?.slug ?? ''])]
+      .filter((alias) => alias && alias !== slug)
+      .sort()
+
     heroes.push({
       class_name: className,
-      name: upstreamHero.name ?? className,
-      slug: toSlug(className),
+      name,
+      slug,
+      aliases,
       images: {
         card: upstreamHero.images?.icon_hero_card_webp ?? upstreamHero.images?.icon_hero_card ?? null,
         portrait:

@@ -26,13 +26,19 @@ export const ITEMS = items as unknown as Item[]
 export const META = meta as unknown as SnapshotMeta
 
 const heroesByClassName = new Map(HEROES.map((hero) => [hero.class_name, hero]))
-const heroesBySlug = new Map(HEROES.map((hero) => [hero.slug, hero]))
+// Current slugs plus every slug a hero has ever had, so an old shared link
+// still resolves. Current slugs are inserted last and win any collision.
+const heroesBySlug = new Map([
+  ...HEROES.flatMap((hero) => hero.aliases.map((alias) => [alias, hero] as const)),
+  ...HEROES.map((hero) => [hero.slug, hero] as const),
+])
 const abilitiesByClassName = new Map(ABILITIES.map((ability) => [ability.class_name, ability]))
 const itemsByClassName = new Map(ITEMS.map((item) => [item.class_name, item]))
 
 export const heroByClassName = (className: string): Hero | undefined =>
   heroesByClassName.get(className)
 
+/** Resolves current slugs and retired ones. E20 can 301 when `slug` differs. */
 export const heroBySlug = (slug: string): Hero | undefined => heroesBySlug.get(slug)
 
 export const abilityByClassName = (className: string): Ability | undefined =>
