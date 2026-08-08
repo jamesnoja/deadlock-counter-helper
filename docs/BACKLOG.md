@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-36 enhancements across 5 epics — **22 done**, 0 in progress, 14 to go.
+36 enhancements across 5 epics — **24 done**, 0 in progress, 12 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -28,8 +28,8 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E17](#e17) | Ability-level counter granularity | ux | p1 | E05, E12 |
 | [x] | [E18](#e18) | "Your hero" context filter | ux | p1 | E05 |
 | [x] | [E19](#e19) | Copy-to-clipboard team chat export | ux | p1 | E10 |
-| [ ] | [E20](#e20) | URL state and deep links | distribution | p0 | E09 |
-| [ ] | [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
+| [x] | [E20](#e20) | URL state and deep links | distribution | p0 | E09 |
+| [x] | [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
 | [ ] | [E22](#e22) | OG image generation for shared comps | distribution | p1 | E20, E12 |
 | [ ] | [E23](#e23) | Structured data (JSON-LD) | distribution | p2 | E21 |
 | [ ] | [E24](#e24) | Patch changelog page | distribution | p1 | E06 |
@@ -611,7 +611,7 @@ snapshot has them; the UI currently throws them away.
 
 ### E20
 
-**URL state and deep links** — `p0`
+**URL state and deep links** — `p0` — **done**
 
 ### Problem
 On the original, `location.href` never changes no matter what you select. You cannot
@@ -629,7 +629,7 @@ bookmark, share, or link a matchup or a team comp. Every visit starts from zero.
 
 ### E21
 
-**Per-hero static SEO pages** — `p0`
+**Per-hero static SEO pages** — `p0` — **done**
 
 ### Problem
 "how to counter haze deadlock" is the query people actually type, and the original has no

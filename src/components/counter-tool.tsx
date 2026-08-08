@@ -13,7 +13,8 @@
  * throw away.
  */
 
-import { useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BudgetFilter } from './budget-filter.tsx'
 import { BuildLens } from './build-lens.tsx'
 import { ChatExport } from './chat-export.tsx'
@@ -31,20 +32,28 @@ import { countersForItem } from '@/data/overlay.ts'
 import type { Hero } from '@/data/schema.ts'
 import { abilityByClassName } from '@/data/snapshot.ts'
 import { GAME_PHASES, type GamePhase } from '@/data/tags.ts'
+import { encodeToolState, type ToolState } from '@/data/url-state.ts'
 
 type Lens = 'items' | 'heroes' | 'build'
 
 const LENSES: Lens[] = ['items', 'heroes', 'build']
 
-export function CounterTool({ heroes }: { heroes: readonly Hero[] }) {
+export function CounterTool({
+  heroes,
+  initial,
+}: {
+  heroes: readonly Hero[]
+  /** Decoded from the URL on the server, so a shared link renders correctly first paint. */
+  initial: ToolState
+}) {
   /** Pick order, not snapshot order — the team bar should read as you built it. */
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<string[]>(initial.enemies)
   const [lens, setLens] = useState<Lens>('items')
   const [focus, setFocus] = useState<string | null>(null)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
-  const [phase, setPhase] = useState<GamePhase | null>(null)
-  const [budget, setBudget] = useState<number | null>(null)
-  const [yourHero, setYourHero] = useState<string | null>(null)
+  const [phase, setPhase] = useState<GamePhase | null>(initial.phase)
+  const [budget, setBudget] = useState<number | null>(initial.budget)
+  const [yourHero, setYourHero] = useState<string | null>(initial.as)
 
   const byClassName = useMemo(
     () => new Map(heroes.map((hero) => [hero.class_name, hero])),
@@ -66,6 +75,27 @@ export function CounterTool({ heroes }: { heroes: readonly Hero[] }) {
 
   const clear = (className: string) =>
     setSelected((current) => current.filter((name) => name !== className))
+
+  /**
+   * Push the state into the URL so it can be bookmarked and shared.
+   *
+   * `replace`, not `push`: every filter tweak would otherwise become a history
+   * entry and the back button would crawl through them instead of leaving the
+   * page. Back and forward still work — the browser restores the query string,
+   * and the effect below re-reads it.
+   */
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const slugFor = useCallback(
+    (className: string) => byClassName.get(className)?.slug,
+    [byClassName],
+  )
+
+  useEffect(() => {
+    const next = encodeToolState({ enemies: selected, as: yourHero, phase, budget }, slugFor)
+    if (next === searchParams.toString()) return
+    router.replace(next ? `/?${next}` : '/', { scroll: false })
+  }, [selected, yourHero, phase, budget, slugFor, router, searchParams])
 
   /** Ranked once. Everything below narrows or re-weights this one result. */
   const ranked = useMemo(() => countersForTeam(selected), [selected])

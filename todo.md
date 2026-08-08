@@ -842,3 +842,46 @@ one — and shows the text before you paste it into team chat.
 **A bug the tests caught.** With no role affinity, re-sorting still reshuffled equal-scoring
 items alphabetically, so picking a hero with an unknown role looked like it had done
 something. No opinion now means no reorder.
+
+## 2026-08-08 — E20 and E21: URL state and per-hero pages
+
+### Review
+
+214 tests. 39 static pages plus sitemap and robots.
+
+**E20.** The URL *is* the state. Encoded with hero slugs, because a link is something a person
+reads and pastes into chat — `?enemies=abrams,haze` does that and `hero_atlas` does not.
+Retired slugs still decode, so links shared before the rename keep working. An unknown slug
+costs you one hero, not the whole page.
+
+`replace`, not `push`: every filter tweak would otherwise become a history entry and the back
+button would crawl through them instead of leaving the page.
+
+**Decoded on the server**, so a shared link renders its counters in the initial HTML. That
+makes the home page dynamic rather than static — a real cost, taken deliberately, because a
+shared link that renders nothing until hydration is not worth sharing, and E22's preview
+images need the server-rendered markup.
+
+**E21.** 38 hero pages plus alias routes, all static, all server components with no
+interactivity — the content must exist with JavaScript off, and a page that ships no client
+bundle is also the cheapest thing to serve. Verified by curling the HTML.
+
+Alias URLs resolve *and* carry a canonical link to the primary slug, so `/counter/atlas`
+keeps working without competing with `/counter/abrams` for the same query. The sitemap lists
+primaries only — 39 entries, generated from the snapshot, so a new hero adds a page and its
+entry with no other change.
+
+The ability breakdown is the part worth having: each ability with its icon, live numbers,
+threat tags, and the items that answer **that specific ability**, each with a derived line
+naming what it stops. Capped at 8 per ability with the remainder stated.
+
+### Two data problems this surfaced
+
+1. **Ability stats were showing upstream's "not applicable" values** — over half of all
+   ability stat entries are zero, and `Charge Delay -1` appears 119 times and never at any
+   other value. Filtered at *display* time, not in the data, because E06's retune detection
+   needs a value moving to zero to stay visible.
+2. **A real tagging error, found by reading a public page.** Sleep Dagger was tagged
+   `channeled_ult` because its description says it does *not* interrupt enemies' channelling
+   — the keyword rule matched the word and missed the negation. Corrected, with the reason in
+   the entry. Exactly one ability was affected; I checked the rest rather than assuming.

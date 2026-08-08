@@ -78,7 +78,7 @@ export const ABILITY_THREATS: Record<string, AbilityThreats> = {
   "ability_punkgoat_goatflip": {"tags":["airborne","displacement"],"review":"suggested","note":"Sends the target into the air along with Billy."},
   "ability_punkgoat_tether": {"tags":["displacement"],"review":"suggested"},
   "ability_punkgoat_ult": {"tags":["displacement","melee_pressure"],"review":"suggested"},
-  "ability_sleep_dagger": {"tags":["channeled_ult","hard_cc","stealth"],"review":"suggested"},
+  "ability_sleep_dagger": {"tags":["hard_cc","stealth"],"review":"suggested","note":"The keyword rule wrongly tagged this channeled_ult: the description says it does NOT interrupt enemies' channelling. Sleep is hard CC, and throwing it does not break invisibility."},
   "ability_smoke_bomb": {"tags":["stealth"],"review":"suggested"},
   "ability_stacking_damage": {"tags":["high_dps_gun"],"review":"suggested","note":"Stacking bullet damage per hit — the engine behind Haze gun pressure."},
   "ability_throw_sand": {"tags":["hard_cc"],"review":"suggested"},

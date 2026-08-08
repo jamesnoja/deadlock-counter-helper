@@ -17,7 +17,7 @@ import { GameImage } from './game-image.tsx'
 import type { RankedCounter } from '@/data/derive.ts'
 import { threatsForAbility } from '@/data/overlay.ts'
 import type { Ability, Hero } from '@/data/schema.ts'
-import { itemArtwork } from '@/data/snapshot.ts'
+import { displayStats, itemArtwork } from '@/data/snapshot.ts'
 import { THREAT_TAG_LABELS } from '@/data/tags.ts'
 
 interface AbilityBreakdownProps {
@@ -55,7 +55,7 @@ export function AbilityBreakdown({
             ),
           )
 
-          const stats = Object.entries(ability.stats).slice(0, 4)
+          const stats = displayStats(ability.stats).slice(0, 4)
 
           return (
             <li
