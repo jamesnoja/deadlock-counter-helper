@@ -148,17 +148,24 @@ export function HeroesLens({ counters, team, focus, onFocus }: HeroesLensProps) 
         </section>
       ) : null}
 
-      <div className="grid gap-md lg:grid-cols-2">
+      {/*
+        One hero per row. Two columns forced every item grid into half the
+        width, which wrapped four-item rows into two ragged lines and made two
+        heroes hard to compare because their grids never lined up.
+      */}
+      <div className="flex flex-col gap-md">
         {shown.map((hero) => {
           const { core, situational } = forHero(counters, hero.class_name)
           const total = core.length + situational.length
           return (
             <section
               key={hero.class_name}
-              className="flex flex-col gap-sm rounded-card bg-surface p-card"
+              className="flex flex-col gap-md rounded-card bg-surface p-card sm:flex-row sm:gap-xl"
             >
-              <header className="flex items-center gap-sm">
-                <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-pill bg-surface-elevated">
+              {/* Identity is a fixed-width rail, so every row's items start at
+                  the same x and the grids can be read against each other. */}
+              <header className="flex shrink-0 items-center gap-sm sm:w-40 sm:flex-col sm:items-start">
+                <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-pill bg-surface-elevated">
                   {hero.images.minimap ?? hero.images.portrait ? (
                     // eslint-disable-next-line @next/next/no-img-element -- E12 swaps this for next/image
                     <img
@@ -168,27 +175,34 @@ export function HeroesLens({ counters, team, focus, onFocus }: HeroesLensProps) 
                     />
                   ) : null}
                 </span>
-                <span>
-                  <span className="block text-heading">{hero.name}</span>
-                  <span className="block text-micro text-text-muted">
-                    {hero.role} · {total} {total === 1 ? 'counter' : 'counters'}
+                <span className="min-w-0">
+                  <span className="block truncate text-heading">{hero.name}</span>
+                  <span className="block text-micro text-text-muted">{hero.role}</span>
+                  <span className="block text-caption text-text-muted">
+                    <span className="text-tabular text-text">{total}</span>{' '}
+                    {total === 1 ? 'counter' : 'counters'}
                   </span>
                 </span>
               </header>
 
-              <h4 className="text-micro text-counter-hard">Core — {core.length}</h4>
-              <ItemGrid
-                counters={showAll || focus ? core : core.slice(0, 6)}
-                heroClassName={hero.class_name}
-              />
-
-              <h4 className="text-micro text-counter-situational">
-                Situational — {situational.length}
-              </h4>
-              <ItemGrid
-                counters={showAll || focus ? situational : situational.slice(0, 6)}
-                heroClassName={hero.class_name}
-              />
+              <div className="flex min-w-0 flex-1 flex-col gap-md">
+                <div className="flex flex-col gap-xs">
+                  <h4 className="text-micro text-counter-hard">Core — {core.length}</h4>
+                  <ItemGrid
+                    counters={showAll || focus ? core : core.slice(0, 8)}
+                    heroClassName={hero.class_name}
+                  />
+                </div>
+                <div className="flex flex-col gap-xs">
+                  <h4 className="text-micro text-counter-situational">
+                    Situational — {situational.length}
+                  </h4>
+                  <ItemGrid
+                    counters={showAll || focus ? situational : situational.slice(0, 8)}
+                    heroClassName={hero.class_name}
+                  />
+                </div>
+              </div>
             </section>
           )
         })}

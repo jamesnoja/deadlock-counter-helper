@@ -721,3 +721,24 @@ Neither was catchable by a test. The visual-confirmation rule keeps paying.
 
 - [ ] E33 adds the three core/flexible cards above the shortlist.
 - [ ] E34 adds the item detail panel; `perHero` already carries what it needs.
+
+## 2026-08-08 — Align the counters table with the design guide
+
+Owner: reformat the table to match the design guide, and give the heroes lens one hero
+per row.
+
+**The table was violating the guide in a specific, checkable way.** It was built on
+`border-b border-hairline` between rows, and `docs/DESIGN.md` says plainly that depth comes
+from layered charcoal and soft shadows, *not* hairlines — and that a square corner reads as
+third-party. Rows are now rounded surfaces floating on the canvas, using `border-separate`
+with row spacing rather than `border-collapse`; rounding sits on the end cells, since
+border-separate leaves no row box to round.
+
+Also brought into line: item names at `text-heading` rather than caption (bold is the
+brand), category as a pill tag, cost in tabular figures, and the coverage count promoted to
+the row's hero number in brand mint — it is the thing you scan the column for.
+
+**Heroes lens is one hero per row.** Two columns squeezed every item grid into half the
+width, so four-item rows wrapped into two ragged lines and no two heroes' grids lined up,
+which defeats comparing them. Each row now has a fixed identity rail — portrait, name, role,
+counter count — so every hero's items start at the same x.
