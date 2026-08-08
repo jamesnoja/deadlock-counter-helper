@@ -200,7 +200,7 @@ export const TYPE_TOKENS: ScaleToken[] = [
 
 export const RADIUS_TOKENS: ScaleToken[] = [
   { name: '--radius-sm', value: '8px', description: 'Tags, small chrome.' },
-  { name: '--radius-md', value: '14px', description: 'Inputs, compact controls.' },
+  { name: '--radius-md', value: '14px', description: 'Inputs, small controls.' },
   { name: '--radius-lg', value: '20px', description: 'Rows, list items.' },
   { name: '--radius-card', value: '24px', description: 'Cards.' },
   { name: '--radius-pill', value: '9999px', description: 'Buttons, chips, avatars.' },
@@ -210,7 +210,7 @@ export const SPACE_TOKENS: ScaleToken[] = [
   { name: '--space-xs', value: '4px', description: 'Hairline gaps.' },
   { name: '--space-sm', value: '8px', description: 'Tight grouping.' },
   { name: '--space-md', value: '12px', description: 'Related elements.' },
-  { name: '--space-lg', value: '16px', description: 'Card padding, compact.' },
-  { name: '--space-xl', value: '24px', description: 'Card padding, comfortable.' },
+  { name: '--space-lg', value: '16px', description: 'Row padding, tight grouping.' },
+  { name: '--space-xl', value: '24px', description: 'Card padding.' },
   { name: '--space-2xl', value: '32px', description: 'Section rhythm.' },
 ]

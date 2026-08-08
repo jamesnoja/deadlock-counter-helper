@@ -2,7 +2,7 @@
 
 The written direction. Tokens live in `src/app/globals.css`; `src/design/tokens.ts` mirrors
 them so the styleguide and the contrast test read one source. Every primitive is rendered at
-[`/styleguide`](/styleguide) in both themes and both densities.
+[`/styleguide`](/styleguide) in both themes.
 
 ## Positioning
 
@@ -53,9 +53,9 @@ vision deficiency, and this tool's audience skews heavily that way.
 
 ### 3. Density with hierarchy
 
-Pack information in, but make one thing per block obviously the most important. Comfortable
-spacing is the default; the compact density switch tightens spacing only — never type size
-or colour — so nothing changes meaning when it engages.
+Pack information in, but make one thing per block obviously the most important. There is one
+spacing scale, not a switchable pair — a second density is a second layout to keep honest,
+and the scale below is already tuned for a reference tool rather than a landing page.
 
 ### 4. Show provenance, always
 
@@ -163,7 +163,7 @@ Recorded so the difference reads as a decision rather than a mistake.
 | Emoji as a typed primitive | Real game artwork in the same circular slot | We have hero portraits and item icons from the assets API (E12). Emoji would be a downgrade. |
 | Swappable Saver accents | Item category accents | Same mechanic, different domain. |
 | `up.` wordmark | None | We are not a brand, and must not imply one. |
-| Airy spacing, single ~420px column | Comfortable default, compact switch, multi-column | The source is an app-first bank; this is a dense reference tool. Comfortable stays the default, compact is opt-in and feeds E27. |
+| Airy spacing, single ~420px column | One tighter scale, multi-column | The source is an app-first bank; this is a dense reference tool. One scale, tuned once — E27 handles small screens by changing layout, not by swapping spacing tokens. |
 
 ## Rules
 

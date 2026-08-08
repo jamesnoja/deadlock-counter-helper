@@ -66,7 +66,7 @@ function Section({ title, note, children }: { title: string; note?: string; chil
   )
 }
 
-/** Every primitive, rendered once. Used in both themes and both densities below. */
+/** Every primitive, rendered once. Used in both themes below. */
 function PrimitiveGallery() {
   return (
     <div className="flex flex-col gap-lg">
@@ -137,17 +137,11 @@ function PrimitiveGallery() {
   )
 }
 
-/** One themed, density-scoped panel. E02 wants every primitive in all four combinations. */
-function Panel({ theme, density }: { theme: 'dark' | 'light'; density: 'comfortable' | 'compact' }) {
+/** One themed panel. E02 wants every primitive visible in both themes. */
+function Panel({ theme }: { theme: 'dark' | 'light' }) {
   return (
-    <div
-      data-theme={theme}
-      data-density={density === 'compact' ? 'compact' : undefined}
-      className="rounded-card bg-canvas p-card text-text"
-    >
-      <p className="text-micro text-text-muted">
-        {theme} · {density}
-      </p>
+    <div data-theme={theme} className="rounded-card bg-canvas p-card text-text">
+      <p className="text-micro text-text-muted">{theme}</p>
       <div className="mt-md">
         <PrimitiveGallery />
       </div>
@@ -161,7 +155,7 @@ export default function Styleguide() {
       <header className="hero-gradient rounded-card p-2xl">
         <h1 className="text-display text-on-brand">Styleguide</h1>
         <p className="text-caption text-on-brand">
-          Every token and primitive, in both themes and both densities. Contrast ratios are
+          Every token and primitive, in both themes. Contrast ratios are
           computed live — a failing pair shows here and fails CI.
         </p>
       </header>
@@ -227,15 +221,10 @@ export default function Styleguide() {
         </div>
       </Section>
 
-      <Section
-        title="Primitives"
-        note="Rendered four times: dark and light, comfortable and compact."
-      >
+      <Section title="Primitives" note="Rendered in both themes.">
         <div className="grid gap-lg lg:grid-cols-2">
-          <Panel theme="dark" density="comfortable" />
-          <Panel theme="light" density="comfortable" />
-          <Panel theme="dark" density="compact" />
-          <Panel theme="light" density="compact" />
+          <Panel theme="dark" />
+          <Panel theme="light" />
         </div>
       </Section>
     </main>

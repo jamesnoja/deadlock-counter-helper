@@ -412,4 +412,7 @@ we must not imply a brand that is not ours.
 
 - [ ] Hero slug decision still open from E03, and it now blocks E20/E21.
 - [ ] Snapshot/golden tests for primitives — deferred at E01, now has UI worth pinning.
-- [ ] E27 wires `?compact=1` to the density switch already in place.
+- [x] ~~E27 wires `?compact=1` to the density switch.~~ **Compact removed on request.** One
+      spacing scale ships instead. E27's spec updated: `?compact=1` changes layout (columns,
+      what collapses) rather than swapping spacing tokens, so the backlog no longer points
+      at a switch that does not exist.

@@ -101,7 +101,7 @@ in this space is designed for it.
   hues, so ranking, threat severity, and item categories stay consistent everywhere.
 - Type scale: one display face for identity, one highly legible UI face. The original set
   everything in uppercase, which is actively harder to scan — we will not.
-- Spacing, radius, elevation, and a compact/comfortable density switch feeding E27.
+- Spacing, radius, and elevation on a single scale tuned for a dense reference tool.
 - Motion: durations and easings, with a `prefers-reduced-motion` path defined up front.
 - Delivered as CSS custom properties wired into the Tailwind v4 theme, so tokens are the only
   source of style values.
@@ -118,8 +118,8 @@ empty state, loading skeleton.
 
 ### Acceptance criteria
 - `docs/DESIGN.md` exists and states the principles, the usage context, and the rationale.
-- A `/styleguide` route renders every token and primitive in light and dark, at both
-  densities — reviewable in a PR preview.
+- A `/styleguide` route renders every token and primitive in light and dark — reviewable
+  in a PR preview.
 - No component in any later PR introduces a raw hex value, font size, or spacing literal;
   enforced by a lint rule.
 - Contrast checks run in CI.
@@ -647,8 +647,9 @@ Real usage is a second monitor or a phone propped beside the keyboard, mid-match
 
 ### Scope
 - Portraits-only grid at narrow widths; tap opens a bottom sheet.
-- A dense `?compact=1` layout for small windows and second monitors, driven by the density
-  switch defined in E02.
+- A dense `?compact=1` layout for small windows and second monitors. E02 deliberately ships
+  a single spacing scale rather than a density switch, so this changes **layout** — column
+  count, what collapses, what is hidden — not spacing tokens.
 - Touch targets at least 44px.
 
 ### Acceptance criteria

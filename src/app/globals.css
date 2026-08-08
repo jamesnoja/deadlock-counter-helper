@@ -59,7 +59,7 @@
   --radius-card: 24px;
   --radius-pill: 9999px;
 
-  /* Spacing. Comfortable by default; the compact switch below tightens it. */
+  /* Spacing */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 12px;
@@ -80,18 +80,6 @@
 
   /* Focus, defined once */
   --focus-ring: 0 0 0 2px var(--canvas), 0 0 0 4px var(--brand);
-}
-
-/*
- * Compact density. E02 asks for a switch; E27 drives it from ?compact=1.
- * Only spacing changes — type and colour stay put, so nothing reflows meaning.
- */
-[data-density="compact"] {
-  --space-lg: 12px;
-  --space-xl: 16px;
-  --space-2xl: 24px;
-  --card-padding: var(--space-lg);
-  --row-padding: 8px;
 }
 
 /*
