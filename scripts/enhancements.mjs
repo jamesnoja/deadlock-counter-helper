@@ -356,6 +356,7 @@ explanation and no sense of a team being assembled.
     title: 'Aggregated counter shortlist with coverage counts',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E09'],
     body: `
 ### Problem
@@ -392,6 +393,7 @@ visual language stays ours.
     title: 'Retain per-hero detail in team mode',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E10'],
     body: `
 ### Problem

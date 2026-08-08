@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-35 enhancements across 5 epics — **8 done**, 0 in progress, 27 to go.
+35 enhancements across 5 epics — **10 done**, 0 in progress, 25 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -18,8 +18,8 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E07](#e07) | Patch version stamp and data provenance UI | foundation | p0 | E06, E02 |
 | [x] | [E08](#e08) | Accessible hero picker with portraits and keyboard navigation | ux | p0 | E03, E02 |
 | [ ] | [E09](#e09) | Enemy team builder (6 slots) | ux | p0 | E08, E05 |
-| [ ] | [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
-| [ ] | [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
+| [x] | [E10](#e10) | Aggregated counter shortlist with coverage counts | ux | p0 | E09 |
+| [x] | [E11](#e11) | Retain per-hero detail in team mode | ux | p0 | E10 |
 | [ ] | [E12](#e12) | Item and hero artwork integration | ux | p0 | E03, E02 |
 | [ ] | [E13](#e13) | Show item cost, tier, and slot category | ux | p0 | E03, E02 |
 | [ ] | [E14](#e14) | Soul budget filter | ux | p1 | E13 |
@@ -320,7 +320,7 @@ explanation and no sense of a team being assembled.
 
 ### E10
 
-**Aggregated counter shortlist with coverage counts** — `p0`
+**Aggregated counter shortlist with coverage counts** — `p0` — **done**
 
 ### Problem
 This is the headline feature: see every counter item for the whole enemy team on one page.
@@ -354,7 +354,7 @@ visual language stays ours.
 
 ### E11
 
-**Retain per-hero detail in team mode** — `p0`
+**Retain per-hero detail in team mode** — `p0` — **done**
 
 ### Problem
 **The single biggest functional flaw in the original.** Selecting one hero gives you a
