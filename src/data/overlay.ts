@@ -8,7 +8,7 @@
 
 import { ABILITY_THREATS } from '../../data/overlay/ability-threats.ts'
 import { ITEM_COUNTERS } from '../../data/overlay/item-counters.ts'
-import { ABILITIES, HEROES, ITEMS } from './snapshot.ts'
+import { ABILITIES, HEROES, NON_RANKED_ITEMS, RANKED_ITEMS } from './snapshot.ts'
 import type { Hero } from './schema.ts'
 import type { AbilityThreats, ItemCounters, ThreatTag } from './tags.ts'
 
@@ -88,8 +88,9 @@ export function abilityCurationQueue(): CurationEntry[] {
   }).sort((a, b) => `${a.hero}${a.slot}`.localeCompare(`${b.hero}${b.slot}`))
 }
 
+/** Curation work. Ranked-buyable items only — the rest cannot be recommended anyway. */
 export function itemCurationQueue(): CurationEntry[] {
-  return ITEMS.map((item) => {
+  return RANKED_ITEMS.map((item) => {
     const entry = ITEM_COUNTERS[item.class_name]
     return {
       class_name: item.class_name,
@@ -103,9 +104,31 @@ export function itemCurationQueue(): CurationEntry[] {
   }).sort((a, b) => a.name.localeCompare(b.name))
 }
 
+/**
+ * Items excluded from recommendations, kept for reference.
+ *
+ * Not a worklist — tagging these changes nothing until they become buyable.
+ * Listed so the exclusion is visible and reversible rather than a silent
+ * filter someone rediscovers later.
+ */
+export function nonRankedItems(): CurationEntry[] {
+  return NON_RANKED_ITEMS.map((item) => ({
+    class_name: item.class_name,
+    name: item.name,
+    description: item.description,
+    bucket: bucketFor(ITEM_COUNTERS[item.class_name], item.description),
+    tags: ITEM_COUNTERS[item.class_name]?.answers ?? [],
+    strength: ITEM_COUNTERS[item.class_name]?.strength,
+    why: ITEM_COUNTERS[item.class_name]?.why,
+  })).sort((a, b) => a.name.localeCompare(b.name))
+}
+
 export interface OverlayCoverage {
   abilities: { total: number; tagged: number; untagged: number; suggested: number }
+  /** Ranked-buyable items only — the rest cannot be recommended, so they are not coverage. */
   items: { total: number; tagged: number; untagged: number; suggested: number }
+  /** Excluded from recommendations: mode-restricted or not yet live. */
+  nonRankedCount: number
   /** Heroes with no threat tags at all — invisible to the engine until fixed. */
   heroesWithNoThreats: string[]
 }
@@ -115,7 +138,9 @@ export function overlayCoverage(): OverlayCoverage {
   const abilityEntries = ABILITIES.map((a) => ABILITY_THREATS[a.class_name]).filter(
     (entry): entry is AbilityThreats => entry !== undefined,
   )
-  const itemEntries = Object.values(ITEM_COUNTERS)
+  const itemEntries = RANKED_ITEMS.map((item) => ITEM_COUNTERS[item.class_name]).filter(
+    (entry): entry is ItemCounters => entry !== undefined,
+  )
   return {
     abilities: {
       total: ABILITIES.length,
@@ -129,6 +154,7 @@ export function overlayCoverage(): OverlayCoverage {
       untagged: itemEntries.filter((e) => e.untagged).length,
       suggested: itemEntries.filter((e) => e.review === 'suggested').length,
     },
+    nonRankedCount: NON_RANKED_ITEMS.length,
     heroesWithNoThreats: HEROES.filter((hero) => threatsForHero(hero).length === 0)
       .map((hero) => hero.class_name)
       .sort(),

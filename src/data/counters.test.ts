@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { countersForTeam } from './counters.ts'
 import { HEROES } from './snapshot.ts'
+import { RANKED_MAX_COST } from './schema.ts'
 
 /**
  * Integration: the engine bound to the real snapshot and overlay.
@@ -56,6 +57,20 @@ describe('countersForTeam', () => {
       counter.coverage.filter((className) => !selected.has(className)),
     )
     expect(strays).toEqual([])
+  })
+
+  it('never recommends an item ranked play cannot buy', () => {
+    // Recommending an unbuyable item is worse than recommending nothing — the
+    // user goes looking for it mid-match and it is not in the shop.
+    const unbuyable = countersForTeam(someHeroes(6)).filter((counter) => !counter.item.ranked)
+    expect(unbuyable.map((counter) => counter.item.name)).toEqual([])
+  })
+
+  it('keeps every recommendation within the ranked cost ceiling', () => {
+    const tooExpensive = countersForTeam(someHeroes(6))
+      .filter((counter) => counter.item.cost > RANKED_MAX_COST)
+      .map((counter) => `${counter.item.name} (${counter.item.cost})`)
+    expect(tooExpensive).toEqual([])
   })
 
   it('marks everything derived while the overrides file is empty', () => {

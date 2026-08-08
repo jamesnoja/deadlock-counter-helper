@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { ABILITIES, HEROES, ITEMS, META, abilitiesForHero, heroBySlug } from './snapshot.ts'
-import { ITEM_CATEGORIES, ITEM_TIERS } from './schema.ts'
+import {
+  ABILITIES,
+  HEROES,
+  ITEMS,
+  META,
+  NON_RANKED_ITEMS,
+  RANKED_ITEMS,
+  abilitiesForHero,
+  heroBySlug,
+  itemByClassName,
+} from './snapshot.ts'
+import { ITEM_CATEGORIES, ITEM_TIERS, RANKED_MAX_COST } from './schema.ts'
 import { toDisplaySlug } from './normalise.ts'
 
 /**
@@ -100,15 +110,31 @@ describe('snapshot integrity', () => {
     expect(bad).toEqual([])
   })
 
+  it('splits items on the ranked cost ceiling', () => {
+    // Everything above 6400 is mode-restricted or not yet live. Kept in the
+    // snapshot for reference, excluded from recommendations.
+    expect(RANKED_ITEMS.every((item) => item.cost <= RANKED_MAX_COST)).toBe(true)
+    expect(NON_RANKED_ITEMS.every((item) => item.cost > RANKED_MAX_COST)).toBe(true)
+    expect(RANKED_ITEMS.length + NON_RANKED_ITEMS.length).toBe(ITEMS.length)
+    expect(NON_RANKED_ITEMS.length).toBeGreaterThan(0)
+  })
+
+  it('keeps excluded items in the snapshot rather than dropping them', () => {
+    // They stay inspectable so the exclusion can be revisited when the mode
+    // restriction lifts — losing them would mean a re-sync to get them back.
+    for (const item of NON_RANKED_ITEMS) {
+      expect(itemByClassName(item.class_name)).toBeDefined()
+    }
+  })
+
   it('prices every item purely by its tier', () => {
     /**
      * Cost is a function of tier upstream: 800 / 1600 / 3200 / 6400 / 9999.
      *
-     * The doubling breaks at tier 5, where 9999 looks like a placeholder rather
-     * than a price — 12800 would continue the pattern. Flagged rather than
-     * corrected, because guessing a price in a tool built to answer "can I
-     * afford this right now" would be worse than showing the upstream value.
-     * E14's budget filter needs this settled before it ships.
+     * The 9999 tier is not a real price — those items are mode-restricted or
+     * not yet live, and `ranked` excludes them from recommendations. The
+     * one-cost-per-tier invariant is what makes that filter safe to express as
+     * a cost ceiling, so it is worth pinning.
      */
     const costsByTier = new Map<number, Set<number>>()
     for (const item of ITEMS) {
