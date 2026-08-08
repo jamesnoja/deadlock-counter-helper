@@ -11,6 +11,24 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+    # Three majors are pinned deliberately. Each was tested and rejected on
+    # 2026-08-08; remove the entry once its blocker clears.
+    ignore:
+      # @types/node majors track the Node runtime. We run Node 24 (.nvmrc), so
+      # types for 25/26 would describe APIs that are not there — typecheck goes
+      # green on code that throws. Bump this with the runtime, not before.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # typescript-eslint refuses to load under TS 7.0, so `npm run lint` dies
+      # outright. Typecheck and build are fine — lint is the blocker.
+      # Tracking: https://github.com/typescript-eslint/typescript-eslint/issues/10940
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # eslint-config-next@16.3.0 bundles eslint-plugin-react@7.37.5, which uses
+      # a rule-context API that ESLint 10 removed. Every React rule throws on
+      # load. Unblocks when Next ships a newer eslint-plugin-react.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
