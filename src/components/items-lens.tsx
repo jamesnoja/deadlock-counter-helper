@@ -15,6 +15,7 @@ import { GameImage } from './game-image.tsx'
 import type { RankedCounter } from '@/data/derive.ts'
 import { ITEM_CATEGORIES, type ItemCategory, type Hero } from '@/data/schema.ts'
 import { normalise } from '@/data/hero-search.ts'
+import { itemArtwork } from '@/data/snapshot.ts'
 
 interface ItemsLensProps {
   counters: readonly RankedCounter[]
@@ -141,7 +142,7 @@ export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsL
                     <span className="flex items-center gap-md">
                       <span className="w-4 shrink-0 text-tabular text-text-muted">{index + 1}</span>
                       <GameImage
-                        src={counter.item.icon ?? counter.item.shop_icon}
+                        src={itemArtwork(counter.item)}
                         fallback={counter.item.name}
                         size={40}
                         className="shrink-0 rounded-md"

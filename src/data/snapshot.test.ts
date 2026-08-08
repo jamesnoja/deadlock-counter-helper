@@ -8,6 +8,7 @@ import {
   RANKED_ITEMS,
   abilitiesForHero,
   heroBySlug,
+  itemArtwork,
   itemByClassName,
 } from './snapshot.ts'
 import { ITEM_CATEGORIES, ITEM_TIERS, RANKED_MAX_COST } from './schema.ts'
@@ -176,6 +177,20 @@ describe('artwork coverage', () => {
     // E12's placeholder stops being optional.
     const missing = ITEMS.filter((i) => !i.icon && !i.shop_icon).map((i) => i.class_name)
     expect(missing).toEqual([])
+  })
+
+  it('prefers shop art for items, falling back to the plain icon', () => {
+    // Shop art is what players recognise from the shop and is more consistently
+    // framed. Asserted so the preference cannot drift back at one call site.
+    const withBoth = ITEMS.find((item) => item.shop_icon && item.icon)
+    expect(withBoth).toBeDefined()
+    expect(itemArtwork(withBoth!)).toBe(withBoth!.shop_icon)
+    expect(itemArtwork({ ...withBoth!, shop_icon: null })).toBe(withBoth!.icon)
+    expect(itemArtwork({ ...withBoth!, shop_icon: null, icon: null })).toBeNull()
+  })
+
+  it('resolves artwork for every item', () => {
+    expect(ITEMS.filter((item) => !itemArtwork(item)).map((item) => item.class_name)).toEqual([])
   })
 
   it('gives every hero a portrait', () => {

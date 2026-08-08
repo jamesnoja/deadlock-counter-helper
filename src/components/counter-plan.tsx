@@ -11,6 +11,7 @@
 import { GameImage } from './game-image.tsx'
 import type { RankedCounter } from '@/data/derive.ts'
 import { counterPlan, type PlanTier } from '@/data/plan.ts'
+import { itemArtwork } from '@/data/snapshot.ts'
 import type { Hero } from '@/data/schema.ts'
 
 const TIER_CLASS: Record<PlanTier, string> = {
@@ -59,7 +60,7 @@ export function CounterPlan({ counters, team, onSelect }: CounterPlanProps) {
 
               <span className="flex items-center gap-sm">
                 <GameImage
-                  src={counter.item.icon ?? counter.item.shop_icon}
+                  src={itemArtwork(counter.item)}
                   fallback={counter.item.name}
                   size={40}
                   className="shrink-0 rounded-md"
