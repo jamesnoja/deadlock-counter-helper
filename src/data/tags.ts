@@ -43,6 +43,31 @@ export const THREAT_TAG_LABELS: Record<ThreatTag, string> = {
   melee_pressure: 'Melee pressure',
 }
 
+/**
+ * When an item is worth buying — E16.
+ *
+ * Expressed in the overlay rather than hardcoded in the UI, so switching phase
+ * changes the ranking rather than just the prose. Absent means "any phase".
+ */
+export const GAME_PHASES = ['lane', 'mid', 'late'] as const
+export type GamePhase = (typeof GAME_PHASES)[number]
+
+/**
+ * Default phase from tier.
+ *
+ * Cost is a pure function of tier and souls accumulate over a match, so tier is
+ * a genuine proxy for when an item comes online. It is a starting point, not a
+ * judgement: a curator can override any entry, and a tier-4 item that is
+ * situationally a lane pick should say so in the overlay.
+ */
+export const PHASES_FOR_TIER: Record<number, GamePhase[]> = {
+  1: ['lane', 'mid'],
+  2: ['lane', 'mid'],
+  3: ['mid', 'late'],
+  4: ['late'],
+  5: ['late'],
+}
+
 /** How decisively an item answers a tag. Feeds the ranking in E05. */
 export const COUNTER_STRENGTHS = ['hard', 'soft', 'situational'] as const
 export type CounterStrength = (typeof COUNTER_STRENGTHS)[number]
@@ -126,6 +151,11 @@ export interface ItemCounters {
    * say. Anything here is shown to the user as editorial rather than derived.
    */
   notes?: Record<string, string>
+  /**
+   * Phases this item is worth buying in. Omit to fall back to the tier default,
+   * which is the honest state for anything nobody has judged yet.
+   */
+  phases?: GamePhase[]
 }
 
 export const isThreatTag = (value: unknown): value is ThreatTag =>

@@ -15,6 +15,8 @@ import { GameImage } from './game-image.tsx'
 import type { RankedCounter } from '@/data/derive.ts'
 import { ITEM_CATEGORIES, type ItemCategory, type Hero } from '@/data/schema.ts'
 import { normalise } from '@/data/hero-search.ts'
+import { ItemMeta } from './item-meta.tsx'
+import { ItemStats } from './item-stats.tsx'
 import { itemArtwork } from '@/data/snapshot.ts'
 
 interface ItemsLensProps {
@@ -24,12 +26,6 @@ interface ItemsLensProps {
   onSelectHero?: (className: string) => void
   /** Opens the detail panel for an item. */
   onSelectItem?: (className: string) => void
-}
-
-const CATEGORY_CLASS: Record<ItemCategory, string> = {
-  weapon: 'text-category-weapon',
-  vitality: 'text-category-vitality',
-  spirit: 'text-category-spirit',
 }
 
 export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsLensProps) {
@@ -160,18 +156,12 @@ export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsL
                         ) : (
                           <span className="truncate text-heading">{counter.item.name}</span>
                         )}
-                        <span className="flex flex-wrap items-center gap-xs">
-                          {/* pill-tag from the design guide: subdued fill, soft text. */}
-                          <span
-                            className={`rounded-pill bg-surface-elevated px-sm py-px text-micro ${CATEGORY_CLASS[counter.item.category]}`}
-                          >
-                            {counter.item.category}
-                          </span>
-                          <span className="text-micro text-text-muted">T{counter.item.tier}</span>
-                          <span className="text-tabular">
-                            {counter.item.cost.toLocaleString()}
-                          </span>
-                        </span>
+                        <ItemMeta
+                          category={counter.item.category}
+                          tier={counter.item.tier}
+                          cost={counter.item.cost}
+                        />
+                        <ItemStats stats={counter.item.stats} itemName={counter.item.name} />
                       </span>
                     </span>
                   </th>
