@@ -334,6 +334,7 @@ keyboard and opaque to screen readers.
     title: 'Enemy team builder (6 slots)',
     epic: 'ux',
     priority: 'p0',
+    status: 'done',
     depends: ['E08', 'E05'],
     body: `
 ### Problem
