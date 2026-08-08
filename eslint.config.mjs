@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vitest coverage output. Gitignored, but flat config does not read
+    // .gitignore, so it has to be listed here too.
+    "coverage/**",
   ]),
 ]);
 
