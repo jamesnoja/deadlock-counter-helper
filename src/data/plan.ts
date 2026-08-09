@@ -6,12 +6,12 @@
  * few that answer that, and labels why each is here.
  */
 
-import type { RankedCounter } from './derive.ts'
+import type { SourcedCounter } from './sourced.ts'
 
 export type PlanTier = 'core' | 'flexible'
 
 export interface PlanEntry {
-  counter: RankedCounter
+  counter: SourcedCounter
   tier: PlanTier
 }
 
@@ -26,7 +26,7 @@ export const PLAN_SIZE = 3
  * item is value against the team, a flexible one is a targeted pick you take
  * because a specific enemy is ruining your game.
  */
-export function classify(counter: RankedCounter, teamSize: number): PlanTier {
+export function classify(counter: SourcedCounter, teamSize: number): PlanTier {
   return counter.coverage.length * 2 > teamSize ? 'core' : 'flexible'
 }
 
@@ -38,7 +38,7 @@ export function classify(counter: RankedCounter, teamSize: number): PlanTier {
  * always also in the full table.
  */
 export function counterPlan(
-  counters: readonly RankedCounter[],
+  counters: readonly SourcedCounter[],
   teamSize: number,
   size: number = PLAN_SIZE,
 ): PlanEntry[] {

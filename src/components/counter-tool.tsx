@@ -25,12 +25,11 @@ import { ItemDetail } from './item-detail.tsx'
 import { ItemsLens } from './items-lens.tsx'
 import { EmptyState } from './primitives.tsx'
 import { MAX_ENEMIES, TeamBar } from './team-bar.tsx'
+import { SourceCredit } from './source-credit.tsx'
 import { YourHero } from './your-hero.tsx'
 import { filterByPhase, splitByBudget, weightForRole } from '@/data/context.ts'
-import { countersForTeam } from '@/data/counters.ts'
-import { countersForItem } from '@/data/overlay.ts'
+import { planForTeam } from '@/data/counters.ts'
 import type { Hero } from '@/data/schema.ts'
-import { abilityByClassName } from '@/data/snapshot.ts'
 import { GAME_PHASES, type GamePhase } from '@/data/tags.ts'
 import { encodeToolState, type ToolState } from '@/data/url-state.ts'
 
@@ -97,12 +96,13 @@ export function CounterTool({
     router.replace(next ? `/?${next}` : '/', { scroll: false })
   }, [selected, yourHero, phase, budget, slugFor, router, searchParams])
 
-  /** Ranked once. Everything below narrows or re-weights this one result. */
-  const ranked = useMemo(() => countersForTeam(selected), [selected])
+  /** Planned once. Everything below narrows or re-weights this one result. */
+  const plan = useMemo(() => planForTeam(selected), [selected])
+  const ranked = plan.counters
 
   const contextual = useMemo(() => {
     const role = yourHero ? (byClassName.get(yourHero)?.role ?? null) : null
-    return weightForRole(filterByPhase(ranked, phase, countersForItem), role)
+    return weightForRole(filterByPhase(ranked, phase), role)
   }, [ranked, phase, yourHero, byClassName])
 
   const { affordable, outOfReach } = useMemo(
@@ -116,6 +116,17 @@ export function CounterTool({
   return (
     <div className="flex flex-col gap-xl">
       <TeamBar team={team} onClear={clear} onClearAll={() => setSelected([])} />
+
+      {plan.unavailable.length > 0 ? (
+        <p className="rounded-card bg-surface p-card text-caption text-threat-high">
+          No published counter advice for{' '}
+          {plan.unavailable
+            .map((className) => byClassName.get(className)?.name ?? className)
+            .join(', ')}
+          . They are excluded from the ranking below — which is not the same as nothing
+          countering them.
+        </p>
+      ) : null}
 
       <section className="flex flex-col gap-md">
         <HeroPicker
@@ -212,7 +223,6 @@ export function CounterTool({
                 <ItemDetail
                   counter={detail}
                   team={team}
-                  abilityName={(className) => abilityByClassName(className)?.name}
                   onClose={() => setSelectedItem(null)}
                 />
               ) : null}
@@ -233,7 +243,6 @@ export function CounterTool({
                   team={team}
                   focus={focus}
                   onFocus={setFocus}
-                  onSelectItem={setSelectedItem}
                 />
               ) : (
                 <BuildLens
@@ -268,6 +277,8 @@ export function CounterTool({
           )}
         </section>
       )}
+
+      <SourceCredit meta={plan.source} />
     </div>
   )
 }

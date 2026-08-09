@@ -6,17 +6,30 @@
  * with one job, and these stay independently testable.
  */
 
-import type { RankedCounter } from './derive.ts'
-import type { ItemCounters, GamePhase } from './tags.ts'
+import type { GamePhase } from './tags.ts'
 import { PHASES_FOR_TIER } from './tags.ts'
-import type { HeroRole, ItemCategory } from './schema.ts'
+import type { HeroRole, Item, ItemCategory } from './schema.ts'
+
+/**
+ * The least these filters need to know.
+ *
+ * They narrow and re-weight by cost, tier and category — all facts about the
+ * item, none about how it was chosen. Typing them structurally is what lets the
+ * same three functions serve the published-counter engine and the tag engine
+ * during the changeover, without either knowing the other exists.
+ */
+export interface Rankable {
+  item: Item
+  score: number
+  coverage: string[]
+}
 
 /* ------------------------------------------------------------------- budget */
 
-export interface BudgetSplit {
-  affordable: RankedCounter[]
+export interface BudgetSplit<T extends Rankable = Rankable> {
+  affordable: T[]
   /** The next rung up — what to plan the following back around. */
-  outOfReach: RankedCounter[]
+  outOfReach: T[]
 }
 
 /**
@@ -24,10 +37,10 @@ export interface BudgetSplit {
  * hiding the next tier entirely would answer "what can I buy" while destroying
  * "what am I saving for".
  */
-export function splitByBudget(
-  counters: readonly RankedCounter[],
+export function splitByBudget<T extends Rankable>(
+  counters: readonly T[],
   budget: number | null,
-): BudgetSplit {
+): BudgetSplit<T> {
   if (budget === null) return { affordable: [...counters], outOfReach: [] }
   const affordable = counters.filter((counter) => counter.item.cost <= budget)
   const cheapestUnaffordable = Math.min(
@@ -43,19 +56,16 @@ export function splitByBudget(
 
 /* -------------------------------------------------------------------- phase */
 
-export const phasesFor = (counter: RankedCounter, entry?: ItemCounters): GamePhase[] =>
-  entry?.phases ?? PHASES_FOR_TIER[counter.item.tier] ?? ['lane', 'mid', 'late']
+export const phasesFor = (counter: Rankable): GamePhase[] =>
+  PHASES_FOR_TIER[counter.item.tier] ?? ['lane', 'mid', 'late']
 
 /** Keeps only items worth buying in the chosen phase. */
-export function filterByPhase(
-  counters: readonly RankedCounter[],
+export function filterByPhase<T extends Rankable>(
+  counters: readonly T[],
   phase: GamePhase | null,
-  entryFor: (className: string) => ItemCounters | undefined,
-): RankedCounter[] {
+): T[] {
   if (phase === null) return [...counters]
-  return counters.filter((counter) =>
-    phasesFor(counter, entryFor(counter.item.class_name)).includes(phase),
-  )
+  return counters.filter((counter) => phasesFor(counter).includes(phase))
 }
 
 /* ---------------------------------------------------------------- your hero */
@@ -84,10 +94,7 @@ const ROLE_AFFINITY: Record<HeroRole, Partial<Record<ItemCategory, number>>> = {
  * enemy lineup should still dominate the ranking. Re-sorted with the same
  * tie-breaks as the engine so ordering stays total and stable.
  */
-export function weightForRole(
-  counters: readonly RankedCounter[],
-  role: HeroRole | null,
-): RankedCounter[] {
+export function weightForRole<T extends Rankable>(counters: readonly T[], role: HeroRole | null): T[] {
   if (!role) return [...counters]
   const affinity = ROLE_AFFINITY[role]
   /**

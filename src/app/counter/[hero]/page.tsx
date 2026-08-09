@@ -4,12 +4,11 @@ import { notFound } from 'next/navigation'
 import { GameImage } from '@/components/game-image.tsx'
 import { CategoryTag } from '@/components/item-meta.tsx'
 import { ProvenanceStamp } from '@/components/provenance-stamp.tsx'
-import { countersForTeam } from '@/data/counters.ts'
-import { explainPair } from '@/data/explain.ts'
-import { countersForItem, threatsForAbility } from '@/data/overlay.ts'
+import { SourceCredit } from '@/components/source-credit.tsx'
+import { planForTeam } from '@/data/counters.ts'
 import { absolute } from '@/data/site.ts'
 import { abilitiesForHero, displayStats, HEROES, heroBySlug, itemArtwork } from '@/data/snapshot.ts'
-import { THREAT_TAG_LABELS } from '@/data/tags.ts'
+import { reasonFor } from '@/data/sourced.ts'
 
 /**
  * Per-hero counter pages — E21.
@@ -62,7 +61,9 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
   if (!hero) notFound()
 
   const abilities = abilitiesForHero(hero)
-  const counters = countersForTeam([hero.class_name])
+  const plan = planForTeam([hero.class_name])
+  const counters = plan.counters
+  const advice = plan.heroes[0]
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-xl p-xl">
@@ -83,12 +84,28 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
         <div className="min-w-0">
           <h1 className="text-display">How to counter {hero.name}</h1>
           <p className="text-caption text-text-muted">
-            {hero.role} · {counters.length} items answer something in this kit
+            {hero.role} · {counters.length} published answers
           </p>
         </div>
       </header>
 
       <ProvenanceStamp />
+
+      {advice ? (
+        <section className="rounded-card bg-surface p-card">
+          <h2 className="text-heading">The short version</h2>
+          <p className="text-caption text-text-muted">{advice.summary}</p>
+        </section>
+      ) : (
+        <section className="rounded-card bg-surface p-card">
+          <h2 className="text-heading">No published advice yet</h2>
+          <p className="text-caption text-text-muted">
+            Our source has not written {hero.name} up. That is not the same as nothing countering
+            them — it means nobody has published what does. The abilities below are straight from
+            the game.
+          </p>
+        </section>
+      )}
 
       <section className="flex flex-col gap-md">
         <h2 className="text-heading">Best answers to {hero.name}</h2>
@@ -107,7 +124,7 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
               />
               <span className="min-w-0 flex-1">
                 <span className="block text-caption">{counter.item.name}</span>
-                <span className="block text-micro text-text-muted">{counter.why}</span>
+                <span className="block text-micro text-text-muted">{reasonFor(counter)}</span>
               </span>
               <span className="flex shrink-0 items-center gap-sm">
                 <CategoryTag category={counter.item.category} />
@@ -120,26 +137,48 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
         </ol>
       </section>
 
+      {advice && advice.situations.length > 0 ? (
+        <section className="flex flex-col gap-md">
+          <h2 className="text-heading">When it goes wrong, buy this</h2>
+          <p className="text-caption text-text-muted">
+            Specific problems with specific answers, rather than a shopping list.
+          </p>
+          <ul className="flex flex-col gap-sm">
+            {advice.situations.map((situation) => (
+              <li key={situation.label} className="rounded-card bg-surface p-card">
+                <h3 className="text-heading">{situation.label}</h3>
+                <p className="text-caption text-text-muted">{situation.reason}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {advice && advice.lanePhase.length > 0 ? (
+        <section className="rounded-card bg-surface p-card">
+          <h2 className="text-heading">In lane</h2>
+          <ul className="mt-sm flex flex-col gap-xs">
+            {advice.lanePhase.map((tip) => (
+              <li key={tip} className="text-caption text-text-muted">
+                {tip}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {/*
-        The ability-by-ability breakdown. The original site said "counter Haze"
-        and buried the specifics in prose; this attaches each answer to the
-        named ability it addresses, with the live numbers from the snapshot.
+        Abilities as reference, not as a counter breakdown.
+        The old version attached each answer to the named ability it addressed.
+        That came from the tag overlay, which knew which ability carried which
+        threat; the published source works at hero level and has no equivalent,
+        so the linkage is gone rather than faked. Descriptions and live stats
+        still come from the snapshot and are still worth having on the page.
       */}
       <section className="flex flex-col gap-md">
-        <h2 className="text-heading">{hero.name}&rsquo;s abilities, and what stops each one</h2>
-
+        <h2 className="text-heading">{hero.name}&rsquo;s abilities</h2>
         {abilities.map((ability) => {
-          const entry = threatsForAbility(ability.class_name)
-          const tags = entry?.tags ?? []
-          const answers = counters.filter((counter) =>
-            counter.perHero.some(
-              (effect) =>
-                effect.abilities.includes(ability.class_name) &&
-                effect.tags.some((tag) => tags.includes(tag)),
-            ),
-          )
           const stats = displayStats(ability.stats).slice(0, 6)
-
           return (
             <article
               key={ability.class_name}
@@ -177,79 +216,6 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
                   ))}
                 </dl>
               ) : null}
-
-              {tags.length > 0 ? (
-                <p className="flex flex-wrap items-center gap-xs">
-                  <span className="text-micro text-text-muted">Threatens:</span>
-                  {tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-pill bg-surface-elevated px-sm py-px text-micro text-threat-medium"
-                    >
-                      {THREAT_TAG_LABELS[tag]}
-                    </span>
-                  ))}
-                </p>
-              ) : null}
-
-              <div className="flex flex-col gap-xs">
-                <h4 className="text-micro text-text-muted">What answers it</h4>
-                {answers.length === 0 ? (
-                  <p className="text-caption text-text-muted">
-                    {tags.length === 0
-                      ? 'This ability has no threat tagged yet, so nothing is recommended against it.'
-                      : 'Nothing currently recommended answers this specific ability.'}
-                  </p>
-                ) : (
-                  <ul className="flex flex-col gap-xs">
-                    {/* Capped so a four-ability page is readable. The count
-                        below says what is not shown — a silent truncation would
-                        read as "that is everything". */}
-                    {answers.slice(0, 8).map((counter) => {
-                      const effect = counter.perHero.find(
-                        (candidate) => candidate.hero === hero.class_name,
-                      )
-                      const explanation = effect
-                        ? explainPair(
-                            { ...effect, abilities: [ability.class_name] },
-                            hero.name,
-                            () => ability.name,
-                            countersForItem(counter.item.class_name),
-                          )
-                        : null
-                      return (
-                        <li
-                          key={counter.item.class_name}
-                          className="flex items-center gap-sm rounded-md bg-surface-elevated p-sm"
-                        >
-                          <GameImage
-                            src={itemArtwork(counter.item)}
-                            fallback={counter.item.name}
-                            size={28}
-                            className="shrink-0 rounded-sm"
-                          />
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-caption">{counter.item.name}</span>
-                            {explanation ? (
-                              <span className="block text-micro text-text-muted">
-                                {explanation.text}
-                              </span>
-                            ) : null}
-                          </span>
-                          <span className="shrink-0 text-tabular text-micro text-text-muted">
-                            {counter.item.cost.toLocaleString()}
-                          </span>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                )}
-                {answers.length > 8 ? (
-                  <p className="text-micro text-text-muted">
-                    Showing the 8 strongest of {answers.length} that answer this ability.
-                  </p>
-                ) : null}
-              </div>
             </article>
           )
         })}
@@ -265,6 +231,8 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
           to add the other five and see what answers the lineup together.
         </p>
       </section>
+
+      <SourceCredit meta={plan.source} />
 
       <p className="text-caption text-text-muted">
         Fan project. Deadlock is the property of Valve Corporation.
