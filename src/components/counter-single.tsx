@@ -168,21 +168,27 @@ export function CounterSingle({
         <div className="flex flex-col gap-lg">
           {advice ? (
             <>
-              <section className="rounded-card bg-surface p-card">
+              <section className="flex flex-col gap-md">
                 <h3 className="text-heading">Matchup overview</h3>
-                <p className="text-caption text-text-muted">{advice.summary}</p>
+                <div className="rounded-card bg-surface p-card">
+                  <p className="text-caption text-text-muted">
+                    {advice.summary}
+                  </p>
+                </div>
               </section>
 
               {advice.lanePhase.length > 0 ? (
-                <section className="rounded-card bg-surface p-card">
+                <section className="flex flex-col gap-md">
                   <h3 className="text-heading">In the lane phase</h3>
-                  <ul className="mt-sm flex flex-col gap-xs">
-                    {advice.lanePhase.map((tip) => (
-                      <li key={tip} className="text-caption text-text-muted">
-                        {tip}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="rounded-card bg-surface p-card">
+                    <ul className="flex flex-col gap-xs">
+                      {advice.lanePhase.map((tip) => (
+                        <li key={tip} className="text-caption text-text-muted">
+                          {tip}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </section>
               ) : null}
 

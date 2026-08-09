@@ -1521,3 +1521,16 @@ refresh cadence rather than the patch cycle, and that a stale-looking matchup pr
 Attribution, the link and the fetch date all survive, which is what the arrangement actually
 requires. The cadence caveat now lives only in the README and `docs/NEW-HERO.md` — worth knowing
 if #80 (staleness detection) ever wants a place to surface a warning.
+
+## 2026-08-09 — Fix the column misalignment
+
+Owner spotted it in a screenshot: the right column's first card sat higher than the left
+column's.
+
+**Cause.** The two columns had different structures. The left was a bare `<h3>` followed by the
+card grid; the right had its `<h3>` *inside* the first card. So the left column's cards began one
+heading's height lower than the right's, and the two never shared a top edge.
+
+**Fix.** Lift `Matchup overview` and `In the lane phase` out of their cards, so both columns now
+open with a bare heading followed by a card. `What are you struggling with?` was already built
+that way, which is why it looked right and the other two did not.
