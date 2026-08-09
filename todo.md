@@ -1458,3 +1458,44 @@ state. Acknowledging silences the build, not the page.
 
 **Confirmed by simulation, not assumed:** the hero page, the picker, the sitemap and the routes
 all handle an uncovered hero with no code change.
+
+### Review — single-hero layout
+
+Shipped. 199 tests, verify clean, both surfaces checked in the running app.
+
+**Built from the reference site's own render code, not the screenshot.** The screenshot did not
+come through. Rather than guess, I read `renderSingleHero` out of the page's JS, which gives the
+exact section order and the exact contents of each: title, summary, top counters row, lane
+advice list, situation buttons, a hidden priority panel, and a right rail of item detail cards
+keyed on `union(topCounters, situation priorityItems)`. That is a better source than a
+screenshot anyway — it is what the page does, not what one instance of it looked like.
+
+**One component, both surfaces.** `/counter/[hero]` and the tool at one selection previously
+rendered the same data in two different layouts; they now share `counter-single.tsx`. The hero
+page suppresses the heading because its own header already announces the matchup.
+
+**The right rail is gone, folded into the cards.** Their layout asks you to match a name on the
+left against a name on the right. Putting each item's description and why-bullets in its own
+card removes that lookup. Two columns at `sm` and up, one below.
+
+**Situations highlight rather than duplicate.** Clicking one highlights the answering card,
+scrolls it into centre, and shows the reason on the card itself. Both halves matter: a highlight
+without a scroll changes something off-screen, and a scroll without a highlight leaves you
+wondering which card moved you. Clicking again clears it.
+
+**The filters still apply.** The tool passes its post-filter counters in, so phase and budget
+keep working at one selection rather than being silently bypassed.
+
+**Two empty states, deliberately different.** "No published counters match the current filters"
+and "nobody has written this hero up" are different problems with different fixes. There is a
+test asserting the copy tells them apart, because the obvious implementation collapses them.
+
+**The lens switcher is hidden at one enemy.** The three lenses exist to answer what a whole
+lineup shares; at one hero there is nothing to share, and offering three ways to view one list
+is a choice nobody wants.
+
+### Follow-ups
+
+- [ ] Multi-hero view is unchanged. Owner mentioned single *and* multi — this branch is single
+      only, and the reference's team view groups by their nine categories, which we hold but do
+      not currently use for grouping.

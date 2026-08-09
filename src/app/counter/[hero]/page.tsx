@@ -2,13 +2,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { GameImage } from '@/components/game-image.tsx'
-import { CategoryTag } from '@/components/item-meta.tsx'
 import { ProvenanceStamp } from '@/components/provenance-stamp.tsx'
+import { CounterSingle } from '@/components/counter-single.tsx'
 import { SourceCredit } from '@/components/source-credit.tsx'
 import { planForTeam } from '@/data/counters.ts'
 import { absolute } from '@/data/site.ts'
-import { abilitiesForHero, displayStats, HEROES, heroBySlug, itemArtwork } from '@/data/snapshot.ts'
-import { reasonFor } from '@/data/sourced.ts'
+import { abilitiesForHero, displayStats, HEROES, heroBySlug } from '@/data/snapshot.ts'
 
 /**
  * Per-hero counter pages — E21.
@@ -91,81 +90,7 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
 
       <ProvenanceStamp />
 
-      {advice ? (
-        <section className="rounded-card bg-surface p-card">
-          <h2 className="text-heading">The short version</h2>
-          <p className="text-caption text-text-muted">{advice.summary}</p>
-        </section>
-      ) : (
-        <section className="rounded-card bg-surface p-card">
-          <h2 className="text-heading">No published advice yet</h2>
-          <p className="text-caption text-text-muted">
-            Our source has not written {hero.name} up. That is not the same as nothing countering
-            them — it means nobody has published what does. The abilities below are straight from
-            the game.
-          </p>
-        </section>
-      )}
-
-      <section className="flex flex-col gap-md">
-        <h2 className="text-heading">Best answers to {hero.name}</h2>
-        <ol className="flex flex-col gap-xs">
-          {counters.slice(0, 8).map((counter, index) => (
-            <li
-              key={counter.item.class_name}
-              className="flex items-center gap-md rounded-lg bg-surface p-row"
-            >
-              <span className="w-4 shrink-0 text-tabular text-text-muted">{index + 1}</span>
-              <GameImage
-                src={itemArtwork(counter.item)}
-                fallback={counter.item.name}
-                size={36}
-                className="shrink-0 rounded-md"
-              />
-              <span className="min-w-0 flex-1">
-                <span className="block text-caption">{counter.item.name}</span>
-                <span className="block text-micro text-text-muted">{reasonFor(counter)}</span>
-              </span>
-              <span className="flex shrink-0 items-center gap-sm">
-                <CategoryTag category={counter.item.category} />
-                <span className="text-tabular text-caption">
-                  {counter.item.cost.toLocaleString()}
-                </span>
-              </span>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {advice && advice.situations.length > 0 ? (
-        <section className="flex flex-col gap-md">
-          <h2 className="text-heading">When it goes wrong, buy this</h2>
-          <p className="text-caption text-text-muted">
-            Specific problems with specific answers, rather than a shopping list.
-          </p>
-          <ul className="flex flex-col gap-sm">
-            {advice.situations.map((situation) => (
-              <li key={situation.label} className="rounded-card bg-surface p-card">
-                <h3 className="text-heading">{situation.label}</h3>
-                <p className="text-caption text-text-muted">{situation.reason}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {advice && advice.lanePhase.length > 0 ? (
-        <section className="rounded-card bg-surface p-card">
-          <h2 className="text-heading">In lane</h2>
-          <ul className="mt-sm flex flex-col gap-xs">
-            {advice.lanePhase.map((tip) => (
-              <li key={tip} className="text-caption text-text-muted">
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <CounterSingle hero={hero} counters={counters} advice={advice} showHeading={false} />
 
       {/*
         Abilities as reference, not as a counter breakdown.

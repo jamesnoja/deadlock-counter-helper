@@ -19,6 +19,7 @@ import { BudgetFilter } from './budget-filter.tsx'
 import { BuildLens } from './build-lens.tsx'
 import { ChatExport } from './chat-export.tsx'
 import { CounterPlan } from './counter-plan.tsx'
+import { CounterSingle } from './counter-single.tsx'
 import { HeroPicker } from './hero-picker.tsx'
 import { HeroesLens } from './heroes-lens.tsx'
 import { ItemDetail } from './item-detail.tsx'
@@ -191,7 +192,20 @@ export function CounterTool({
             outOfReach={outOfReach.length}
           />
 
-          {affordable.length === 0 ? (
+          {/*
+            One enemy gets its own layout rather than a lens switcher. The
+            lenses exist to answer "what does this whole lineup share" — at one
+            hero there is nothing to share, and three ways to view a single list
+            is a choice nobody wants to make.
+          */}
+          {team.length === 1 && team[0] ? (
+            <CounterSingle
+              hero={team[0]}
+              counters={affordable}
+              advice={plan.heroes[0]}
+              showHeading={false}
+            />
+          ) : affordable.length === 0 ? (
             <EmptyState
               title="Nothing matches those filters"
               hint="Widen the budget or phase to see counters again."
