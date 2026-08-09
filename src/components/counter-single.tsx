@@ -18,10 +18,8 @@
  */
 
 import { useRef, useState } from "react";
-import { GameImage } from "./game-image.tsx";
-import { CategoryTag } from "./item-meta.tsx";
+import { CounterCard } from "./counter-card.tsx";
 import type { Hero } from "@/data/schema.ts";
-import { itemArtwork } from "@/data/snapshot.ts";
 import type { HeroPlan, SourcedCounter } from "@/data/sourced.ts";
 
 interface CounterSingleProps {
@@ -88,77 +86,20 @@ export function CounterSingle({
           <section className="flex flex-col gap-md">
             <h3 className="text-heading">Best items against {hero.name}</h3>
             <ul className="grid gap-md sm:grid-cols-2">
-              {counters.map((counter, index) => {
-                const situation = reasonFor(counter);
-                const isHighlighted = highlighted === counter.item.class_name;
-                return (
-                  <li
-                    key={counter.item.class_name}
-                    ref={(node) => {
-                      if (node)
-                        cardRefs.current.set(counter.item.class_name, node);
-                      else cardRefs.current.delete(counter.item.class_name);
-                    }}
-                    aria-current={isHighlighted ? "true" : undefined}
-                    className={[
-                      "flex flex-col gap-sm rounded-card p-card transition-colors",
-                      isHighlighted
-                        ? "bg-brand-subdued ring-2 ring-brand"
-                        : "bg-surface",
-                    ].join(" ")}
-                  >
-                    <div className="flex items-start gap-md">
-                      <GameImage
-                        src={itemArtwork(counter.item)}
-                        fallback={counter.item.name}
-                        size={44}
-                        className="shrink-0 rounded-md"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <h4 className="text-heading">{counter.item.name}</h4>
-                        <p className="flex flex-wrap items-center gap-sm">
-                          <span className="text-tabular text-caption">
-                            {counter.item.cost.toLocaleString()}
-                          </span>
-                          <CategoryTag category={counter.item.category} />
-                        </p>
-                      </div>
-                      <span
-                        aria-hidden
-                        className="shrink-0 text-tabular text-micro text-text-muted"
-                        title={`Ranked ${index + 1} against ${hero.name}`}
-                      >
-                        #{index + 1}
-                      </span>
-                    </div>
-
-                    {counter.note?.description ? (
-                      <p className="text-caption text-text-muted">
-                        {counter.note.description}
-                      </p>
-                    ) : null}
-
-                    {counter.note?.why.length ? (
-                      <ul className="flex flex-col gap-px">
-                        {counter.note.why.map((line) => (
-                          <li key={line} className="text-micro text-text-muted">
-                            — {line}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-
-                    {isHighlighted && situation ? (
-                      <p className="rounded-md bg-surface-elevated p-sm text-caption">
-                        <span className="text-text-muted">
-                          {situation.label}:{" "}
-                        </span>
-                        {situation.reason}
-                      </p>
-                    ) : null}
-                  </li>
-                );
-              })}
+              {counters.map((counter, index) => (
+                <CounterCard
+                  key={counter.item.class_name}
+                  counter={counter}
+                  rank={index + 1}
+                  highlighted={highlighted === counter.item.class_name}
+                  situation={reasonFor(counter)}
+                  onRef={(node) => {
+                    if (node)
+                      cardRefs.current.set(counter.item.class_name, node);
+                    else cardRefs.current.delete(counter.item.class_name);
+                  }}
+                />
+              ))}
             </ul>
           </section>
         )}
