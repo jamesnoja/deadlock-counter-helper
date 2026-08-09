@@ -8,6 +8,8 @@ import {
   groupFor,
   heroesWithoutCounters,
   noteFor,
+  unacknowledgedGaps,
+  ACKNOWLEDGED_GAPS,
 } from './published.ts'
 import { HEROES, ITEMS } from './snapshot.ts'
 
@@ -138,10 +140,19 @@ describe('lookups', () => {
     expect(groupFor('not_a_group')).toBeUndefined()
   })
 
-  it('covers every hero in the snapshot today, and names any it does not', () => {
-    // A ratchet. When Valve ships hero 39 this fails, which is the whole point:
-    // replacing derivation means new heroes arrive with no advice, and that has
-    // to be visible rather than an empty list.
-    expect(heroesWithoutCounters()).toEqual([])
+  it('has no coverage gap nobody has looked at', () => {
+    // Fails once when a hero arrives uncovered, and is cleared either by the
+    // source publishing them or by acknowledging the gap in
+    // data/counters/acknowledged-gaps.json. See docs/NEW-HERO.md.
+    expect(unacknowledgedGaps()).toEqual([])
+  })
+
+  it('reports the uncovered heroes it knows about', () => {
+    // heroesWithoutCounters is what the UI reads to decide whether to show the
+    // empty state, so it must keep listing an acknowledged gap. Acknowledging
+    // one silences the build, not the page.
+    for (const className of ACKNOWLEDGED_GAPS) {
+      expect(heroesWithoutCounters()).toContain(className)
+    }
   })
 })

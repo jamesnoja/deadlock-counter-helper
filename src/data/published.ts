@@ -9,6 +9,7 @@
  */
 
 import published from '../../data/counters/published.json' with { type: 'json' }
+import gaps from '../../data/counters/acknowledged-gaps.json' with { type: 'json' }
 
 import { HEROES } from './snapshot.ts'
 import type { CounterGroup, HeroCounters, ItemNote, PublishedCounters } from './published-schema.ts'
@@ -44,3 +45,26 @@ export const heroesWithoutCounters = (): string[] =>
   HEROES.filter((hero) => !heroIndex.has(hero.class_name))
     .map((hero) => hero.class_name)
     .sort()
+
+/**
+ * Gaps somebody has consciously accepted.
+ *
+ * Hand-edited, never written by a sync. Adding a hero here is a commit with a
+ * reviewer, which is the point.
+ */
+export const ACKNOWLEDGED_GAPS: string[] = (gaps as { heroes: string[] }).heroes
+
+/**
+ * Gaps nobody has looked at yet.
+ *
+ * The distinction matters because of how it fails. Asserting "no hero is
+ * uncovered" would put CI red the day Valve ships a hero and keep it red until
+ * a third party got round to writing them up — a red build nobody can fix is a
+ * red build everybody learns to ignore.
+ *
+ * Asserting this instead means the build fails once, loudly, and is fixed by a
+ * one-line commit saying "yes, we know". The hero still shows its empty state
+ * in the UI until the advice arrives.
+ */
+export const unacknowledgedGaps = (): string[] =>
+  heroesWithoutCounters().filter((className) => !ACKNOWLEDGED_GAPS.includes(className))

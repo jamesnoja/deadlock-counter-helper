@@ -1428,3 +1428,33 @@ ships as the per-hero summary and situations.
       generated from `scripts/enhancements.mjs` and is a record of what was planned, so it is
       wrong as documentation but right as history. Decide which it is.
 - [ ] `sync.yml` should run `sync:counters` daily. Still blocked on the `workflow` token scope.
+
+## 2026-08-09 — New-hero checklist
+
+Owner asked for this after the redesign. Written as `docs/NEW-HERO.md`, and the writing
+uncovered a design fault worth more than the doc.
+
+**The checklist was going to open with "your build is now red and you cannot fix it."**
+`published.test.ts` asserted `heroesWithoutCounters()` is empty. Under derivation that was
+reasonable — tag the abilities and it goes green. Under published counters the fix is *a third
+party writing an article*, so CI would sit red for however long that took. A red build nobody
+can clear is a red build everybody learns to ignore, and it would have masked the next real
+failure.
+
+Fixed with `data/counters/acknowledged-gaps.json`: hand-edited, never written by a sync. The
+assertion is now "no gap nobody has looked at", so a new hero fails the build once, loudly, and
+is cleared by a one-line commit that a reviewer sees.
+
+**Verified by simulation rather than reasoning.** Added a fake hero to the snapshot and ran the
+suite: three coverage tests failed. Acknowledged the gap and re-ran — and one still failed,
+because `counters.test.ts` had its own coverage assertion that did not consult the list, and
+`published.test.ts` had a second assertion I had just written that could not be cleared at all.
+Both fixed, so acknowledging now greens the build in one commit. Neither would have been found
+by reading the code.
+
+The remaining assertion checks the opposite direction: an acknowledged hero must still appear in
+`heroesWithoutCounters()`, because that is what the UI reads to decide whether to show the empty
+state. Acknowledging silences the build, not the page.
+
+**Confirmed by simulation, not assumed:** the hero page, the picker, the sitemap and the routes
+all handle an uncovered hero with no code change.

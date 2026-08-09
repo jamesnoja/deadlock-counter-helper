@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { planForTeam } from './counters.ts'
+import { ACKNOWLEDGED_GAPS } from './published.ts'
 import { HEROES } from './snapshot.ts'
 import { RANKED_MAX_COST } from './schema.ts'
 
@@ -29,12 +30,15 @@ describe('planForTeam', () => {
     expect(result[0]?.perHero.length).toBeGreaterThan(0)
   })
 
-  it('answers every hero in the snapshot individually', () => {
-    // A hero nobody can counter is a dead end in the UI. If the source drops a
-    // hero on a refresh, this fails rather than the page rendering empty.
-    const unanswered = HEROES.filter((hero) => planForTeam([hero.class_name]).counters.length === 0).map(
-      (hero) => hero.name,
-    )
+  it('answers every hero except the gaps we have acknowledged', () => {
+    // A hero nobody can counter is a dead end in the UI. Acknowledged gaps are
+    // excluded so that accepting a new uncovered hero is one commit rather than
+    // a game of whack-a-mole across three test files. See docs/NEW-HERO.md.
+    const unanswered = HEROES.filter(
+      (hero) =>
+        !ACKNOWLEDGED_GAPS.includes(hero.class_name) &&
+        planForTeam([hero.class_name]).counters.length === 0,
+    ).map((hero) => hero.name)
     expect(unanswered).toEqual([])
   })
 
