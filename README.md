@@ -45,6 +45,10 @@ Two consequences worth stating plainly:
    than rendering an empty list — "nobody has published this" and "nothing counters them" are
    different claims.
 
+When Valve ships a new hero, see **[docs/NEW-HERO.md](docs/NEW-HERO.md)**. The short version:
+CI fails on purpose, you acknowledge the gap in one line, and the site shows an honest empty
+state until the source catches up.
+
 Their data is keyed on English display names. Ours is not: `npm run sync:counters` resolves
 every name to a `class_name` at import and **fails rather than degrading** if one will not
 resolve. That already earned its keep — `Curse` and `Superior Stamina` had both been renamed
