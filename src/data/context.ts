@@ -6,8 +6,8 @@
  * with one job, and these stay independently testable.
  */
 
-import type { GamePhase } from './tags.ts'
-import { PHASES_FOR_TIER } from './tags.ts'
+import type { GamePhase } from './phases.ts'
+import { PHASES_FOR_TIER } from './phases.ts'
 import type { HeroRole, Item, ItemCategory } from './schema.ts'
 
 /**

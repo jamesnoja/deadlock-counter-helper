@@ -12,7 +12,7 @@
  */
 
 import type { Hero } from './schema.ts'
-import { GAME_PHASES, type GamePhase } from './tags.ts'
+import { GAME_PHASES, type GamePhase } from './phases.ts'
 
 export interface ToolState {
   /** Enemy hero `class_name`s, in pick order. */

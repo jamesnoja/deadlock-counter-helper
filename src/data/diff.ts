@@ -10,7 +10,6 @@
  */
 
 import type { Ability, Hero, Item, Snapshot } from './schema.ts'
-import type { AbilityThreats, ItemCounters } from './tags.ts'
 
 export interface Renamed {
   class_name: string
@@ -36,8 +35,8 @@ export interface SnapshotDiff {
    * provenance state in E07.
    */
   needsReview: string[]
-  /** New entities with no overlay entry — uncovered until someone tags them. */
-  untaggedAdditions: string[]
+  /** New entities the published source says nothing about — uncovered until it does. */
+  uncoveredAdditions: string[]
 }
 
 export const EMPTY_DIFF: SnapshotDiff = {
@@ -45,7 +44,7 @@ export const EMPTY_DIFF: SnapshotDiff = {
   items: { added: [], removed: [], renamed: [] },
   abilities: { added: [], removed: [], renamed: [], retuned: [] },
   needsReview: [],
-  untaggedAdditions: [],
+  uncoveredAdditions: [],
 }
 
 type Named = { class_name: string; name: string }
@@ -72,23 +71,23 @@ function comparePresence<T extends Named>(before: readonly T[], after: readonly 
 }
 
 /**
- * A stat change only counts if the ability carries overlay tags.
+ * A stat change only counts if we publish advice about that ability's hero.
  *
- * An untagged ability being retuned tells us nothing — we made no claim about
- * it. A tagged one being retuned might mean the claim no longer holds, and
- * that is the whole signal we are looking for.
+ * This used to gate on the ability's own tags. There are no tags now, and the
+ * claim we make is at hero level: someone wrote "counter Haze like this", and a
+ * retune of one of Haze's abilities may have invalidated it. A retune on a hero
+ * nobody has written up changes nothing, because we asserted nothing.
  */
 function compareAbilityStats(
   before: readonly Ability[],
   after: readonly Ability[],
-  abilityThreats: Readonly<Record<string, AbilityThreats>>,
+  coveredHeroes: ReadonlySet<string>,
 ): Retuned[] {
   const beforeByName = new Map(before.map((ability) => [ability.class_name, ability]))
   const retuned: Retuned[] = []
 
   for (const ability of after) {
-    const entry = abilityThreats[ability.class_name]
-    if (!entry || entry.untagged || entry.tags.length === 0) continue
+    if (!coveredHeroes.has(ability.hero)) continue
 
     const previous = beforeByName.get(ability.class_name)
     if (!previous) continue
@@ -109,15 +108,19 @@ function compareAbilityStats(
 export function diffSnapshots(
   before: Snapshot,
   after: Snapshot,
-  overlay: {
-    abilityThreats: Readonly<Record<string, AbilityThreats>>
-    itemCounters: Readonly<Record<string, ItemCounters>>
+  /**
+   * What the published source currently says something about. Passed in rather
+   * than imported so this stays a pure function over two snapshots.
+   */
+  coverage: {
+    heroes: ReadonlySet<string>
+    items: ReadonlySet<string>
   },
 ): SnapshotDiff {
   const heroes = comparePresence<Hero>(before.heroes, after.heroes)
   const items = comparePresence<Item>(before.items, after.items)
   const abilityPresence = comparePresence<Ability>(before.abilities, after.abilities)
-  const retuned = compareAbilityStats(before.abilities, after.abilities, overlay.abilityThreats)
+  const retuned = compareAbilityStats(before.abilities, after.abilities, coverage.heroes)
 
   /**
    * A removal cannot need review — it is gone. A rename cannot invalidate
@@ -133,9 +136,14 @@ export function diffSnapshots(
     ]),
   ].sort()
 
-  const untaggedAdditions = [
-    ...items.added.filter((className) => !overlay.itemCounters[className]),
-    ...abilityPresence.added.filter((className) => !overlay.abilityThreats[className]),
+  /**
+   * Abilities are not listed here any more. The source works at hero level and
+   * makes no per-ability claim, so a new ability is not itself a coverage gap —
+   * a new *hero* is.
+   */
+  const uncoveredAdditions = [
+    ...heroes.added.filter((className) => !coverage.heroes.has(className)),
+    ...items.added.filter((className) => !coverage.items.has(className)),
   ].sort()
 
   return {
@@ -143,13 +151,13 @@ export function diffSnapshots(
     items,
     abilities: { ...abilityPresence, retuned },
     needsReview,
-    untaggedAdditions,
+    uncoveredAdditions,
   }
 }
 
 export const isEmptyDiff = (diff: SnapshotDiff): boolean =>
   diff.needsReview.length === 0 &&
-  diff.untaggedAdditions.length === 0 &&
+  diff.uncoveredAdditions.length === 0 &&
   [diff.heroes, diff.items, diff.abilities].every(
     (group) => group.added.length === 0 && group.removed.length === 0 && group.renamed.length === 0,
   ) &&
@@ -182,11 +190,11 @@ export function describeDiff(diff: SnapshotDiff): string {
     diff.abilities.retuned.map((r) => `${r.name} — ${r.stat}: ${r.from} → ${r.to}`),
   )
 
-  if (diff.untaggedAdditions.length) {
+  if (diff.uncoveredAdditions.length) {
     lines.push(
-      '### ⚠️ New and untagged',
-      'These are not covered by the overlay, so the engine cannot use them:',
-      ...diff.untaggedAdditions.map((e) => `- \`${e}\``),
+      '### ⚠️ New and uncovered',
+      'The published source says nothing about these, so the tool cannot advise on them:',
+      ...diff.uncoveredAdditions.map((e) => `- \`${e}\``),
       '',
     )
   }

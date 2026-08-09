@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { describeDiff, diffSnapshots, isEmptyDiff } from './diff.ts'
 import type { Ability, Hero, Item, Snapshot } from './schema.ts'
-import type { AbilityThreats, ItemCounters } from './tags.ts'
 
 const hero = (className: string, name = className): Hero => ({
   class_name: className,
@@ -13,10 +12,15 @@ const hero = (className: string, name = className): Hero => ({
   abilities: [`${className}_a1`],
 })
 
-const ability = (className: string, name = className, cooldown = 30): Ability => ({
+const ability = (
+  className: string,
+  name = className,
+  cooldown = 30,
+  heroClassName = 'hero_a',
+): Ability => ({
   class_name: className,
   name,
-  hero: 'hero_a',
+  hero: heroClassName,
   slot: 1,
   description: '',
   icon: null,
@@ -45,19 +49,16 @@ const snapshot = (parts: Partial<Snapshot> = {}): Snapshot => ({
   ...parts,
 })
 
-const tagged: Record<string, AbilityThreats> = {
-  hero_a_a1: { tags: ['hard_cc'], review: 'curated' },
-  untagged_ability: { tags: [], untagged: true, review: 'suggested' },
+/** What the published source covers, in the shape diffSnapshots asks for. */
+const COVERAGE = {
+  heroes: new Set(['hero_a']),
+  items: new Set(['upgrade_known']),
 }
-const itemCounters: Record<string, ItemCounters> = {
-  upgrade_known: { answers: ['hard_cc'], why: 'w', strength: 'hard', review: 'curated' },
-}
-const OVERLAY = { abilityThreats: tagged, itemCounters }
 
 describe('no change', () => {
   it('reports an empty diff for identical snapshots', () => {
     const before = snapshot({ heroes: [hero('hero_a')], items: [item('upgrade_known')] })
-    const diff = diffSnapshots(before, before, OVERLAY)
+    const diff = diffSnapshots(before, before, COVERAGE)
     expect(isEmptyDiff(diff)).toBe(true)
     expect(describeDiff(diff)).toBe('')
   })
@@ -68,7 +69,7 @@ describe('presence changes', () => {
     const diff = diffSnapshots(
       snapshot({ heroes: [hero('hero_a')] }),
       snapshot({ heroes: [hero('hero_a'), hero('hero_b')] }),
-      OVERLAY,
+      COVERAGE,
     )
     expect(diff.heroes.added).toEqual(['hero_b'])
     expect(diff.needsReview).toContain('hero_b')
@@ -79,7 +80,7 @@ describe('presence changes', () => {
     const diff = diffSnapshots(
       snapshot({ items: [item('upgrade_known'), item('upgrade_gone')] }),
       snapshot({ items: [item('upgrade_known')] }),
-      OVERLAY,
+      COVERAGE,
     )
     expect(diff.items.removed).toEqual(['upgrade_gone'])
     expect(diff.needsReview).not.toContain('upgrade_gone')
@@ -89,7 +90,7 @@ describe('presence changes', () => {
     const diff = diffSnapshots(
       snapshot({ items: [item('upgrade_known', 'Debuff Remover')] }),
       snapshot({ items: [item('upgrade_known', 'Dispel Magic')] }),
-      OVERLAY,
+      COVERAGE,
     )
     expect(diff.items.renamed).toEqual([
       { class_name: 'upgrade_known', from: 'Debuff Remover', to: 'Dispel Magic' },
@@ -98,23 +99,23 @@ describe('presence changes', () => {
     expect(isEmptyDiff(diff)).toBe(false)
   })
 
-  it('surfaces new entities that no overlay entry covers', () => {
+  it('surfaces new entities the published source does not cover', () => {
     const diff = diffSnapshots(
       snapshot({ items: [item('upgrade_known')] }),
       snapshot({ items: [item('upgrade_known'), item('upgrade_brand_new')] }),
-      OVERLAY,
+      COVERAGE,
     )
-    expect(diff.untaggedAdditions).toEqual(['upgrade_brand_new'])
-    expect(describeDiff(diff)).toContain('New and untagged')
+    expect(diff.uncoveredAdditions).toEqual(['upgrade_brand_new'])
+    expect(describeDiff(diff)).toContain('New and uncovered')
   })
 })
 
 describe('ability retuning', () => {
-  it('flags a stat change on a tagged ability', () => {
+  it('flags a stat change on an ability of a covered hero', () => {
     const diff = diffSnapshots(
       snapshot({ abilities: [ability('hero_a_a1', 'Shoulder Charge', 33)] }),
       snapshot({ abilities: [ability('hero_a_a1', 'Shoulder Charge', 26)] }),
-      OVERLAY,
+      COVERAGE,
     )
     expect(diff.abilities.retuned).toEqual([
       { class_name: 'hero_a_a1', name: 'Shoulder Charge', stat: 'AbilityCooldown', from: 33, to: 26 },
@@ -122,31 +123,33 @@ describe('ability retuning', () => {
     expect(diff.needsReview).toContain('hero_a_a1')
   })
 
-  it('ignores a stat change on an untagged ability', () => {
-    // We made no claim about it, so a retune invalidates nothing.
+  it('ignores a stat change on a hero nobody has written up', () => {
+    // We made no claim about that hero, so a retune invalidates nothing.
     const diff = diffSnapshots(
-      snapshot({ abilities: [ability('untagged_ability', 'Whatever', 10)] }),
-      snapshot({ abilities: [ability('untagged_ability', 'Whatever', 99)] }),
-      OVERLAY,
+      snapshot({ abilities: [ability('other_a1', 'Whatever', 10, 'hero_uncovered')] }),
+      snapshot({ abilities: [ability('other_a1', 'Whatever', 99, 'hero_uncovered')] }),
+      COVERAGE,
     )
     expect(diff.abilities.retuned).toEqual([])
     expect(isEmptyDiff(diff)).toBe(true)
   })
 
-  it('ignores an ability with no overlay entry at all', () => {
+  it('flags any ability of a covered hero, however new the ability is', () => {
+    // Hero-level coverage means a brand-new ability on a written-up hero still
+    // counts: the advice was written without it and may not survive it.
     const diff = diffSnapshots(
-      snapshot({ abilities: [ability('unknown_ability', 'X', 10)] }),
-      snapshot({ abilities: [ability('unknown_ability', 'X', 20)] }),
-      OVERLAY,
+      snapshot({ abilities: [ability('hero_a_a2', 'X', 10)] }),
+      snapshot({ abilities: [ability('hero_a_a2', 'X', 20)] }),
+      COVERAGE,
     )
-    expect(diff.abilities.retuned).toEqual([])
+    expect(diff.abilities.retuned).toHaveLength(1)
   })
 
   it('does not treat a brand new ability as retuned', () => {
     const diff = diffSnapshots(
       snapshot({ abilities: [] }),
       snapshot({ abilities: [ability('hero_a_a1', 'New', 20)] }),
-      OVERLAY,
+      COVERAGE,
     )
     expect(diff.abilities.retuned).toEqual([])
     expect(diff.abilities.added).toEqual(['hero_a_a1'])
@@ -168,7 +171,7 @@ describe('simulated upstream patch', () => {
     abilities: [ability('hero_a_a1', 'Shoulder Charge', 26)],
     items: [item('upgrade_known', 'Dispel Magic'), item('upgrade_fresh', 'Fresh Item')],
   })
-  const diff = diffSnapshots(before, after, OVERLAY)
+  const diff = diffSnapshots(before, after, COVERAGE)
 
   it('catches every category of change at once', () => {
     expect(diff.heroes.added).toEqual(['hero_new'])
@@ -183,7 +186,7 @@ describe('simulated upstream patch', () => {
     expect(summary).toContain('New heroes')
     expect(summary).toContain('"Debuff Remover" → "Dispel Magic"')
     expect(summary).toContain('Shoulder Charge — AbilityCooldown: 33 → 26')
-    expect(summary).toContain('New and untagged')
+    expect(summary).toContain('New and uncovered')
     expect(summary).toContain('flagged for review')
   })
 
@@ -196,8 +199,8 @@ describe('determinism', () => {
   it('sorts every list, so the same patch always produces the same diff', () => {
     const before = snapshot({ items: [item('a'), item('b')] })
     const after = snapshot({ items: [item('z'), item('b'), item('a'), item('m')] })
-    const forwards = diffSnapshots(before, after, OVERLAY)
-    const backwards = diffSnapshots(before, snapshot({ items: [...after.items].reverse() }), OVERLAY)
+    const forwards = diffSnapshots(before, after, COVERAGE)
+    const backwards = diffSnapshots(before, snapshot({ items: [...after.items].reverse() }), COVERAGE)
     expect(forwards).toEqual(backwards)
     expect(forwards.items.added).toEqual(['m', 'z'])
   })

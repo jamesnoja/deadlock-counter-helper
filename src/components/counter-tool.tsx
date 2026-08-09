@@ -30,7 +30,7 @@ import { YourHero } from './your-hero.tsx'
 import { filterByPhase, splitByBudget, weightForRole } from '@/data/context.ts'
 import { planForTeam } from '@/data/counters.ts'
 import type { Hero } from '@/data/schema.ts'
-import { GAME_PHASES, type GamePhase } from '@/data/tags.ts'
+import { GAME_PHASES, type GamePhase } from '@/data/phases.ts'
 import { encodeToolState, type ToolState } from '@/data/url-state.ts'
 
 type Lens = 'items' | 'heroes' | 'build'
