@@ -17,6 +17,7 @@
     "test:coverage": "vitest run --coverage",
     "verify": "npm run typecheck && npm run lint && npm run test && npm run build",
     "sync": "node scripts/sync.mts",
+    "sync:counters": "node scripts/sync-counters.mts",
     "backlog": "node scripts/render-backlog.mjs",
     "seed:issues": "node scripts/seed-issues.mjs",
     "seed:issues:dry": "node scripts/seed-issues.mjs --dry-run",

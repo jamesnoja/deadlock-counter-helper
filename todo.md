@@ -1204,12 +1204,12 @@ snapshot — but the denominator was wrong wherever it was stated.
 Staged so each PR leaves the repo working. Nothing is deleted until its replacement is live.
 
 **Stage 1 — import, no behaviour change**
-- [ ] `scripts/sync-counters.mts`: fetch page, extract both objects, resolve every hero and
+- [x] `scripts/sync-counters.mts`: fetch page, extract both objects, resolve every hero and
       item name to a `class_name`, write `data/counters/*.json`. Committed, like the snapshot,
       so builds stay reproducible.
-- [ ] Explicit alias map for `Holiday` → `Holliday`. Unresolved names fail the script with a
+- [x] Explicit alias map for `Holiday` → `Holliday`. Unresolved names fail the script with a
       list rather than being dropped.
-- [ ] Schema + tests: every referenced hero and item resolves, or the build fails.
+- [x] Schema + tests: every referenced hero and item resolves, or the build fails.
 
 **Stage 2 — engine**
 - [ ] New `countersFromSource(heroes)` returning the existing `RankedCounter` shape, so the
@@ -1237,3 +1237,51 @@ Staged so each PR leaves the repo working. Nothing is deleted until its replacem
 **Out of scope for now.** The 37-item strength worklist and the three tag corrections. Both
 are work on a layer being retired — doing them first would be throwing effort away.
 
+
+### Review — Stage 1
+
+Import lands. 247 tests, verify clean. Nothing consumes the data yet; the engine still runs on
+the tag overlay, which is what makes this stage safe to ship on its own.
+
+**Resolving to `class_name` paid for itself immediately.** Both names I flagged as stale are
+renames, and the identifier proves it in each case:
+
+| Source name | Snapshot | Evidence |
+| --- | --- | --- |
+| `Superior Stamina` | Stamina Mastery | `class_name` is still `upgrade_superior_stamina` |
+| `Curse` | Cursed Relic (`upgrade_glitch`) | Their "Interrupts, silences, and disarms. Removes buffs." against our "interrupting, Silencing, Disarming ... Removes all non-ultimate buffs" |
+| `Holiday` | Holliday | Spelling |
+
+Three aliases and **46 of 46 items and 38 of 38 heroes resolve**. Had we keyed on display
+names, `Curse` alone would have silently removed the top counter for fourteen heroes.
+
+**A bug in the source, found by refusing to degrade.** The script would not write, because
+`Anti-Heal` does not resolve. It is the display name of their own `anti_heal` *group*, sitting
+in `topCounters` for Rem and Silver where an item belongs. There is nothing to alias it to —
+picking an item would be inventing advice they never gave — so it is dropped, and the drop is
+recorded in the committed meta with the two heroes it shortened. A quietly shorter list looks
+exactly like a correct one.
+
+**My earlier reconciliation was incomplete.** When I first compared the two datasets I checked
+their item *dictionary* against our snapshot and reported two mismatches. I did not check the
+*references*, which is where `Anti-Heal` was. `Extra Stamina` was also referenced for four
+heroes without appearing in their dictionary — harmless, since it exists in our snapshot, but I
+would not have known either way from what I checked first.
+
+**Design notes.**
+
+- The script fails on the whole batch and prints every unresolved name at once. Fixing renames
+  one run at a time would be miserable.
+- The two declarations are evaluated in a `node:vm` context with a null prototype and no
+  globals, rather than parsing the page or running its script. It needs to read two object
+  literals, not execute a page.
+- `heroesWithoutCounters()` exists and returns empty today. There is a ratchet test on it, so
+  the day Valve ships hero 39 the build fails rather than the site rendering an empty list that
+  reads as "nothing counters them".
+
+### Follow-ups
+
+- [ ] `sync.yml` should run `sync:counters` alongside the snapshot sync, and the daily diff
+      should flag when the source drifts. Cannot edit that file — the local `gh` token has no
+      `workflow` scope.
+- [ ] Stage 2: the engine.
