@@ -65,7 +65,7 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
   const advice = plan.heroes[0]
 
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-xl p-xl">
+    <main className="mx-auto flex w-[95%] flex-1 flex-col gap-xl p-xl">
       <nav className="text-caption text-text-muted">
         <Link className="text-brand underline" href="/">
           Counter helper
@@ -157,11 +157,11 @@ export default async function CounterHero({ params }: { params: Promise<{ hero: 
         </p>
       </section>
 
-      <SourceCredit meta={plan.source} />
-
       <p className="text-caption text-text-muted">
         Fan project. Deadlock is the property of Valve Corporation.
       </p>
+
+      <SourceCredit meta={plan.source} />
     </main>
   )
 }
