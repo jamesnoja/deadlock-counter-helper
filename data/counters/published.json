@@ -1,0 +1,2120 @@
+{
+  "meta": {
+    "source_url": "https://deadlockitembuilder.com/counter-item-helper",
+    "source_name": "Deadlock Item Builder — Counter Item Helper",
+    "retrieved_at": "2026-08-09T00:30:21.964Z",
+    "counts": {
+      "heroes": 38,
+      "items": 46,
+      "groups": 9
+    },
+    "aliases": [
+      {
+        "from": "Holiday",
+        "to": "Holliday",
+        "kind": "hero",
+        "evidence": "Spelling. The snapshot uses the double-l form upstream ships."
+      },
+      {
+        "from": "Curse",
+        "to": "Cursed Relic",
+        "kind": "item",
+        "evidence": "Renamed. Source describes \"Interrupts, silences, and disarms. Removes buffs.\"; the snapshot entry upgrade_glitch reads \"interrupting, Silencing, Disarming ... Removes all non-ultimate buffs\"."
+      },
+      {
+        "from": "Superior Stamina",
+        "to": "Stamina Mastery",
+        "kind": "item",
+        "evidence": "Renamed. The snapshot entry still carries the class_name upgrade_superior_stamina."
+      }
+    ],
+    "dropped": [
+      {
+        "name": "Anti-Heal",
+        "kind": "item",
+        "reason": "The display name of the source's own anti_heal group, used where an item belongs. A category, not a purchasable item.",
+        "affected": [
+          "Rem",
+          "Silver"
+        ]
+      }
+    ]
+  },
+  "groups": [
+    {
+      "key": "anti_heal",
+      "name": "Anti-Heal",
+      "desc": "Reduces enemy healing and sustain during fights.",
+      "items": [
+        "upgrade_healbane",
+        "upgrade_toxic_bullets",
+        "upgrade_rupture",
+        "upgrade_spirit_burn"
+      ]
+    },
+    {
+      "key": "fire_rate_control",
+      "name": "Fire Rate Control",
+      "desc": "Slows down enemy weapon attack speed.",
+      "items": [
+        "upgrade_suppressor",
+        "upgrade_withering_whip",
+        "upgrade_juggernaut"
+      ]
+    },
+    {
+      "key": "gun_defense",
+      "name": "Gun Defense",
+      "desc": "Mitigates physical/bullet damage from weapons.",
+      "items": [
+        "upgrade_metal_skin",
+        "upgrade_deflecting_armor",
+        "upgrade_reinforcing_casings",
+        "upgrade_weapon_shielding"
+      ]
+    },
+    {
+      "key": "spirit_defense",
+      "name": "Spirit Defense",
+      "desc": "Mitigates ability-based burst and spirit damage.",
+      "items": [
+        "upgrade_spirit_bubble",
+        "upgrade_spellbreaker",
+        "upgrade_tech_purge"
+      ]
+    },
+    {
+      "key": "anti_mobility",
+      "name": "Anti-Mobility",
+      "desc": "Pins down mobile heroes or silences movement skills.",
+      "items": [
+        "upgrade_containment",
+        "upgrade_target_stun",
+        "upgrade_capacitor"
+      ]
+    },
+    {
+      "key": "anti_cc",
+      "name": "Anti-CC & Combo Breaking",
+      "desc": "Automatic purges or immunity against stuns and lockdowns.",
+      "items": [
+        "upgrade_auto_cleanse",
+        "upgrade_unstoppable",
+        "upgrade_vex_barrier",
+        "upgrade_debuff_reducer"
+      ]
+    },
+    {
+      "key": "debuff_cleanse",
+      "name": "Debuff Cleanse",
+      "desc": "Cleanses negative status effects like burns, roots, and hard CC.",
+      "items": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_divine_barrier",
+        "upgrade_self_bubble"
+      ]
+    },
+    {
+      "key": "interrupt",
+      "name": "Interrupt",
+      "desc": "Stops channeled abilities or high-impact ultimates mid-cast.",
+      "items": [
+        "upgrade_target_stun",
+        "upgrade_glitch",
+        "upgrade_targeted_silence"
+      ]
+    },
+    {
+      "key": "lane_sustain",
+      "name": "Lane Sustain",
+      "desc": "Survival tools against early lane poke and harassment.",
+      "items": [
+        "upgrade_endurance",
+        "upgrade_health_stimpak",
+        "upgrade_restorative_locket"
+      ]
+    }
+  ],
+  "heroes": [
+    {
+      "hero": "hero_atlas",
+      "groups": [
+        "anti_heal",
+        "anti_cc",
+        "lane_sustain"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_melee_rebuttal",
+        "upgrade_spirit_burn",
+        "upgrade_toxic_bullets",
+        "upgrade_healbane",
+        "upgrade_vex_barrier",
+        "upgrade_unstoppable",
+        "upgrade_magic_shock"
+      ],
+      "summary": "To effectively counter Abrams in Deadlock, you must focus on neutralizing his melee pressure and massive health sustain. Abrams players look to bait parries with heavy melee animations; counter this by building Spirit Burn early to negate his health-drain and utilizing Rebuttal to win parry trades. Avoid close engagements until your damage can outburst his siphon bullets.",
+      "lanePhase": [
+        "Bait his parry by looking away during heavy melee animations.",
+        "Rebuttal cuts parry cooldown from 4s to 2s, punishing his light spam.",
+        "Avoid close quarters trades; his passive sustain wins long brawls early.",
+        "Farm safely near your guardian to force him to overextend for trades."
+      ],
+      "situations": [
+        {
+          "label": "He is healing through all your damage",
+          "priorityItem": "upgrade_spirit_burn",
+          "reason": "Solution: Buy Spirit Burn or Toxic Bullets early. Why: Provides the largest healing reduction in the game (-70%) to stop his massive sustain."
+        },
+        {
+          "label": "Getting run down by charge and melee combos",
+          "priorityItem": "upgrade_melee_rebuttal",
+          "reason": "Solution: Use Rebuttal to win melee trades. Why: It cuts parry cooldown by half, returning damage to him while granting bonus health."
+        },
+        {
+          "label": "Getting CC'd and bursted late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Upgrade Reactive Barrier to Indomitable. Why: Automatically cleanses the Shoulder Charge stun, breaking his ability combo instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_fencer",
+      "groups": [
+        "spirit_defense",
+        "anti_mobility",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_containment",
+        "upgrade_counterspell",
+        "upgrade_spellbreaker",
+        "upgrade_tech_purge",
+        "upgrade_target_stun",
+        "upgrade_targeted_silence",
+        "upgrade_magic_slow"
+      ],
+      "summary": "Countering Apollo requires high kiting skills and baiting his Riposte. The best Deadlock items against Apollo focus on disabling his recast mobility via Flawless Advance and mitigating his spirit burst damage using items like Spellbreaker. Once Riposte is on cooldown, he is vulnerable to high burst spirit nukes.",
+      "lanePhase": [
+        "Bait his Riposte with basic gunfire first; never use big spells first.",
+        "Build spirit resistance early to mitigate front-loaded burst arrows.",
+        "Slowing Hex disables his Flawless Advance recast, ending mobility.",
+        "Pressure him heavily while Riposte is on its long 22s cooldown."
+      ],
+      "situations": [
+        {
+          "label": "He is using mobility to kite and escape",
+          "priorityItem": "upgrade_containment",
+          "reason": "Solution: Use Slowing Hex before he recasts. Why: Disables his ability to recast Flawless Advance, ending his movement instantly."
+        },
+        {
+          "label": "His burst damage is chunking you too hard",
+          "priorityItem": "upgrade_spellbreaker",
+          "reason": "Solution: Build Spellbreaker early. Why: Negates a massive chunk of his initial spirit spikes and reduces CC duration."
+        },
+        {
+          "label": "Locked by ultimate slow/silence combos",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically purges the silence effect from his ultimate, letting you dash away instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_bebop",
+      "groups": [
+        "debuff_cleanse",
+        "anti_cc",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_divine_barrier",
+        "upgrade_target_stun",
+        "upgrade_counterspell",
+        "upgrade_spirit_bubble",
+        "upgrade_vex_barrier",
+        "upgrade_healbane"
+      ],
+      "summary": "Winning against Bebop requires constant map awareness and hook blocking. Use Dispel Magic to drop sticky bombs on the floor and Indomitable to break his coordinated 'Hook-Bomb-Uppercut' teamplay setups late game. Use Monster Rounds if you need to dispatch his summoned helpers faster in lane.",
+      "lanePhase": [
+        "Play behind minions and corners to block incoming hooks.",
+        "Dispel Magic now causes his sticky bombs to drop on the floor.",
+        "Save stamina specifically for dodging hooks; do not squander it.",
+        "Use vertical structure LoS when you hear his laser ultimate wind-up."
+      ],
+      "situations": [
+        {
+          "label": "A bomb is stuck on you and will detonate",
+          "priorityItem": "upgrade_reduce_debuff_duration",
+          "reason": "Solution: Use Dispel Magic immediately. Why: It causes sticky bombs to drop to the floor safely, negating the burst stack."
+        },
+        {
+          "label": "His laser ultimate is decisive in teamfights",
+          "priorityItem": "upgrade_target_stun",
+          "reason": "Solution: Throw a Knockdown anvil. Why: Grounding duration is increased on airborne targets; drops him for an easy team focus."
+        },
+        {
+          "label": "Getting hooked and stun-locked late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically removes the Uppercut stun, breaking his displacement combo instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_punkgoat",
+      "groups": [
+        "fire_rate_control",
+        "gun_defense",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_melee_rebuttal",
+        "upgrade_withering_whip",
+        "upgrade_counterspell",
+        "upgrade_superior_stamina",
+        "upgrade_suppressor",
+        "upgrade_deflecting_armor",
+        "upgrade_vex_barrier"
+      ],
+      "summary": "Managing Billy's high fire rate and light melee spam is the key to countering him. Rusted Barrel slows his weapon pressure in lane, while Indomitable breaks his grab combos to prevent isolation. Use superior stamina to quickly line-of-sight his ultimate grab attempts.",
+      "lanePhase": [
+        "Bait light melees to trigger parries more easily; use Rebuttal.",
+        "Billy is melee heavy; respect the rhythm to avoid early stacks.",
+        "Build Rusted Barrel to slow weapon pressure and fire rate in lane.",
+        "Use superior stamina to dash behind corners and break ultimate LoS."
+      ],
+      "situations": [
+        {
+          "label": "He is winning every melee trade in lane",
+          "priorityItem": "upgrade_melee_rebuttal",
+          "reason": "Solution: Buy Rebuttal. Why: Cuts parry cooldown to 2s, punishing his light melee spam while healing you."
+        },
+        {
+          "label": "His fire-rate output is melting you",
+          "priorityItem": "upgrade_suppressor",
+          "reason": "Solution: Apply Suppressor via spirit hits. Why: Cuts his fire-rate output passively on every ability hit."
+        },
+        {
+          "label": "Getting caught by the ultimate grab",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: It automatically removes the grab effect, keeping you safely with your team."
+        }
+      ]
+    },
+    {
+      "hero": "hero_nano",
+      "groups": [
+        "anti_heal",
+        "anti_mobility",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_containment",
+        "upgrade_capacitor",
+        "upgrade_glitch",
+        "upgrade_healbane",
+        "upgrade_self_bubble",
+        "upgrade_toxic_bullets",
+        "upgrade_targeted_silence"
+      ],
+      "summary": "Stop Calico's high-speed diving playstyle with anti-mobility and anti-heal items. Slowing Hex prevents her dash escape, and Indomitable removes the stun setup window she needs for her execute. She is squishy, so burst her down during the silence window provided by Curse.",
+      "lanePhase": [
+        "Avoid mid-range where her cluster bombs are most deadly.",
+        "Focus on parrying her Leap Slash entry to reset the trade.",
+        "Wait for her to waste dashes before committing to a full collapse.",
+        "Pressure her squishy health pool before she resets via heals."
+      ],
+      "situations": [
+        {
+          "label": "She keeps diving and escaping for free",
+          "priorityItem": "upgrade_capacitor",
+          "reason": "Solution: Use Capacitor projectile. Why: It silences movement and prevents stamina usage for 3s, pinning her down."
+        },
+        {
+          "label": "The final damage of her ultimate is finishing you",
+          "priorityItem": "upgrade_self_bubble",
+          "reason": "Solution: Use Ethereal Shift. Why: Provides brief invulnerability to wait out the highest damage combo window."
+        },
+        {
+          "label": "Stunned by Leap Slash into team setups",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: It automatically purges her hard CC setups, breaking her coordinated dive timing."
+        }
+      ]
+    },
+    {
+      "hero": "hero_unicorn",
+      "groups": [
+        "spirit_defense",
+        "anti_mobility",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_capacitor",
+        "upgrade_spirit_bubble",
+        "upgrade_counterspell",
+        "upgrade_magic_slow",
+        "upgrade_healbane",
+        "upgrade_unstoppable"
+      ],
+      "summary": "How to counter Celeste focus on grounding her from the air and isolating yourself during her ultimate. Build Spirit Shielding to absorb bouncing utility and Indomitable to cleanse her setup stuns. She thrives on grouped targets, so maintain spacing in teamfights.",
+      "lanePhase": [
+        "Isolate yourself during her ultimate to prevent damage chains.",
+        "Knockdown grounding duration is increased on airborne targets.",
+        "Force her to fight from the ground early by pressuring her LoS.",
+        "Build early Spirit Shielding to absorb her consistent bouncing utility."
+      ],
+      "situations": [
+        {
+          "label": "She is flying safely above the teamfight",
+          "priorityItem": "upgrade_target_stun",
+          "reason": "Solution: Throw Knockdown on her. Why: Grounding her removes her height advantage and makes her easy to burst."
+        },
+        {
+          "label": "Hard to pin down in the middle of her team",
+          "priorityItem": "upgrade_capacitor",
+          "reason": "Solution: Use Capacitor. Why: Silences movement-based abilities and stamina usage for 3 seconds."
+        },
+        {
+          "label": "Getting stunned by ball setups late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC, ensuring you aren't isolated for her burst."
+        }
+      ]
+    },
+    {
+      "hero": "hero_doorman",
+      "groups": [
+        "anti_mobility",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_counterspell",
+        "upgrade_warp_stone",
+        "upgrade_containment",
+        "upgrade_target_stun",
+        "upgrade_superior_stamina",
+        "upgrade_vex_barrier",
+        "upgrade_spirit_bubble"
+      ],
+      "summary": "Deadlock strategies for countering The Doorman involve repositioning to avoid his cart. Use Warp Stone to break his proximity and Indomitable to automatically walk out of his portal stuns. Silence him before he engages to prevent him from escaping through a doorway.",
+      "lanePhase": [
+        "Stay away from door frames when he is off-map.",
+        "Warp Stone or double jump out of his luggage cart path.",
+        "Counterspell blocks his bells or cart damage wind-ups.",
+        "Silence him before he engages to prevent doorway usage."
+      ],
+      "situations": [
+        {
+          "label": "The ultimate damage and CC is decisive",
+          "priorityItem": "upgrade_counterspell",
+          "reason": "Solution: Time Counterspell at the end. Why: Parry-blocking the final ticks negates the high value of his channel."
+        },
+        {
+          "label": "He keeps carting you into his base",
+          "priorityItem": "upgrade_warp_stone",
+          "reason": "Solution: Use Warp Stone. Why: Reposition instantly breaks the proximity needed to push you."
+        },
+        {
+          "label": "Getting CC'd by his cart in late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Purges the cart stun automatically, breaking his setup rhythm."
+        }
+      ]
+    },
+    {
+      "hero": "hero_drifter",
+      "groups": [
+        "gun_defense",
+        "fire_rate_control",
+        "debuff_cleanse"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_greater_withering_whip",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_metal_skin",
+        "upgrade_suppressor",
+        "upgrade_deflecting_armor",
+        "upgrade_withering_whip",
+        "upgrade_weapon_shielding"
+      ],
+      "summary": "Drifter excels in 1v1 isolation duels due to his Bloodline passive. Counter him by traveling as a duo, using Metal Skin for gun immunity, and Indomitable to purge mark combos. Cleanse his DoT marks with Dispel Magic to prevent him from teleporting to you.",
+      "lanePhase": [
+        "Avoid 1v1s; travel as a duo to disable bonus damage.",
+        "Use Dispel Magic to cleanse stalker marks and stop teleports.",
+        "Parry his predictable teleport-melee combo entry animation.",
+        "Go to your guardian tower if marked to bait a bad dive."
+      ],
+      "situations": [
+        {
+          "label": "His gun damage is melting you in all-ins",
+          "priorityItem": "upgrade_metal_skin",
+          "reason": "Solution: Activate Metal Skin. Why: You become 100% immune to bullets for 5 seconds during his mark."
+        },
+        {
+          "label": "Stalker marks and DoT are tracking you",
+          "priorityItem": "upgrade_reduce_debuff_duration",
+          "reason": "Solution: Use Dispel Magic. Why: Cleansing marks negates his ability to teleport to you safely."
+        },
+        {
+          "label": "Getting CC'd and bursted from mark combos",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Purges teleport mark stuns automatically."
+        }
+      ]
+    },
+    {
+      "hero": "hero_dynamo",
+      "groups": [
+        "anti_cc",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_unstoppable",
+        "upgrade_glitch",
+        "upgrade_superior_stamina",
+        "upgrade_vex_barrier",
+        "upgrade_warp_stone",
+        "upgrade_self_bubble"
+      ],
+      "summary": "Countering Dynamo Singularity is critical for late-game teamfights. Indomitable is the best Deadlock item against Dynamo as it lets you automatically walk out once the stun triggers. Proactive usage of Unstoppable before he jumps in can completely negate his initiation utility.",
+      "lanePhase": [
+        "Double jump over ground-level knockups to dodge.",
+        "Focus on soul denial early as he is a projectile character.",
+        "Keep distance; his team utility is strongest at short range.",
+        "Use Warp Stone to mess up his Singularity positioning."
+      ],
+      "situations": [
+        {
+          "label": "Your team keeps getting wiped by Singularity",
+          "priorityItem": "upgrade_unstoppable",
+          "reason": "Solution: Activate Unstoppable proactively. Why: Timed correctly it makes you immune to the pull."
+        },
+        {
+          "label": "Caught in CC and lifted before reacting",
+          "priorityItem": "upgrade_vex_barrier",
+          "reason": "Solution: Build early Reactive Barrier. Why: Shield procs automatically as soon as you are lifted."
+        },
+        {
+          "label": "Getting caught in the Singularity black hole",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable late-game. Why: It purges the Singularity stun automatically, letting you walk out."
+        }
+      ]
+    },
+    {
+      "hero": "hero_necro",
+      "groups": [
+        "anti_heal",
+        "spirit_defense",
+        "lane_sustain"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_spirit_burn",
+        "upgrade_non_player_bonus",
+        "upgrade_restorative_locket",
+        "upgrade_healbane",
+        "upgrade_spirit_bubble",
+        "upgrade_thermal_detonator",
+        "upgrade_warp_stone"
+      ],
+      "summary": "Graves counters focus on destroying her summoned tombstone and jars immediately with Monster Rounds. Build Spirit Burn to negate her combat healing and Indomitable to cleanse jar stuns. Clear her minions quickly to prevent her from overwhelming your lane pressure.",
+      "lanePhase": [
+        "Destroy her tombstone immediately with Monster Rounds.",
+        "Buy Extra Regen early to handle consistent low-damage pokes.",
+        "Dodge her skull jars by staying mobile and jumping.",
+        "Do not let her minions kill your own; prioritize denying the wave."
+      ],
+      "situations": [
+        {
+          "label": "Her tombstone is overwhelming the lane",
+          "priorityItem": "upgrade_non_player_bonus",
+          "reason": "Solution: Buy Monster Rounds early. Why: Provides specific bonus damage against summon structures."
+        },
+        {
+          "label": "She keeps healing through all damage",
+          "priorityItem": "upgrade_spirit_burn",
+          "reason": "Solution: Buy Spirit Burn. Why: 70% reduction stops her from stabilizing during sustain trades."
+        },
+        {
+          "label": "Stunned by skull jars or combos in teamfights",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses stuns from her jars or ultimate."
+        }
+      ]
+    },
+    {
+      "hero": "hero_orion",
+      "groups": [
+        "spirit_defense",
+        "anti_mobility"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_veil_walker",
+        "upgrade_spellbreaker",
+        "upgrade_tech_purge",
+        "upgrade_spirit_bubble",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_warp_stone"
+      ],
+      "summary": "Winning against Grey Talon involves grounding him with Knockdown to remove his aerial advantage. Build spirit resilience early and Indomitable late game to automatically purge his trap roots. Use buildings as vertical cover when you hear the Owl ultimate wind-up.",
+      "lanePhase": [
+        "Use structure corners to block sniper owl LoS.",
+        "Shoot him while he is flying; he has low horizontal speed.",
+        "Build early spirit resistance to stay out of execute range.",
+        "Watch for ground traps so you aren't stuck for a full combo."
+      ],
+      "situations": [
+        {
+          "label": "He is sniping safely from the air",
+          "priorityItem": "upgrade_target_stun",
+          "reason": "Solution: Use Knockdown anvil. Why: Grounding him removes his height advantage entirely for a team burst."
+        },
+        {
+          "label": "His spirit burst is too high in mid-game",
+          "priorityItem": "upgrade_spellbreaker",
+          "reason": "Solution: Build Spellbreaker. Why: Reduces damage from high spirit spikes and stay out of execute range."
+        },
+        {
+          "label": "Getting trapped and bursted by team setup",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses the trap root setup instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_haze",
+      "groups": [
+        "fire_rate_control",
+        "gun_defense",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_metal_skin",
+        "upgrade_suppressor",
+        "upgrade_juggernaut",
+        "upgrade_target_stun",
+        "upgrade_return_fire",
+        "upgrade_targeted_silence",
+        "upgrade_vex_barrier"
+      ],
+      "summary": "Countering Haze focuses on neutralizing her ultimate and sleep dagger. Use Metal Skin for bullet immunity during her ult and Indomitable to automatically wake up from Sleep Dagger setups. Reset her passive bullet stacks by breaking line-of-sight frequently.",
+      "lanePhase": [
+        "Buy Rusted Barrel to slow her minion-clearing pressure.",
+        "Break LoS frequently to reset her passive bullet stacks.",
+        "Metal Skin negates her Ultimate entirely for 5 seconds.",
+        "Hold your silence or CC tools for when she appears from invis."
+      ],
+      "situations": [
+        {
+          "label": "Losing trades to her high weapon DPS",
+          "priorityItem": "upgrade_metal_skin",
+          "reason": "Solution: Activate Metal Skin. Why: You become 100% immune to bullets during her ultimate window."
+        },
+        {
+          "label": "She keeps diving and relying on life steal",
+          "priorityItem": "upgrade_return_fire",
+          "reason": "Solution: Use Return Fire. Why: Returns damage back to her, punishing her high fire rate."
+        },
+        {
+          "label": "Getting Sleep Daggered and bursted late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically purges the Sleep effect instantly so you can shoot back."
+        }
+      ]
+    },
+    {
+      "hero": "hero_astro",
+      "groups": [
+        "anti_cc",
+        "anti_mobility"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_unstoppable",
+        "upgrade_rescue_beam",
+        "upgrade_containment",
+        "upgrade_target_stun",
+        "upgrade_vex_barrier",
+        "upgrade_warp_stone",
+        "upgrade_self_bubble"
+      ],
+      "summary": "Holiday's Lasso kidnapping is her primary win condition. Indomitable is the best item against Holiday as it automatically cleanses the Lasso tether instantly. Avoid tight spaces where her barrel explosion area is hardest to dodge.",
+      "lanePhase": [
+        "Avoid tight spaces where her barrels explode.",
+        "Slowing Hex disables her jump pad recasts instantly.",
+        "Rescue Beam pulls teammates out of Lasso kidnapping manually.",
+        "Maintain distance to make her barrel wind-ups easier to dodge."
+      ],
+      "situations": [
+        {
+          "label": "Teammates keep getting kidnapped by Lasso",
+          "priorityItem": "upgrade_rescue_beam",
+          "reason": "Solution: Use Rescue Beam manually. Why: Pull teammates out of the Lasso kidnapping."
+        },
+        {
+          "label": "She is flying above to set up barrel damage",
+          "priorityItem": "upgrade_target_stun",
+          "reason": "Solution: Use Knockdown. Why: Grounding her removes her angle advantage and makes her easy to kill."
+        },
+        {
+          "label": "Getting kidnapped by the Lasso ultimate",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses the Lasso tether instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_inferno",
+      "groups": [
+        "anti_heal",
+        "fire_rate_control",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_spirit_burn",
+        "upgrade_debuff_reducer",
+        "upgrade_counterspell",
+        "upgrade_containment",
+        "upgrade_withering_whip",
+        "upgrade_deflecting_armor"
+      ],
+      "summary": "Counter Infernus through status cleansing and anti-heal. Use Dispel Magic to remove Afterburn and Indomitable to automatically cleanse the stun from his explosion ultimate. Focus on high burst damage to eliminate him before he can heal via Life Steal.",
+      "lanePhase": [
+        "Avoid Prolonged trades; he wins via DoT stacks.",
+        "Use Dispel Magic to remove afterburn stacks immediately.",
+        "Parry his ultimate animation to negate all damage/stun.",
+        "Wait for afterburn to fall off before fighting back."
+      ],
+      "situations": [
+        {
+          "label": "Burn damage kills you after trades",
+          "priorityItem": "upgrade_reduce_debuff_duration",
+          "reason": "Solution: Use Dispel Magic. Why: Purges all non-ultimate DoT stacks instantly."
+        },
+        {
+          "label": "Afterburn and slows are lasting too long",
+          "priorityItem": "upgrade_debuff_reducer",
+          "reason": "Solution: Build early Debuff Reducer. Why: Shortens his DoT impact significantly."
+        },
+        {
+          "label": "His ultimate stun is setting up a team wipe",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically removes the explosion stun."
+        }
+      ]
+    },
+    {
+      "hero": "hero_tengu",
+      "groups": [
+        "anti_heal",
+        "anti_mobility"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_spirit_burn",
+        "upgrade_target_stun",
+        "upgrade_counterspell",
+        "upgrade_warp_stone",
+        "upgrade_vex_barrier",
+        "upgrade_glitch",
+        "upgrade_improved_stamina"
+      ],
+      "summary": "How to counter Ivy involves grounding her flight with Knockdown and punishing her early weak stages. Indomitable is mandatory for automatically purging her Stone Form stun before her team can follow up CC. build anti-heal items to negate her Stone Form sustain.",
+      "lanePhase": [
+        "Pressure her early while she is weak before level 1.",
+        "Knockdown stuns her out of flight and wastes her ult.",
+        "Build anti-heal to negate her Stone Form recovery sustain.",
+        "Use Warp Stone to escape her smash radius instantly."
+      ],
+      "situations": [
+        {
+          "label": "Stone Form smash is stunning your team",
+          "priorityItem": "upgrade_counterspell",
+          "reason": "Solution: Parry with Counterspell. Why: Negates the ground smash stun and damage entirely."
+        },
+        {
+          "label": "She is split pushing and ulting away",
+          "priorityItem": "upgrade_target_stun",
+          "reason": "Solution: Click Knockdown. Why: Stuns her out of her flight ultimate and puts it on CD."
+        },
+        {
+          "label": "Getting stunned by Stone Form smash late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically removes the Stone Form stun setup."
+        }
+      ]
+    },
+    {
+      "hero": "hero_kelvin",
+      "groups": [
+        "anti_heal",
+        "anti_mobility",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_spirit_burn",
+        "upgrade_auto_cleanse",
+        "upgrade_unstoppable",
+        "upgrade_cardio_calibrator",
+        "upgrade_improved_stamina",
+        "upgrade_tech_purge",
+        "upgrade_toxic_bullets",
+        "upgrade_fleetfoot_boots"
+      ],
+      "summary": "Deadlock strategy for Kelvin focuses on slow resistance and anti-heal. Use Enduring Speed for Arctic Beam and Indomitable to automatically cleanse stuns found inside his dome setups. Avoid overextending into his Arctic Beam as it can lead to guaranteed follow-up CC.",
+      "lanePhase": [
+        "Focus on soul denial; his projectile weapon is easier to deny.",
+        "Buy Enduring Speed for 35% Arctic Beam slow resistance.",
+        "Break LoS inside his dome to avoid beam stacks.",
+        "Use Extra Stamina to dodge Arctic Beam lock-on."
+      ],
+      "situations": [
+        {
+          "label": "Getting slowed and zoned out by his dome",
+          "priorityItem": "upgrade_unstoppable",
+          "reason": "Solution: Activate Unstoppable. Why: Move through slow-zones and Arctic Beam freely."
+        },
+        {
+          "label": "His Arctic Beam slows are leading to kills",
+          "priorityItem": "upgrade_cardio_calibrator",
+          "reason": "Solution: Buy Enduring Speed. Why: Provides 35% passive slow resistance."
+        },
+        {
+          "label": "Caught in dome stuns or silenced",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Cleanses slow/silence zone effects automatically."
+        }
+      ]
+    },
+    {
+      "hero": "hero_ghost",
+      "groups": [
+        "anti_heal",
+        "spirit_defense",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_spirit_burn",
+        "upgrade_glitch",
+        "upgrade_spellbreaker",
+        "upgrade_tech_purge",
+        "upgrade_healbane",
+        "upgrade_target_stun",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_targeted_silence"
+      ],
+      "summary": "Lady Geist relies on massive self-healing and health swaps. Counter her with Spirit Burn early to stop resets and Indomitable late game to automatically purge setup stuns. Dodge her Essence Bomb to prevent high-damage harassment during trades.",
+      "lanePhase": [
+        "Pressure her health pool (skills cost her HP).",
+        "Dodge essence bomb; build restorative locket early.",
+        "Healbane is mandatory to stop her Life Drain sustain.",
+        "Break LoS immediately if linked by Life Drain."
+      ],
+      "situations": [
+        {
+          "label": "Health swap is winning her fights",
+          "priorityItem": "upgrade_glitch",
+          "reason": "Solution: Use Curse. Why: Silences and disarms her before the swap window triggers."
+        },
+        {
+          "label": "Life Drain link is keeping her alive",
+          "priorityItem": "upgrade_spirit_burn",
+          "reason": "Solution: Build Spirit Burn early. Why: Provides largest healing reduction (-70%)."
+        },
+        {
+          "label": "Stunned by setup combos in late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC setups in teamfights."
+        }
+      ]
+    },
+    {
+      "hero": "hero_lash",
+      "groups": [
+        "spirit_defense",
+        "anti_mobility",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_counterspell",
+        "upgrade_spellbreaker",
+        "upgrade_containment",
+        "upgrade_targeted_silence",
+        "upgrade_unstoppable",
+        "upgrade_vex_barrier"
+      ],
+      "summary": "Countering Lash involves rolling forward to dodge Ground Slam and building early Spirit Resilience. Indomitable is a hard counter, automatically cleansing the Death Slam grab before he can throw you into his team. He thrives attacking from above, so always watch high ground structure positioning.",
+      "lanePhase": [
+        "Roll forward towards Lash to dodge Ground Slam reliably.",
+        "Break LoS frequently to avoid ultimate lock-on.",
+        "Knockdown grounding stuns him in the air during entry.",
+        "Prioritize building Spirit Resilience early to stay in lane."
+      ],
+      "situations": [
+        {
+          "label": "His burst damage is too high in teamfights",
+          "priorityItem": "upgrade_spellbreaker",
+          "reason": "Solution: Build Spellbreaker. Why: Reduces impact of high spirit spikes and adds resistance."
+        },
+        {
+          "label": "He keeps escaping after starting fights",
+          "priorityItem": "upgrade_containment",
+          "reason": "Solution: Apply Slowing Hex. Why: Pins him down and silences move tools for team focus."
+        },
+        {
+          "label": "Getting grabbed by Death Slam late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Cleanses the grab instantly, wasting his ultimate."
+        }
+      ]
+    },
+    {
+      "hero": "hero_forge",
+      "groups": [
+        "fire_rate_control",
+        "gun_defense",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_non_player_bonus",
+        "upgrade_thermal_detonator",
+        "upgrade_withering_whip",
+        "upgrade_greater_withering_whip",
+        "upgrade_metal_skin",
+        "upgrade_warp_stone",
+        "upgrade_glitch"
+      ],
+      "summary": "How to counter McGinnis revolves around turret clearing. Use Monster Rounds for jars and Alchemical Fire for nests. Indomitable automatically cleanses wall and turret CC late game. Coordinate ganks early as she is vulnerable when overextended from her turrets.",
+      "lanePhase": [
+        "Stay on high ground to block turret line of sight.",
+        "Clear turret nests fast using Alchemical Fire AOE.",
+        "Warp Stone or double jump out of her wall traps.",
+        "Avoid 1v1 duels inside her grouped turret range."
+      ],
+      "situations": [
+        {
+          "label": "Turrets are taking over the entire area",
+          "priorityItem": "upgrade_non_player_bonus",
+          "reason": "Solution: Buy Monster Rounds. Why: Specific bonus damage vs Jar/Turret summons."
+        },
+        {
+          "label": "She is healing through all team pressure",
+          "priorityItem": "upgrade_spirit_burn",
+          "reason": "Solution: Buy Spirit Burn. Why: Stops her medicinal resets and sustain entirely."
+        },
+        {
+          "label": "Grounded by ultimate or turret chains",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Cleanses wall/turret CC effects automatically."
+        }
+      ]
+    },
+    {
+      "hero": "hero_vampirebat",
+      "groups": [
+        "lane_sustain",
+        "spirit_defense",
+        "anti_mobility"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_glitch",
+        "upgrade_proc_silence",
+        "upgrade_containment",
+        "upgrade_tech_purge",
+        "upgrade_endurance",
+        "upgrade_spirit_bubble",
+        "upgrade_health_stimpak",
+        "upgrade_target_stun"
+      ],
+      "summary": "Strategy for Mina focuses on lane poke management and mobility disruption. Use Extra Regen for sustain and Indomitable to automatically cleanse her dash and love bite CC late game. Pressure her before she hits level 1 spikes to gain a lane advantage.",
+      "lanePhase": [
+        "Extra Regen and Healing Rite are mandatory for lane poke.",
+        "Pressure her aggressively before she hits level 1 spike.",
+        "Slowing Hex shuts down her Dash mobility instantly.",
+        "Build spirit shielding early to absorb bat harassment."
+      ],
+      "situations": [
+        {
+          "label": "She is too slippery to pin down",
+          "priorityItem": "upgrade_containment",
+          "reason": "Solution: Buy Slowing Hex. Why: Locks her in place and silences dash for team focus."
+        },
+        {
+          "label": "Getting bursted by spirit abilities in lane",
+          "priorityItem": "upgrade_spirit_bubble",
+          "reason": "Solution: Build Spirit Shielding. Why: Absorbs high early spirit damage windows."
+        },
+        {
+          "label": "Love Bites and Dash CC trapping you",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC setups and love bite procs."
+        }
+      ]
+    },
+    {
+      "hero": "hero_mirage",
+      "groups": [
+        "gun_defense",
+        "anti_heal",
+        "debuff_cleanse"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_metal_skin",
+        "upgrade_healbane",
+        "upgrade_containment",
+        "upgrade_glitch",
+        "upgrade_suppressor",
+        "upgrade_vex_barrier",
+        "upgrade_toxic_bullets"
+      ],
+      "summary": "Countering Mirage involves status purging and weapon mitigation. Build Dispel Magic to reset his Spark stacks and Indomitable to automatically walk away from his Tornado lift stuns. Back off if you have 2+ Sparks to reset his damage stacking potential.",
+      "lanePhase": [
+        "Respect Spark stacks; back off to reset at 2+ stacks.",
+        "Build Reactive Barrier early for the Tornado combo follow-up.",
+        "Dispel Magic resets his stacking damage and tracking marks.",
+        "Avoid long-range duels where his projectile poke is strongest."
+      ],
+      "situations": [
+        {
+          "label": "His passive Spark stacks deal massive burst",
+          "priorityItem": "upgrade_reduce_debuff_duration",
+          "reason": "Solution: Use Dispel Magic. Why: Purges Spark and Mark stacks resetting damage potential."
+        },
+        {
+          "label": "His fire-rate is becoming oppressive",
+          "priorityItem": "upgrade_withering_whip",
+          "reason": "Solution: Buy Rusted Barrel. Why: Lowers his overall weapon damage and resistance."
+        },
+        {
+          "label": "Blown up by tornado lifted setups",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Purges the tornado CC lift instantly, letting you return fire."
+        }
+      ]
+    },
+    {
+      "hero": "hero_krill",
+      "groups": [
+        "anti_heal",
+        "anti_cc",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_spirit_burn",
+        "upgrade_unstoppable",
+        "upgrade_rescue_beam",
+        "upgrade_target_stun",
+        "upgrade_bullet_resist_shredder",
+        "upgrade_metal_skin",
+        "upgrade_vex_barrier",
+        "upgrade_toxic_bullets"
+      ],
+      "summary": "Mo & Krill are countered by heavy anti-heal and grab interrupts. Build Indomitable to automatically purge their long-duration 'Combo' grab, making their ultimate useless. Kite the burrow engage and target their large head hitboxes.",
+      "lanePhase": [
+        "Interrupt ultimate channel with Knockdown anvil or Curse.",
+        "Kite the burrow engage; never sit in one spot.",
+        "Target large headshot hitboxes for bonus damage.",
+        "Build heavy anti-heal early to bypass burrow sustain."
+      ],
+      "situations": [
+        {
+          "label": "They are too tanky with burrow armor",
+          "priorityItem": "upgrade_bullet_resist_shredder",
+          "reason": "Solution: Build Bullet Resist Shredder. Why: Bypasses his innate burrow and ultimate armor."
+        },
+        {
+          "label": "Teammates keep caught in grab channel",
+          "priorityItem": "upgrade_rescue_beam",
+          "reason": "Solution: Use Rescue Beam. Why: Pulls allies to safety manually, breaking the channel effect."
+        },
+        {
+          "label": "Their ultimate grab is isolating you",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically purges the 'Combo' grab instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_bookworm",
+      "groups": [
+        "lane_sustain",
+        "debuff_cleanse",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_glitch",
+        "upgrade_improved_stamina",
+        "upgrade_healbane",
+        "upgrade_targeted_silence",
+        "upgrade_vex_barrier",
+        "upgrade_target_stun"
+      ],
+      "summary": "Counter Paige through high aggression and root cleansing. Use Dispel Magic to cleanse her roots and Indomitable to automatically purge her silence setups in teamfights. Damage her white core barrier to break it faster.",
+      "lanePhase": [
+        "Pressure early; she has a very slow projectile weapon.",
+        "Damage white core of her barrier to break it faster.",
+        "Hard focus her if she overextends due to frail pool.",
+        "Dodge her AoE root by staying mobile with dashes."
+      ],
+      "situations": [
+        {
+          "label": "Getting rooted and finished by follow-up",
+          "priorityItem": "upgrade_reduce_debuff_duration",
+          "reason": "Solution: Use Dispel Magic. Why: Restores movement immediately to escape follow-up."
+        },
+        {
+          "label": "She is trading safely inside barriers",
+          "priorityItem": "upgrade_glitch",
+          "reason": "Solution: Use Curse. Why: Silences and prevents barrier usage instantly."
+        },
+        {
+          "label": "Getting rooted and silenced in late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses her root or silence setups."
+        }
+      ]
+    },
+    {
+      "hero": "hero_chrono",
+      "groups": [
+        "spirit_defense",
+        "anti_cc",
+        "debuff_cleanse"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_debuff_reducer",
+        "upgrade_warp_stone",
+        "upgrade_counterspell",
+        "upgrade_self_bubble",
+        "upgrade_unstoppable",
+        "upgrade_vex_barrier",
+        "upgrade_targeted_silence"
+      ],
+      "summary": "Deadlock counter guide for Paradox focuses on repositioning and line-of-sight. Use Warp Stone after a swap and Indomitable to automatically purge her Carbine stuns. Listen for the Kinetic Carbine revving sound to hide behind structures.",
+      "lanePhase": [
+        "Listen for Kinetic Carbine revving sound to hide LoS.",
+        "Stay behind minions to block her projectile ability shots.",
+        "Exploit long early cooldown windows to trade damage.",
+        "Maintain distance to avoid swaps under her tower."
+      ],
+      "situations": [
+        {
+          "label": "Soul Swap pulling you out of position",
+          "priorityItem": "upgrade_warp_stone",
+          "reason": "Solution: Use Warp Stone. Why: Reposition instantly after the swap to safety."
+        },
+        {
+          "label": "Carbine stun leading to burst kills",
+          "priorityItem": "upgrade_counterspell",
+          "reason": "Solution: Time Counterspell. Why: Parry-block the carbine projectile damage entirely."
+        },
+        {
+          "label": "Carbine stun or wall-silence late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Purges the stun/silence setup automatically."
+        }
+      ]
+    },
+    {
+      "hero": "hero_synth",
+      "groups": [
+        "spirit_defense",
+        "anti_mobility",
+        "debuff_cleanse"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_proc_silence",
+        "upgrade_glitch",
+        "upgrade_debuff_reducer",
+        "upgrade_target_stun",
+        "upgrade_tech_purge",
+        "upgrade_divine_barrier",
+        "upgrade_targeted_silence",
+        "upgrade_containment"
+      ],
+      "summary": "Countering Pocket requires status reduction and mobility locks. Build Debuff Reducer for affliction DoT and Indomitable to automatically cleanse hard CC setups late game. Try to outrange him early while he is squishy.",
+      "lanePhase": [
+        "Avoid tight cover when Barrage is active.",
+        "Outrange him early while he is squishy in human form.",
+        "Respect the affliction ultimate AoE radius.",
+        "Hold dash stamina for when they look for TP escapes."
+      ],
+      "situations": [
+        {
+          "label": "Affliction DoT is melting your health",
+          "priorityItem": "upgrade_debuff_reducer",
+          "reason": "Solution: Buy Debuff Reducer. Why: Shortens the ultimate affliction damage window significantly."
+        },
+        {
+          "label": "Teammates are targeted by Affliction",
+          "priorityItem": "upgrade_divine_barrier",
+          "reason": "Solution: Use Divine Barrier. Why: Cleanses the ultimate DoT off allies manually."
+        },
+        {
+          "label": "Dived by ultimate and hard CC setups",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Cleanses the CC setups needed to cycle Briefcase skills."
+        }
+      ]
+    },
+    {
+      "hero": "hero_familiar",
+      "groups": [
+        "anti_heal",
+        "interrupt",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_non_player_bonus",
+        "upgrade_targeted_silence",
+        "upgrade_counterspell",
+        "upgrade_target_stun",
+        "upgrade_vex_barrier",
+        "upgrade_healbane",
+        "upgrade_spirit_burn"
+      ],
+      "summary": "Winning against Rem involves killing helpers to stop healing. Use Monster Rounds for minions and Indomitable to automatically cleanse coordinated stun setups late game. Keep him in combat to stop his 4-second travel escapes.",
+      "lanePhase": [
+        "Monster Rounds dispatch helpers and buffed minions faster.",
+        "Silence him once Tag Along invulnerability ends to burst him.",
+        "Keep him in combat frequently to stop travel escapes.",
+        "Target Little Helpers early to stop creep healing."
+      ],
+      "situations": [
+        {
+          "label": "Tag Along invulnerability is hard to stop",
+          "priorityItem": "upgrade_targeted_silence",
+          "reason": "Solution: Silence Wave once Tag Along ends. Why: Prevents his repositioning window."
+        },
+        {
+          "label": "He is out-farming the lane with minions",
+          "priorityItem": "upgrade_non_player_bonus",
+          "reason": "Solution: Buy Monster Rounds. Why: Clears high-HP helpers and summons faster."
+        },
+        {
+          "label": "CC'd by helpers and setups late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC stun setups instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_gigawatt",
+      "groups": [
+        "spirit_defense",
+        "anti_cc",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_unstoppable",
+        "upgrade_spirit_burn",
+        "upgrade_glitch",
+        "upgrade_warp_stone",
+        "upgrade_suppressor",
+        "upgrade_healbane",
+        "upgrade_tech_purge"
+      ],
+      "summary": "How to counter Seven focuses on Storm Cloud disruption and early aggression. Build Knockdown to stun him out of the air and Indomitable to cleanse Static Charge stuns. Trade early to exploit his low health regen.",
+      "lanePhase": [
+        "Exploit low regen early via aggressive poke trades.",
+        "Break line of sight immediately as soon as he begins ultimate.",
+        "Knockdown anvil stuns him out of his channeled ultimate.",
+        "Trade early damage to force him back to tower."
+      ],
+      "situations": [
+        {
+          "label": "Storm Cloud ultimate wiping your team",
+          "priorityItem": "upgrade_target_stun",
+          "reason": "Solution: Throw Knockdown anvil. Why: Stuns him out of the channeled ultimate instantly."
+        },
+        {
+          "label": "Storm Cloud healing is keeping him alive",
+          "priorityItem": "upgrade_spirit_burn",
+          "reason": "Solution: Use Spirit Burn. Why: 70% reduction stops his sustain inside the cloud."
+        },
+        {
+          "label": "Static Charge stun locking you in cloud",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Removes stun instantly to escape Storm Cloud area."
+        }
+      ]
+    },
+    {
+      "hero": "hero_shiv",
+      "groups": [
+        "anti_heal",
+        "fire_rate_control",
+        "debuff_cleanse"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_spirit_burn",
+        "upgrade_containment",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_counterspell",
+        "upgrade_spellbreaker",
+        "upgrade_spirit_bubble",
+        "upgrade_healbane",
+        "upgrade_debuff_reducer"
+      ],
+      "summary": "Shiv strategy revolves around bypassing Bloodletting deferred damage with high-value anti-heal. Build Spirit Burn early and Indomitable to cleanse his dash-stun execute setups. Engage him with team focus to break his armor.",
+      "lanePhase": [
+        "Apply constant poke to bypass Bloodletting deferred damage.",
+        "Parry his dashes in close combat to reset pressure.",
+        "Spirit resistance ensures you stay out of execute range.",
+        "Dispel Magic purges his bleeds and damage overtime marks."
+      ],
+      "situations": [
+        {
+          "label": "Killing Blow ultimate is executing you",
+          "priorityItem": "upgrade_counterspell",
+          "reason": "Solution: Click Counterspell on his dash. Why: Parry-block the dash execute entirely."
+        },
+        {
+          "label": "Bleeds and DoT are finishing you late",
+          "priorityItem": "upgrade_reduce_debuff_duration",
+          "reason": "Solution: Use Dispel Magic. Why: Purges his bleeds and marks instantly."
+        },
+        {
+          "label": "Caught in dash-stun setups late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Cleanses the stun setup instantly so you stay mobile."
+        }
+      ]
+    },
+    {
+      "hero": "hero_werewolf",
+      "groups": [
+        "anti_heal",
+        "anti_cc",
+        "interrupt"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_greater_withering_whip",
+        "upgrade_healbane",
+        "upgrade_targeted_silence",
+        "upgrade_suppressor",
+        "upgrade_metal_skin",
+        "upgrade_warp_stone",
+        "upgrade_glitch"
+      ],
+      "summary": "Winning against Silver focuses on disabling her Wolf form transformation. Use Disarming Hex to negate her weapon-dependent swipes and Indomitable to cleanse wolf leap-stuns. Pressure her heavily while in human form.",
+      "lanePhase": [
+        "Pressure her aggressively while in weak human form.",
+        "Use verticality or jump pads to avoid wolf swipes.",
+        "Silence Wave prevents her transformation into wolf form.",
+        "Build early anti-heal for her transformation healing resets."
+      ],
+      "situations": [
+        {
+          "label": "Transformation heal is too strong",
+          "priorityItem": "upgrade_healbane",
+          "reason": "Solution: Buy Healbane. Why: Prevents her from stabilizing after transformation proc."
+        },
+        {
+          "label": "Her transformation needs to be stopped",
+          "priorityItem": "upgrade_targeted_silence",
+          "reason": "Solution: Use Silence Wave. Why: If silenced she cannot procing wolf form window."
+        },
+        {
+          "label": "Leap and stun catching you late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses wolf leap-stuns instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_magician",
+      "groups": [
+        "spirit_defense",
+        "lane_sustain",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_superior_stamina",
+        "upgrade_counterspell",
+        "upgrade_spirit_bubble",
+        "upgrade_spellbreaker",
+        "upgrade_containment",
+        "upgrade_vex_barrier",
+        "upgrade_improved_stamina",
+        "upgrade_fleetfoot_boots"
+      ],
+      "summary": "Counter guide for Sinclair involves unpredictable movement and close-range aggression. Use Superior Stamina to juke slow bolts and Indomitable to purge his hard CC transformation setups. Push lanes hard early to prevent him from scaling.",
+      "lanePhase": [
+        "Move unpredictable to dodge his slow velocity bolts.",
+        "Aggress aggressively in close-range trades (bolts deal less HP).",
+        "Double jump over vexing bolts to juke them.",
+        "Map verticality breaks LoS with spectral assistant."
+      ],
+      "situations": [
+        {
+          "label": "His assistant and bolts deal too much burst",
+          "priorityItem": "upgrade_spirit_bubble",
+          "reason": "Solution: Build Spirit Shielding. Why: Barrier absorbs his initial assistant burst damage."
+        },
+        {
+          "label": "He keeps kiting at mid-range safely",
+          "priorityItem": "upgrade_fleetfoot_boots",
+          "reason": "Solution: Use Fleetfoot. Why: Allows you to close the gap on him faster."
+        },
+        {
+          "label": "CC'd by transformation abilities late",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Purges hard CC setups late game."
+        }
+      ]
+    },
+    {
+      "hero": "hero_priest",
+      "groups": [
+        "gun_defense",
+        "fire_rate_control",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_metal_skin",
+        "upgrade_withering_whip",
+        "upgrade_deflecting_armor",
+        "upgrade_greater_withering_whip",
+        "upgrade_suppressor",
+        "upgrade_warp_stone",
+        "upgrade_debuff_reducer"
+      ],
+      "summary": "Strategy for Venator focuses on managing shotgun combos and traps. Use Rusted Barrel for fire rate and Indomitable to purge his wall-stuns late game. Avoid fighting near walls to negate his shotgun stuns.",
+      "lanePhase": [
+        "Destroy traps immediately whenever they appear.",
+        "Poke early from range; avoid close quarters duels.",
+        "Avoid fighting near walls to negate his shotgun stuns.",
+        "Build Rusted Barrel to manage fire-rate build and bullet resists."
+      ],
+      "situations": [
+        {
+          "label": "Losing duels to high weapon scaling",
+          "priorityItem": "upgrade_metal_skin",
+          "reason": "Solution: Use Metal Skin. Why: You become 100% immune to bullets for 5 seconds."
+        },
+        {
+          "label": "Getting stunned against walls consistently",
+          "priorityItem": "upgrade_warp_stone",
+          "reason": "Solution: Buy Warp Stone. Why: Reposition away from wall setups instantly."
+        },
+        {
+          "label": "Getting stunned against walls late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically purges his wall-stun setup instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_frank",
+      "groups": [
+        "anti_heal",
+        "interrupt",
+        "gun_defense"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_glitch",
+        "upgrade_spirit_burn",
+        "upgrade_toxic_bullets",
+        "upgrade_targeted_silence",
+        "upgrade_metal_skin",
+        "upgrade_healbane",
+        "upgrade_target_stun",
+        "upgrade_containment"
+      ],
+      "summary": "How to counter Victor focuses on stacking multiple anti-heal sources to bypass his cleanse. Use Spirit Burn for 70% reduction and Indomitable to automatically silence his healing aura lockdown. Bully him early while he is weak.",
+      "lanePhase": [
+        "Bully him aggressively early while he is weak in lane.",
+        "Stack multiple anti-heal sources; he cleanses single items.",
+        "Kite him at max range; scariest standing in your face.",
+        "Silence prevents his aura usage and resets in lane."
+      ],
+      "situations": [
+        {
+          "label": "He keeps healing and cleansing anti-heal",
+          "priorityItem": "upgrade_glitch",
+          "reason": "Solution: Use Curse. Why: Only real hard counter to stop his aura resets."
+        },
+        {
+          "label": "Gun build and fire-rate is too high",
+          "priorityItem": "upgrade_metal_skin",
+          "reason": "Solution: Use Metal Skin. Why: Temporarily ignore his weapon pressure windows."
+        },
+        {
+          "label": "Caught in aura stuns/slows late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Only real counter to purge aura-based lockdown."
+        }
+      ]
+    },
+    {
+      "hero": "hero_hornet",
+      "groups": [
+        "gun_defense",
+        "anti_mobility",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_metal_skin",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_containment",
+        "upgrade_proc_silence",
+        "upgrade_deflecting_armor",
+        "upgrade_vex_barrier",
+        "upgrade_warp_stone"
+      ],
+      "summary": "Counter Vindicta strategy involves grounding her flight with Knockdown. Use Metal Skin for sniper immunity and Indomitable to automatically cleanse Crow roots and Stake setups. Hide behind buildings to block sniper line-of-sight.",
+      "lanePhase": [
+        "Hide behind buildings and bridges to block LoS sniper shots.",
+        "Ground her with knockdown anvil as soon as she flies.",
+        "Track her position frequently to avoid health pick-offs.",
+        "Dispel Magic removes tether DoT effects instantly."
+      ],
+      "situations": [
+        {
+          "label": "Getting picked off from long range",
+          "priorityItem": "upgrade_metal_skin",
+          "reason": "Solution: Build Metal Skin. Why: Provides safe repositioning across cover windows for sniper fire."
+        },
+        {
+          "label": "Sniper LoS is becoming oppressive",
+          "priorityItem": "upgrade_warp_stone",
+          "reason": "Solution: Use Warp Stone. Why: Dash behind building structures instantly to break LoS."
+        },
+        {
+          "label": "Tether or Crow root trapping you late",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses the root or tether setup."
+        }
+      ]
+    },
+    {
+      "hero": "hero_viscous",
+      "groups": [
+        "interrupt",
+        "spirit_defense",
+        "fire_rate_control"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_melee_rebuttal",
+        "upgrade_target_stun",
+        "upgrade_targeted_silence",
+        "upgrade_warp_stone",
+        "upgrade_spirit_bubble",
+        "upgrade_rescue_beam",
+        "upgrade_withering_whip",
+        "upgrade_suppressor"
+      ],
+      "summary": "Countering Viscous involves parrying his highly predictable fist windows. Use Rebuttal for parry CD reduction and Indomitable to automatically cleanse his Goo Ball stuns. Focus him down before he can use Cube safety.",
+      "lanePhase": [
+        "Parry fist and puddle punch follow-ups; Rebuttal cuts CD to 2s.",
+        "Use distance and verticality structure to avoid Ball momentum.",
+        "Silence Wave prevents Cube safety usage instantly.",
+        "Build early Rusted Barrel to handle fire-rate pressure in lane."
+      ],
+      "situations": [
+        {
+          "label": "He keeps using Cube to save himself",
+          "priorityItem": "upgrade_targeted_silence",
+          "reason": "Solution: Use Silence Wave. Why: Prevents Cube usage for safety windows during teamfights."
+        },
+        {
+          "label": "Displaced into bad follow-up spots",
+          "priorityItem": "upgrade_warp_stone",
+          "reason": "Solution: Build Warp Stone. Why: Escape his displacement instantly to safety."
+        },
+        {
+          "label": "Goo Ball momentum disrupting team late",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically purges the Ball stuns and interruption."
+        }
+      ]
+    },
+    {
+      "hero": "hero_viper",
+      "groups": [
+        "spirit_defense",
+        "fire_rate_control",
+        "debuff_cleanse"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_reduce_debuff_duration",
+        "upgrade_endurance",
+        "upgrade_spirit_bubble",
+        "upgrade_withering_whip",
+        "upgrade_improved_stamina",
+        "upgrade_target_stun",
+        "upgrade_containment",
+        "upgrade_greater_withering_whip",
+        "upgrade_metal_skin",
+        "upgrade_deflecting_armor"
+      ],
+      "summary": "Winning against Vyper revolves around cleansing her venom execute marks. Use Dispel Magic for resets and Indomitable to automatically purge her CC setups. Aggress aggressively early while they are squishy to delay scaling.",
+      "lanePhase": [
+        "Aggress aggressively early while they are squishy to delay scaling.",
+        "Move unpredictable with Extra Stamina to dodge bullets.",
+        "Dispel Magic cleanse markings before proc for HP swap.",
+        "Build Extra Regen to handle high lane pokes."
+      ],
+      "situations": [
+        {
+          "label": "Her spirit-heavy burst is chunking hard",
+          "priorityItem": "upgrade_spirit_bubble",
+          "reason": "Solution: Build Spirit Shielding. Why: Mitigates her venom ability cycle and procs."
+        },
+        {
+          "label": "Her bola and slow bullet shots are annoying",
+          "priorityItem": "upgrade_improved_stamina",
+          "reason": "Solution: Use Extra Stamina. Why: Makes bullets and bola much harder to land in lane."
+        },
+        {
+          "label": "Hard CC and venom execute late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically purges the CC setups she needs to safely proc venom."
+        }
+      ]
+    },
+    {
+      "hero": "hero_warden",
+      "groups": [
+        "anti_heal",
+        "fire_rate_control",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_target_stun",
+        "upgrade_improved_stamina",
+        "upgrade_healbane",
+        "upgrade_withering_whip",
+        "upgrade_juggernaut",
+        "upgrade_targeted_silence",
+        "upgrade_greater_withering_whip",
+        "upgrade_toxic_bullets"
+      ],
+      "summary": "Countering Warden focuses on dash-escaping his root. Use Extra Stamina to dash out of Binding Flask and Indomitable to remove roots late game. Poke him from afar as he lacks long-range responses.",
+      "lanePhase": [
+        "Poke from afar; he lacks long-range responses utility.",
+        "Engage only when Alchemic Flask is on its long early cooldown.",
+        "Extra Stamina ensures you can escape cage snare dash.",
+        "Build early anti-heal to stop Last Stand sustain resets."
+      ],
+      "situations": [
+        {
+          "label": "Binding Flask snare takes away stamina",
+          "priorityItem": "upgrade_improved_stamina",
+          "reason": "Solution: Buy extra stamina early. Why: Snare is easily escaped with dashes if you have pool."
+        },
+        {
+          "label": "He survives too long during his ultimate",
+          "priorityItem": "upgrade_healbane",
+          "reason": "Solution: Build early anti-heal. Why: Negates his high Last Stand sustain resets."
+        },
+        {
+          "label": "Binding Flask root trapping you late game",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically removes the root setup instantly."
+        }
+      ]
+    },
+    {
+      "hero": "hero_wraith",
+      "groups": [
+        "fire_rate_control",
+        "gun_defense",
+        "anti_cc"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_counterspell",
+        "upgrade_greater_withering_whip",
+        "upgrade_self_bubble",
+        "upgrade_withering_whip",
+        "upgrade_spirit_bubble",
+        "upgrade_metal_skin",
+        "upgrade_glitch",
+        "upgrade_reduce_debuff_duration"
+      ],
+      "summary": "Countering Wraith focus on Telekinesis lift mitigation. use Disarming Hex break gun burst and Indomitable to automatically cleanse ultimate lifts. Stay near your guardian early to block card poke LoS.",
+      "lanePhase": [
+        "Stay near guardian to block card poke LoS.",
+        "Buy Rusted Barrel to slow weapon output build in lane.",
+        "Ethereal Shift allows you to wait out the lift stun duration safely.",
+        "Hold parry for when her ultimate animation triggers."
+      ],
+      "situations": [
+        {
+          "label": "Getting comboed and killed by ultimate",
+          "priorityItem": "upgrade_glitch",
+          "reason": "Solution: Use Curse. Why: Prevents her starting her ability combo windows."
+        },
+        {
+          "label": "Cards are melting your health in lane",
+          "priorityItem": "upgrade_spirit_bubble",
+          "reason": "Solution: Build Spirit Shielding. Why: Absorbs high early spirit card damage poke."
+        },
+        {
+          "label": "Getting lifted and killed by Telekinesis late",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Upgrade Reactive Barrier to Indomitable. Why: Automatically cleanses the lift stun setup."
+        }
+      ]
+    },
+    {
+      "hero": "hero_yamato",
+      "groups": [
+        "anti_heal",
+        "interrupt",
+        "spirit_defense"
+      ],
+      "topCounters": [
+        "upgrade_auto_cleanse",
+        "upgrade_spirit_burn",
+        "upgrade_targeted_silence",
+        "upgrade_glitch",
+        "upgrade_counterspell",
+        "upgrade_spirit_bubble",
+        "upgrade_healbane",
+        "upgrade_toxic_bullets",
+        "upgrade_self_bubble"
+      ],
+      "summary": "Winning against Yamato involves stopping her invulnerability resets via heavy anti-heal. Use Curse for silence and Indomitable to automatically purge her charged Power Slash stuns. Hide for 5s when her ultimate triggers invulnerability.",
+      "lanePhase": [
+        "Move sideways aggressively to dodge Power Slash wind-ups.",
+        "Hide or run for 5s when her ultimate triggers invulnerability.",
+        "Parry her charged Power Slash with Counterspell timing.",
+        "Pressure her before she hits item power spikes."
+      ],
+      "situations": [
+        {
+          "label": "She is invincible and healing during ult",
+          "priorityItem": "upgrade_spirit_burn",
+          "reason": "Solution: Apply heavy Spirit Burn. Why: 70% reduction prevents her healing resets during ult window."
+        },
+        {
+          "label": "Power Slash hitting you consistently",
+          "priorityItem": "upgrade_counterspell",
+          "reason": "Solution: Parry with Counterspell. Why: Completely blocks the ability damage and effects."
+        },
+        {
+          "label": "Stunned by Power Slash follow-ups late",
+          "priorityItem": "upgrade_auto_cleanse",
+          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC stuns late game."
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item": "upgrade_auto_cleanse",
+      "description": "Automatically purges hard CC (Stuns/Silences/Sleep/Roots). Grants a barrier on proc.",
+      "why": [
+        "Hard-stops enemy ability combos and team-play setups.",
+        "Automatic protection—perfect for surviving out-of-sight initiations."
+      ]
+    },
+    {
+      "item": "upgrade_healbane",
+      "description": "Spirit damage reduces healing by 35%. Healing reward on kill.",
+      "why": [
+        "Great for casters",
+        "Early lane sustain"
+      ]
+    },
+    {
+      "item": "upgrade_toxic_bullets",
+      "description": "Repeated shooting reduces healing by 30% and deals % max HP damage.",
+      "why": [
+        "Best for weapon carries",
+        "Strong against tanks"
+      ]
+    },
+    {
+      "item": "upgrade_spirit_burn",
+      "description": "Spirit damage causes 70% healing reduction.",
+      "why": [
+        "Highest healing reduction in the game",
+        "Massive burst damage"
+      ]
+    },
+    {
+      "item": "upgrade_vex_barrier",
+      "description": "Grants shield automatically when hit by hard CC.",
+      "why": [
+        "Survive hooks/charges",
+        "Essential early lane defense"
+      ]
+    },
+    {
+      "item": "upgrade_containment",
+      "description": "Slows movement and silences move skills.",
+      "why": [
+        "Pin down mobile heroes",
+        "Stop recasts of move tools like Apollo's 2"
+      ]
+    },
+    {
+      "item": "upgrade_self_bubble",
+      "description": "Brief invulnerability and untargetability.",
+      "why": [
+        "Dodges Bebop bombs/ults",
+        "Wait out stun windows like Wraith lift"
+      ]
+    },
+    {
+      "item": "upgrade_reduce_debuff_duration",
+      "description": "Purges non-ultimate negative effects.",
+      "why": [
+        "Counter Infernus afterburn",
+        "Makes Bebop bombs drop to floor"
+      ]
+    },
+    {
+      "item": "upgrade_target_stun",
+      "description": "Stun after 2s delay. Increased duration on flyers.",
+      "why": [
+        "Ground flyers (longer stun)",
+        "Stop channelled ults like Seven/Ivy"
+      ]
+    },
+    {
+      "item": "upgrade_counterspell",
+      "description": "Next parry blocks ALL ability damage/effects.",
+      "why": [
+        "Blocks Lash grabs/Infernus ults",
+        "Skill-based defense"
+      ]
+    },
+    {
+      "item": "upgrade_glitch",
+      "description": "Interrupts, silences, and disarms. Removes buffs.",
+      "why": [
+        "Hardest counter item",
+        "Shuts down resets like Yamato/Victor"
+      ]
+    },
+    {
+      "item": "upgrade_unstoppable",
+      "description": "Temporary CC immunity.",
+      "why": [
+        "Safe entries for your team",
+        "Finish ultimates without being stunned"
+      ]
+    },
+    {
+      "item": "upgrade_warp_stone",
+      "description": "Teleport ahead and gain bullet resist.",
+      "why": [
+        "Escape walls/ults instantly",
+        "Reposition away from close-range threats"
+      ]
+    },
+    {
+      "item": "upgrade_metal_skin",
+      "description": "Immunity to bullets for 5 seconds.",
+      "why": [
+        "Counter Haze/Wolf form",
+        "Stand in carries face safely"
+      ]
+    },
+    {
+      "item": "upgrade_spellbreaker",
+      "description": "Massive spirit resist and debuff reduction.",
+      "why": [
+        "Counter spirit-burst",
+        "Durability"
+      ]
+    },
+    {
+      "item": "upgrade_melee_rebuttal",
+      "description": "Heal/return damage on parry. Cuts parry CD.",
+      "why": [
+        "Cuts parry cooldown from 4s to 2s",
+        "Lane trade winner vs Abrams/Billy"
+      ]
+    },
+    {
+      "item": "upgrade_spirit_bubble",
+      "description": "Barrier procs on ability damage.",
+      "why": [
+        "Survive burst in lane",
+        "Standard defense vs casters"
+      ]
+    },
+    {
+      "item": "upgrade_withering_whip",
+      "description": "Reduces enemy fire rate by 32%.",
+      "why": [
+        "Early gun response",
+        "Levels gun-heavy lanes"
+      ]
+    },
+    {
+      "item": "upgrade_suppressor",
+      "description": "Reduces fire rate/move on spirit damage.",
+      "why": [
+        "Passively slow carries",
+        "AoE caster staple"
+      ]
+    },
+    {
+      "item": "upgrade_capacitor",
+      "description": "Slows, prevents stamina, silences movement.",
+      "why": [
+        "Late-game pinning tool",
+        "Stop slippery heroes like Calico"
+      ]
+    },
+    {
+      "item": "upgrade_juggernaut",
+      "description": "Slows enemy fire rate when hit.",
+      "why": [
+        "Frontline tank staple",
+        "Punishes fire-rate"
+      ]
+    },
+    {
+      "item": "upgrade_endurance",
+      "description": "Boosts health recovery significantly.",
+      "why": [
+        "Stay in lane vs poke",
+        "Essential farm survival tool"
+      ]
+    },
+    {
+      "item": "upgrade_thermal_detonator",
+      "description": "Area damage over time.",
+      "why": [
+        "Clear McGinnis turrets fast",
+        "Deny ground space"
+      ]
+    },
+    {
+      "item": "upgrade_superior_stamina",
+      "description": "Maximum mobility and dashes.",
+      "why": [
+        "Patterns like Dynamo/Sinclair",
+        "Escape long range CC"
+      ]
+    },
+    {
+      "item": "upgrade_debuff_reducer",
+      "description": "Shortens duration of status effects.",
+      "why": [
+        "Counter DoTs",
+        "Reduce CC windows like Infernus burn"
+      ]
+    },
+    {
+      "item": "upgrade_return_fire",
+      "description": "Returns bullet and spirit damage when hit.",
+      "why": [
+        "Punish burst carries",
+        "Tank/Brawler tool"
+      ]
+    },
+    {
+      "item": "upgrade_non_player_bonus",
+      "description": "Bonus damage vs summons and minions.",
+      "why": [
+        "Counter Turrets/Jars",
+        "Fast wave clear"
+      ]
+    },
+    {
+      "item": "upgrade_restorative_locket",
+      "description": "Consumes stacks to heal yourself.",
+      "why": [
+        "Lane health resetting",
+        "Anti-poke survival"
+      ]
+    },
+    {
+      "item": "upgrade_veil_walker",
+      "description": "Stealth and speed inside veils.",
+      "why": [
+        "Safe rotations",
+        "Anti-sniper positioning"
+      ]
+    },
+    {
+      "item": "upgrade_magic_shock",
+      "description": "Bonus damage vs high HP targets.",
+      "why": [
+        "Bypass tank armor",
+        "Scale into late game vs Abrams"
+      ]
+    },
+    {
+      "item": "upgrade_aprounds",
+      "description": "Bonus weapon damage and resist pierce.",
+      "why": [
+        "Standard carry tool",
+        "Bypass physical armor"
+      ]
+    },
+    {
+      "item": "upgrade_cardio_calibrator",
+      "description": "Speed and slow resistance.",
+      "why": [
+        "Counter Kelvin slows",
+        "Mobility"
+      ]
+    },
+    {
+      "item": "upgrade_magic_slow",
+      "description": "Slows enemies hit by your abilities.",
+      "why": [
+        "Anti-kiting",
+        "Group CC"
+      ]
+    },
+    {
+      "item": "upgrade_tech_purge",
+      "description": "Passive spirit resistance.",
+      "why": [
+        "Basic spell defense",
+        "Scaling durability"
+      ]
+    },
+    {
+      "item": "upgrade_deflecting_armor",
+      "description": "Passive bullet resistance.",
+      "why": [
+        "Basic gun defense",
+        "Essential for laning trades"
+      ]
+    },
+    {
+      "item": "upgrade_reinforcing_casings",
+      "description": "Builds bullet resist as you shoot.",
+      "why": [
+        "Win extended trades",
+        "Carry durability"
+      ]
+    },
+    {
+      "item": "upgrade_weapon_shielding",
+      "description": "Procs a shield when taking gun damage.",
+      "why": [
+        "Survive early pokes",
+        "Anti-snowball"
+      ]
+    },
+    {
+      "item": "upgrade_greater_withering_whip",
+      "description": "Prevents target from using weapon.",
+      "why": [
+        "Anti-carry disruption",
+        "Combat disrupt for Wolf form"
+      ]
+    },
+    {
+      "item": "upgrade_rupture",
+      "description": "Deals DoT and reduces healing.",
+      "why": [
+        "Early pressure",
+        "Anti-tank sustain"
+      ]
+    },
+    {
+      "item": "upgrade_targeted_silence",
+      "description": "Projectile that silences enemies.",
+      "why": [
+        "Teamfight tool",
+        "Interrupt rotations before they start"
+      ]
+    },
+    {
+      "item": "upgrade_divine_barrier",
+      "description": "Gives shield and purges debuffs.",
+      "why": [
+        "Support allies",
+        "Anti-burst cleanse"
+      ]
+    },
+    {
+      "item": "upgrade_health_stimpak",
+      "description": "Channelled active heal.",
+      "why": [
+        "Laning recovery",
+        "Out-of-combat heal"
+      ]
+    },
+    {
+      "item": "upgrade_rescue_beam",
+      "description": "Heals and pulls ally to safety.",
+      "why": [
+        "Save teammates from Lasso/Combo",
+        "Reset positioning"
+      ]
+    },
+    {
+      "item": "upgrade_bullet_resist_shredder",
+      "description": "Reduces bullet resist on hit.",
+      "why": [
+        "Tank buster",
+        "Weapon multiplier"
+      ]
+    },
+    {
+      "item": "upgrade_proc_silence",
+      "description": "Silences enemies with weapon hits.",
+      "why": [
+        "Disable casters",
+        "Gun carry tool"
+      ]
+    },
+    {
+      "item": "upgrade_fleetfoot_boots",
+      "description": "Bonus move speed and stamina.",
+      "why": [
+        "Mobility",
+        "Kiting"
+      ]
+    }
+  ]
+}

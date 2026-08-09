@@ -1159,3 +1159,129 @@ items and the internal one is not what the shop shows. All 173 items have a `sho
 all 152 abilities an `icon`, so the fallback never fires today; the tests exist so a sync that
 drops art fails rather than silently rendering placeholder squares.
 
+
+## 2026-08-09 — Rework: published counters replace the tag overlay
+
+**Intent.** Stop deriving counters from hand-applied threat tags. Take them from
+deadlockitembuilder.com's published counter data, imported with attribution, and retire
+Layer B.
+
+**Decision recorded.** I recommended layering the source over derivation rather than
+replacing it, and flagged that their prose is authored text. Owner chose replace-entirely and
+import-with-attribution. Building that. The trade-offs are real and are written down below so
+the cost is visible later, not so the decision gets relitigated.
+
+### What the source has
+
+Extracted from an inline `groupData` / `counterData` block in the page HTML — no API, no auth,
+`robots.txt` allows all. Checked against our snapshot:
+
+| | |
+| --- | --- |
+| Heroes | **38 of our 38.** Only mismatch is their `Holiday` vs our `Holliday` |
+| Items | 44 of their 46 resolve; all ranked-buyable |
+| Unresolvable | `Curse`, `Superior Stamina` — not in the current snapshot |
+| Editorial | 38 summaries, 114 situations, 152 lane tips, why-bullets on all 46 items |
+| Vocabulary | 9 answer-side groups, against our 12 threat-side tags |
+
+**A correction while checking this.** Earlier entries and PR #71 say reach is out of 63
+heroes. It is **38**. Ordering was unaffected — every reach number was computed from the same
+snapshot — but the denominator was wrong wherever it was stated.
+
+### What this costs, recorded now
+
+1. **New heroes return nothing.** Derivation covered every hero the moment its abilities were
+   tagged. This model is hand-authored per hero, so hero 39 has no advice until the source
+   publishes it. Needs a real empty state, not an empty list.
+2. **Keyed on English display names.** Two of 46 items are already stale, which is the exact
+   failure the README says the project exists to avoid. Mitigated, not solved, by resolving
+   names to `class_name` at import so a rename fails the import loudly.
+3. **We inherit someone else's refresh cadence.** If they stop updating, we stop being right,
+   and nothing in our own pipeline will notice.
+
+### Plan
+
+Staged so each PR leaves the repo working. Nothing is deleted until its replacement is live.
+
+**Stage 1 — import, no behaviour change**
+- [x] `scripts/sync-counters.mts`: fetch page, extract both objects, resolve every hero and
+      item name to a `class_name`, write `data/counters/*.json`. Committed, like the snapshot,
+      so builds stay reproducible.
+- [x] Explicit alias map for `Holiday` → `Holliday`. Unresolved names fail the script with a
+      list rather than being dropped.
+- [x] Schema + tests: every referenced hero and item resolves, or the build fails.
+
+**Stage 2 — engine**
+- [ ] New `countersFromSource(heroes)` returning the existing `RankedCounter` shape, so the
+      UI keeps working while the source underneath changes.
+- [ ] Team ranking: how many selected heroes want an item, then its position in that hero's
+      `topCounters`, then group coverage. This is the "shared team counters" behaviour.
+- [ ] Decide what happens to budget, phase and role filters — phase derives from tier and
+      survives; role weighting reads hero roles and survives; both need re-checking against
+      the new ranking rather than assumed.
+
+**Stage 3 — UI and attribution**
+- [ ] Surface `summary`, `lanePhase` and `situations` on the per-hero pages. This is the
+      content the tag model could never produce and the reason for the change.
+- [ ] Attribution: visible credit and link wherever their content renders, plus README. Owner
+      chose import-with-attribution, so the credit needs to be prominent and per-view, not a
+      line in a footer.
+
+**Stage 4 — retire Layer B**
+- [ ] Delete `data/overlay/ability-threats.ts`, `item-counters.ts`, `scaffold-overlay.mts`,
+      the whole `/admin/untagged` page and its components, and the tag vocabulary in
+      `tags.ts` that nothing else uses.
+- [ ] 24 files currently import the overlay or the tag types. Each needs checking, not a
+      find-and-replace.
+
+**Out of scope for now.** The 37-item strength worklist and the three tag corrections. Both
+are work on a layer being retired — doing them first would be throwing effort away.
+
+
+### Review — Stage 1
+
+Import lands. 247 tests, verify clean. Nothing consumes the data yet; the engine still runs on
+the tag overlay, which is what makes this stage safe to ship on its own.
+
+**Resolving to `class_name` paid for itself immediately.** Both names I flagged as stale are
+renames, and the identifier proves it in each case:
+
+| Source name | Snapshot | Evidence |
+| --- | --- | --- |
+| `Superior Stamina` | Stamina Mastery | `class_name` is still `upgrade_superior_stamina` |
+| `Curse` | Cursed Relic (`upgrade_glitch`) | Their "Interrupts, silences, and disarms. Removes buffs." against our "interrupting, Silencing, Disarming ... Removes all non-ultimate buffs" |
+| `Holiday` | Holliday | Spelling |
+
+Three aliases and **46 of 46 items and 38 of 38 heroes resolve**. Had we keyed on display
+names, `Curse` alone would have silently removed the top counter for fourteen heroes.
+
+**A bug in the source, found by refusing to degrade.** The script would not write, because
+`Anti-Heal` does not resolve. It is the display name of their own `anti_heal` *group*, sitting
+in `topCounters` for Rem and Silver where an item belongs. There is nothing to alias it to —
+picking an item would be inventing advice they never gave — so it is dropped, and the drop is
+recorded in the committed meta with the two heroes it shortened. A quietly shorter list looks
+exactly like a correct one.
+
+**My earlier reconciliation was incomplete.** When I first compared the two datasets I checked
+their item *dictionary* against our snapshot and reported two mismatches. I did not check the
+*references*, which is where `Anti-Heal` was. `Extra Stamina` was also referenced for four
+heroes without appearing in their dictionary — harmless, since it exists in our snapshot, but I
+would not have known either way from what I checked first.
+
+**Design notes.**
+
+- The script fails on the whole batch and prints every unresolved name at once. Fixing renames
+  one run at a time would be miserable.
+- The two declarations are evaluated in a `node:vm` context with a null prototype and no
+  globals, rather than parsing the page or running its script. It needs to read two object
+  literals, not execute a page.
+- `heroesWithoutCounters()` exists and returns empty today. There is a ratchet test on it, so
+  the day Valve ships hero 39 the build fails rather than the site rendering an empty list that
+  reads as "nothing counters them".
+
+### Follow-ups
+
+- [ ] `sync.yml` should run `sync:counters` alongside the snapshot sync, and the daily diff
+      should flag when the source drifts. Cannot edit that file — the local `gh` token has no
+      `workflow` scope.
+- [ ] Stage 2: the engine.
