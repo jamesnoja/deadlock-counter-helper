@@ -1212,9 +1212,9 @@ Staged so each PR leaves the repo working. Nothing is deleted until its replacem
 - [x] Schema + tests: every referenced hero and item resolves, or the build fails.
 
 **Stage 2 — engine**
-- [ ] New `countersFromSource(heroes)` returning the existing `RankedCounter` shape, so the
+- [x] New `planCounters(heroes)` returning the existing `RankedCounter` shape, so the
       UI keeps working while the source underneath changes.
-- [ ] Team ranking: how many selected heroes want an item, then its position in that hero's
+- [x] Team ranking: how many selected heroes want an item, then its position in that hero's
       `topCounters`, then group coverage. This is the "shared team counters" behaviour.
 - [ ] Decide what happens to budget, phase and role filters — phase derives from tier and
       survives; role weighting reads hero roles and survives; both need re-checking against
@@ -1285,3 +1285,53 @@ would not have known either way from what I checked first.
       should flag when the source drifts. Cannot edit that file — the local `gh` token has no
       `workflow` scope.
 - [ ] Stage 2: the engine.
+
+### Review — Stage 2
+
+Ranking engine lands. 261 tests, verify clean. Still unconsumed: the UI runs on `derive.ts`
+until Stage 3, which is what makes this safe to ship alone.
+
+**One line of the plan was wrong and is not what shipped.** The plan said Stage 2 would return
+the existing `RankedCounter` shape so the UI keeps working unchanged. Reading `derive.ts`
+properly killed that: `RankedCounter` carries `matches[].tag`, `perHero.abilities` and a
+per-item `CounterStrength` — all facts *derivation* produced from ability tags, none of which
+the source has. Filling them would mean inventing values to satisfy a type. `planCounters`
+returns its own shape, saying only what the source said, and the UI moves in Stage 3.
+
+**The ranking.** Score is the sum of each selected hero's weight for an item. A hero
+contributes `(len - index) / len` for its position in that hero's published list, plus 0.5 if
+the source names it as the answer to a specific situation. One hero can contribute at most 1
+from position, which is the property that keeps breadth dominant — tested directly rather than
+assumed.
+
+Checked against real output rather than trusting the tests:
+
+| vs Haze alone | vs a six-hero team |
+| --- | --- |
+| Indomitable, Metal Skin, Return Fire | **Indomitable 6/6, score 9.0** |
+| Matches the source's own worked example | Knockdown 4/6, Spirit Burn 3/6 |
+
+**A correction the sanity check forced.** I had documented the ranking as "breadth first, the
+source's own ordering as the tiebreak". It is not. `Reactive Barrier` covers 4 of 6 heroes and
+ranks below `Dispel Magic` at 2 of 6, because every hero that wants it wants it *last*. That is
+the intended behaviour — first answer against two beats ninth against four — but the comment
+described something else. Corrected, and there is now a test asserting the inversion happens,
+because a UI showing "4 of 6" below "2 of 6" looks like a bug and someone will need the reason.
+
+**Groups are deliberately not scored.** They describe the kind of answer a hero needs. Treating
+group membership as a recommendation would invent per-hero rankings the source never gave, so
+they travel as metadata for grouping the shortlist.
+
+**Unavailable heroes are named, not dropped.** `unavailable` carries any selected hero the
+source has not written up, and such a hero still gets a `perHero` column at zero weight so the
+coverage matrix cannot misalign. "No advice published" and "nothing counters them" are
+different claims and the UI has to be able to tell them apart.
+
+### Follow-ups
+
+- [ ] Stage 3: UI and attribution.
+- [ ] **Owner asked for a new-hero checklist** — what to do the next time Valve ships a hero.
+      Deferred until the whole build is done, then written as a doc.
+- [ ] Budget, phase and role filters in `context.ts` still read the overlay. They need
+      re-pointing at `SourcedCounter` or retiring; deferred to Stage 3 where the UI decides
+      which of them survive.
