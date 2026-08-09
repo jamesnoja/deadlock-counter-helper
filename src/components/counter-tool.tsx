@@ -127,6 +127,9 @@ export function CounterTool({
       ) : null}
 
       <section className="flex flex-col gap-md">
+        {/* The task, not the readout. Screen-reader users navigate by heading,
+            and the input region was the one part of the page without one. */}
+        <h2 className="text-heading">Pick the enemy team</h2>
         <HeroPicker
           heroes={heroes}
           selected={selected}
@@ -140,11 +143,13 @@ export function CounterTool({
       </section>
 
       {selected.length === 0 ? (
-        <EmptyState title="No enemies selected" hint="Pick a hero above to see counters." />
+        <EmptyState
+          title="No enemies selected"
+          hint="Search or pick a hero above. Add more and the advice grows rather than collapsing: every item shows which of your enemies it answers, and the link carries your whole lineup."
+        />
       ) : (
         <section className="flex flex-col gap-md">
-          <div className="flex flex-wrap items-center justify-between gap-md">
-            <h2 className="text-heading">Counters — {affordable.length} items</h2>
+          <div className="flex flex-wrap items-center justify-end gap-md">
             <ChatExport counters={affordable} team={team} />
           </div>
 

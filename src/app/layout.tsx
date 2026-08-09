@@ -16,7 +16,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Deadlock Counter Helper",
   description:
-    "Pick the enemy team, see every item that answers their kit — with costs, tiers, slots, and the specific ability each item counters.",
+    "Pick the enemy team and get the items that answer them, with what each one costs and why it works.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

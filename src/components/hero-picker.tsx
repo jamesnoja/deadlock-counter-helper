@@ -100,8 +100,8 @@ export function HeroPicker({ heroes, selected, onToggle, blockedReason }: HeroPi
   return (
     <div className="flex flex-col gap-md">
       <label className="flex flex-col gap-xs">
-        <span className="text-micro text-text-muted">
-          Search heroes — press <kbd>/</kbd> to jump here
+        <span className="text-caption text-text-muted">
+          Search heroes. Press <kbd>/</kbd> to jump here.
         </span>
         <input
           ref={searchRef}
