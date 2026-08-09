@@ -76,6 +76,10 @@ export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
       ) : (
         <section className="flex flex-col gap-md">
           <h3 className="text-heading">Best items against this lineup</h3>
+          <p className="text-caption text-text-muted">
+            Ranked by how much of the lineup each one answers. The portraits under an item show
+            which of your enemies it works against; dimmed means it does nothing there.
+          </p>
           <ul className="grid gap-md sm:grid-cols-2">
             {counters.map((counter, index) => (
               <CounterCard

@@ -1613,3 +1613,50 @@ timestamp.
       threat profile lists hero names as text where everything else uses portraits.
 - [ ] No keyboard shortcuts anywhere, on a tool meant to be used mid-match. Alex fails hardest of
       the three personas and nothing here addressed it.
+
+## 2026-08-09 — Acting on the home-page and single-view critiques (27/40, 30/40)
+
+**The worst finding was in the metadata, not the markup.** The hero paragraph promised "the
+specific ability each item counters", which the redesign deleted six PRs ago, plus "slots",
+which no card shows. The same sentence was also `layout.tsx`'s `<meta description>` — the copy
+search engines actually index, and the one I would have missed if I had only read the visible
+page. Both rewritten against what the product does now.
+
+**The primary action had no heading.** The outline at rest was `h1` then `h2 Enemy team`, so the
+only heading below the title described the *result* area. The hero picker, 38 buttons and the
+whole point of the page, sat in an unlabelled div. It now has `h2 Pick the enemy team`, and the
+redundant `Counters: N items` wrapper is gone, since the section below it already names its
+subject.
+
+**The Suspense fallback rendered an empty tool.** It was passed `EMPTY_STATE` while the real
+child got the server-decoded state, so a no-JS visitor or a crawler following a shared six-hero
+link saw "No enemies selected". Both now get the same `initial`. Verified: both renders report
+the same team count and the empty state is gone.
+
+**The empty state now teaches.** It was "Pick a hero above to see counters", which restated the
+obvious on the one screen every new visitor sees. It now says what the tool does that others do
+not: advice grows as you add enemies rather than collapsing, and the link carries the lineup.
+
+**The coverage notation has a legend**, and the rank is announced. `#N` is `aria-hidden`, so a
+screen reader was getting an unordered-sounding list; there is an `sr-only` "Ranked N" beside it
+now, with a test.
+
+### The caps sweep, and a correction
+
+I claimed `item-meta`, `item-stats` and `coverage-cell` held seven sentence-shaped `text-micro`
+usages. **They hold none.** Reading the actual content rather than counting occurrences: "Tier 3",
+"▸ stats", "▸ 3 runners-up", "Ultimate", "vitality · T4 · 6,400 souls", strength glyphs. All
+legitimate labels on a label tier.
+
+The genuine sweep was three things: chat-export's character count line, the hero picker's
+instruction (which is where the `/` shortcut is documented, in 11px caps, which is why nobody
+knew it existed), and `team-bar`'s `h2`, which was the smallest type on the page.
+
+Em dashes are out of our UI strings. Two remain and are deliberate: the source's own item text
+("Automatic protection—perfect for…") and the source's page title, neither of which is our prose.
+
+### Follow-ups
+
+- [ ] Contrast of `--on-brand` against all three `hero-gradient` stops. The contrast test covers
+      token pairs, not gradients, so the header is unverified.
+- [ ] Still no shortcut to clear the team, and no way to paste a lineup.

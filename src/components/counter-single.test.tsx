@@ -85,3 +85,12 @@ describe('CounterSingle without published advice', () => {
     expect(screen.getByText(/No published counters for .* yet/i)).toBeTruthy()
   })
 })
+
+describe('CounterSingle accessibility', () => {
+  it('announces the ranking that sighted users read off the badge', () => {
+    render(<CounterSingle hero={hero} counters={plan.counters} advice={plan.heroes[0]} />)
+    // The #N badge is aria-hidden, so without this the list sounds unordered.
+    expect(screen.getByText('Ranked 1')).toBeTruthy()
+    expect(screen.getByText(`Ranked ${plan.counters.length}`)).toBeTruthy()
+  })
+})

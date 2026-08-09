@@ -5,7 +5,7 @@ import { SourceCredit } from '@/components/source-credit.tsx'
 import { PUBLISHED_META } from '@/data/published.ts'
 import { ProvenanceStamp } from '@/components/provenance-stamp.tsx'
 import { HEROES, heroBySlug } from '@/data/snapshot.ts'
-import { decodeToolState, EMPTY_STATE } from '@/data/url-state.ts'
+import { decodeToolState } from '@/data/url-state.ts'
 
 /**
  * Decoding the URL on the server means a shared link renders its counters in
@@ -24,16 +24,20 @@ export default async function Home({
       <header className="hero-gradient rounded-card p-2xl">
         <h1 className="text-display text-on-brand">Deadlock Counter Helper</h1>
         <p className="text-on-brand">
-          Pick the enemy team, see every item that answers their kit — with costs, tiers, slots,
-          and the specific ability each item counters.
+          Pick the enemy team. Get the items that answer them, with what each one costs and why it
+          works, from a source that says when it was last updated.
         </p>
       </header>
 
       <ProvenanceStamp />
 
-      {/* useSearchParams needs a Suspense boundary; the fallback is what a
-          crawler with no JS sees before the client takes over. */}
-      <Suspense fallback={<CounterTool heroes={HEROES} initial={EMPTY_STATE} />}>
+      {/*
+        useSearchParams needs a Suspense boundary. The fallback gets the same
+        server-decoded state as the real thing: it is what a crawler and any
+        no-JS visitor actually see, and rendering an empty tool there meant a
+        shared six-hero link was indexed as an empty page.
+      */}
+      <Suspense fallback={<CounterTool heroes={HEROES} initial={initial} />}>
         <CounterTool heroes={HEROES} initial={initial} />
       </Suspense>
 

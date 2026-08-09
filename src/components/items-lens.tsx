@@ -151,7 +151,7 @@ export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsL
                             className="truncate text-left text-heading hover:text-brand"
                           >
                             {counter.item.name}
-                            <span className="sr-only"> — open details</span>
+                            <span className="sr-only">, open details</span>
                           </button>
                         ) : (
                           <span className="truncate text-heading">{counter.item.name}</span>

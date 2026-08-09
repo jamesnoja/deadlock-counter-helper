@@ -52,8 +52,8 @@ export function ChatExport({
           >
             {copied ? 'Copied' : 'Copy'}
           </button>
-          <span className="text-micro text-text-muted">
-            <span className="text-tabular">{text.length}</span> characters — fits a game chat box
+          <span className="text-caption text-text-muted">
+            <span className="text-tabular">{text.length}</span> characters, fits a game chat box
           </span>
         </div>
       </div>

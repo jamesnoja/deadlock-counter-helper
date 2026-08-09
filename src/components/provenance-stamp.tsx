@@ -61,7 +61,7 @@ export function ProvenanceStamp() {
         </p>
         <p className="text-caption text-text-muted">
           A <strong>circle</strong> means the last patch did not touch that entry. A{' '}
-          <strong>diamond</strong> means it did and nobody has re-checked the advice yet — it is
+          <strong>diamond</strong> means it did and nobody has re-checked the advice yet, so it is
           not a claim the advice is wrong, only that we have not confirmed it is still right.
         </p>
         {untaggedCount > 0 ? (

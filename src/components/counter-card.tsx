@@ -81,8 +81,11 @@ export function CounterCard({
             <CategoryTag category={counter.item.category} />
           </p>
         </div>
-        <span aria-hidden className="shrink-0 text-tabular text-micro text-text-muted">
-          #{rank}
+        <span className="shrink-0 text-tabular text-micro text-text-muted">
+          <span aria-hidden>#{rank}</span>
+          {/* Sighted users read the ranking off position and badge; without
+              this a screen reader gets an unordered-sounding list. */}
+          <span className="sr-only">Ranked {rank}</span>
         </span>
       </div>
 

@@ -31,8 +31,8 @@ export function TeamBar({ team, onClear, onClearAll }: TeamBarProps) {
   return (
     <div className="sticky top-0 z-20 flex flex-col gap-sm rounded-card bg-surface-elevated p-md shadow-2">
       <div className="flex flex-wrap items-baseline justify-between gap-sm">
-        <h2 className="text-micro text-text-muted">
-          Enemy team — {team.length} of {MAX_ENEMIES}
+        <h2 className="text-caption text-text-muted">
+          Enemy team: {team.length} of {MAX_ENEMIES}
           {full ? ' · full' : ''}
         </h2>
         {team.length > 0 ? (
