@@ -16,6 +16,7 @@
 
 import { useRef, useState } from 'react'
 import { CounterCard } from './counter-card.tsx'
+import { scrollCardIntoView } from './scroll-into-view.ts'
 import { GameImage } from './game-image.tsx'
 import { COUNTER_GROUPS } from '@/data/published.ts'
 import type { Hero } from '@/data/schema.ts'
@@ -43,6 +44,14 @@ function threatProfile(plan: CounterPlan, team: readonly Hero[]) {
     .sort((a, b) => b.heroes.length - a.heroes.length || a.group.name.localeCompare(b.group.name))
 }
 
+/**
+ * How many cards open on arrival.
+ *
+ * Four is the working-memory ceiling, and it matches the number of items a
+ * player realistically buys in one back.
+ */
+const OPEN_BY_DEFAULT = 4
+
 export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
   const [highlighted, setHighlighted] = useState<string | null>(null)
   const cardRefs = useRef(new Map<string, HTMLLIElement>())
@@ -51,7 +60,7 @@ export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
 
   const showAnswer = (itemClassName: string) => {
     setHighlighted((current) => (current === itemClassName ? null : itemClassName))
-    cardRefs.current.get(itemClassName)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    scrollCardIntoView(cardRefs.current.get(itemClassName))
   }
 
   /** The situation currently driving the highlight, so the card can show its reason. */
@@ -74,6 +83,7 @@ export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
                 counter={counter}
                 rank={index + 1}
                 highlighted={highlighted === counter.item.class_name}
+                collapsible={index >= OPEN_BY_DEFAULT}
                 situation={situationFor(counter)}
                 team={team}
                 onRef={(node) => {
@@ -99,8 +109,8 @@ export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
                       {heroes.length} of {team.length}
                     </span>
                   </p>
-                  <p className="text-micro text-text-muted">{group.desc}</p>
-                  <p className="text-micro text-text-muted">{heroes.join(', ')}</p>
+                  <p className="text-caption text-text-muted">{group.desc}</p>
+                  <p className="text-caption text-text-muted">{heroes.join(', ')}</p>
                 </li>
               ))}
             </ul>
@@ -134,7 +144,7 @@ export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
                       {advice.lanePhase.length > 0 ? (
                         <ul className="flex flex-col gap-xs">
                           {advice.lanePhase.map((tip) => (
-                            <li key={tip} className="text-micro text-text-muted">
+                            <li key={tip} className="text-caption text-text-muted">
                               {tip}
                             </li>
                           ))}
@@ -155,7 +165,7 @@ export function CounterTeam({ team, counters, plan }: CounterTeamProps) {
                           ].join(' ')}
                         >
                           <span className="block text-caption">{situation.label}</span>
-                          <span className="block text-micro text-text-muted">
+                          <span className="block text-caption text-text-muted">
                             {situation.reason}
                           </span>
                         </button>

@@ -9,6 +9,7 @@
  * "answers 1 of 1" is noise.
  */
 
+import { useState } from 'react'
 import { GameImage } from './game-image.tsx'
 import { CategoryTag } from './item-meta.tsx'
 import type { Hero } from '@/data/schema.ts'
@@ -30,6 +31,15 @@ export interface CounterCardProps {
    * three is the thing that decides whether you buy it.
    */
   team?: readonly Hero[]
+  /**
+   * Start collapsed, with the source's prose behind a control.
+   *
+   * Against one enemy every card can be open: there are six to nine of them and
+   * one subject. Against six there can be thirty, and a wall of open cards
+   * buries what the list is actually for. The ranking decides which few are
+   * open; the rest stay one click away.
+   */
+  collapsible?: boolean
   onRef?: (node: HTMLLIElement | null) => void
 }
 
@@ -39,9 +49,14 @@ export function CounterCard({
   highlighted,
   situation,
   team,
+  collapsible = false,
   onRef,
 }: CounterCardProps) {
+  const [open, setOpen] = useState(false)
   const answered = new Set(counter.coverage)
+  // Picking a situation reveals the card it answers, whatever its rank.
+  const showDetail = !collapsible || open || highlighted
+  const detailId = `counter-detail-${counter.item.class_name}`
 
   return (
     <li
@@ -74,7 +89,7 @@ export function CounterCard({
       {team && team.length > 1 ? (
         <p className="flex flex-wrap items-center gap-xs">
           <span className="text-micro text-text-muted">
-            Answers {answered.size} of {team.length}:
+            Answers {answered.size} of {team.length}
           </span>
           {team.map((hero) => {
             const covered = answered.has(hero.class_name)
@@ -103,18 +118,34 @@ export function CounterCard({
         </p>
       ) : null}
 
-      {counter.note?.description ? (
-        <p className="text-caption text-text-muted">{counter.note.description}</p>
+      {showDetail ? (
+        <div id={detailId} className="flex flex-col gap-sm">
+          {counter.note?.description ? (
+            <p className="text-caption text-text-muted">{counter.note.description}</p>
+          ) : null}
+
+          {counter.note?.why.length ? (
+            <ul className="flex flex-col gap-px">
+              {counter.note.why.map((line) => (
+                <li key={line} className="text-caption text-text-muted">
+                  {line}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
       ) : null}
 
-      {counter.note?.why.length ? (
-        <ul className="flex flex-col gap-px">
-          {counter.note.why.map((line) => (
-            <li key={line} className="text-micro text-text-muted">
-              — {line}
-            </li>
-          ))}
-        </ul>
+      {collapsible && !highlighted ? (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={detailId}
+          onClick={() => setOpen((current) => !current)}
+          className="self-start text-caption text-brand underline"
+        >
+          {open ? `Hide why ${counter.item.name} works` : `Why ${counter.item.name} works`}
+        </button>
       ) : null}
 
       {highlighted && situation ? (

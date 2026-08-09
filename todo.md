@@ -1567,3 +1567,49 @@ it used to open.
 
 - [ ] The coverage matrix's hero click lands on the overview but cannot open that hero's panel.
       It would need the disclosure state lifted; not obviously worth it.
+
+## 2026-08-09 — Acting on the design critique (26/40)
+
+Five issues from `$impeccable critique` on the four-enemy team view. The deterministic detector
+was clean; every finding was a violation of the project's own rules rather than generic slop.
+
+**P1 — body copy was rendering in 11px all-caps.** `.text-micro` is
+`0.6875rem / 0.08em tracking / uppercase`. It is an eyebrow tier and it was carrying full
+sentences: item why-bullets, situation reasons, lane tips, group descriptions. This is the exact
+thing DESIGN.md says we do not do, and PRODUCT.md lists it as an anti-reference. Sentences moved
+to `text-caption` (13px, sentence case); `text-micro` now carries only short labels — `#1`,
+`Answers 3 of 4`, `4 of 6`.
+
+Worth noting what did *not* change: `Answers 3 of 4` stayed on the eyebrow tier. The rule is
+about sentences, not about counts, and dropping the word made the number ambiguous next to the
+rank badge. Shortening it was my first attempt and it was wrong.
+
+**P1 — the same three items were ranked twice on one screen.** At two or more enemies,
+`CounterPlan` rendered above the lens switcher and `CounterTeam` inside it: Indomitable `4/4` then
+Indomitable `#1`, same order, same reasons, two visual vocabularies. `CounterPlan` is deleted, and
+`plan.ts` with it since nothing else read it. The single-hero view already bypassed both, so this
+only ever affected team size.
+
+**P2 — twenty fully expanded cards was the wrong default at team size.** The top four stay open,
+the rest collapse behind a per-card control. Four because it is the working-memory ceiling and
+roughly what a player buys in one back. Picking a situation still opens its answer wherever it
+sits in the list, which is asserted rather than assumed.
+
+**P2 — the smooth scroll ignored `prefers-reduced-motion`.** The global CSS block sets
+`scroll-behavior: auto !important`, which governs CSS-driven scrolling only; a JavaScript
+`behavior: "smooth"` argument is unaffected. It was the one motion in the interface and the one
+bypassing the accommodation. Now behind `scrollCardIntoView`, which reads the preference.
+
+**P2 — the source's formatting was leaking into our copy.** Reasons arrived as
+`Solution: … Why: …` and we prefixed them with the situation label, giving two labelling systems
+in one sentence. Stripped at import in `sync-counters.mts` rather than in the UI, so the committed
+data is clean for every consumer. The regenerated diff is exactly 114 reason strings plus the
+timestamp.
+
+### Follow-ups
+
+- [ ] Minor observations from the critique are unaddressed: no-JS shared links render the Suspense
+      fallback (`0 of 6`); the rank is `aria-hidden` so screen readers lose the ordering; the
+      threat profile lists hero names as text where everything else uses portraits.
+- [ ] No keyboard shortcuts anywhere, on a tool meant to be used mid-match. Alex fails hardest of
+      the three personas and nothing here addressed it.

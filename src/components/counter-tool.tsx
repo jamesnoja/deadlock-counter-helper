@@ -18,7 +18,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BudgetFilter } from './budget-filter.tsx'
 import { BuildLens } from './build-lens.tsx'
 import { ChatExport } from './chat-export.tsx'
-import { CounterPlan } from './counter-plan.tsx'
 import { CounterSingle } from './counter-single.tsx'
 import { CounterTeam } from './counter-team.tsx'
 import { HeroPicker } from './hero-picker.tsx'
@@ -228,8 +227,6 @@ export function CounterTool({
                   </button>
                 ))}
               </div>
-
-              <CounterPlan counters={affordable} team={team} onSelect={setSelectedItem} />
 
               {detail ? (
                 <ItemDetail
