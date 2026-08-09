@@ -45,6 +45,6 @@ export function provenanceSummary(): ProvenanceSummary {
     patchLink: META.patch?.link ?? '',
     syncedAt: META.synced_at,
     flaggedCount: CHANGES.needsReview.length,
-    untaggedCount: CHANGES.untaggedAdditions.length,
+    untaggedCount: CHANGES.uncoveredAdditions.length,
   }
 }

@@ -1228,10 +1228,10 @@ Staged so each PR leaves the repo working. Nothing is deleted until its replacem
       line in a footer.
 
 **Stage 4 — retire Layer B**
-- [ ] Delete `data/overlay/ability-threats.ts`, `item-counters.ts`, `scaffold-overlay.mts`,
+- [x] Delete `data/overlay/ability-threats.ts`, `item-counters.ts`, `scaffold-overlay.mts`,
       the whole `/admin/untagged` page and its components, and the tag vocabulary in
       `tags.ts` that nothing else uses.
-- [ ] 24 files currently import the overlay or the tag types. Each needs checking, not a
+- [x] 24 files currently import the overlay or the tag types. Each needs checking, not a
       find-and-replace.
 
 **Out of scope for now.** The 37-item strength worklist and the three tag corrections. Both
@@ -1376,6 +1376,55 @@ everything green.
 
 ### Follow-ups
 
-- [ ] Stage 4: retire Layer B. `derive.ts`, `tags.ts`, the overlay files, the scaffold and the
+- [x] Stage 4: retire Layer B. `derive.ts`, `tags.ts`, the overlay files, the scaffold and the
       whole `/admin/untagged` page are now unreferenced by the app but still in the tree.
 - [ ] **New-hero checklist** — owner asked for it; write once Stage 4 lands.
+
+### Review — Stage 4
+
+Layer B is gone. 192 tests, verify clean, routes checked in the running app —
+`/admin/untagged` now 404s, everything else 200s.
+
+**Deleted.** `data/overlay/` entire, `scripts/scaffold-overlay.mts`, the whole
+`src/app/admin/` tree, `src/data/derive.ts`, `src/data/overlay.ts` and their tests. The
+`overlay:scaffold` npm script went with them.
+
+The test count fell from 253 to 192. That is deleted tests for deleted code, not lost coverage:
+`derive.test.ts` and `overlay.test.ts` tested the derivation engine and the tag join, and
+`curation-list.test.tsx` tested the curation UI. What replaced them — `published.test.ts` and
+`sourced.test.ts` — was already in place.
+
+**`tags.ts` is now `phases.ts`.** Only the phase vocabulary survived; the threat tags, labels,
+meanings, severities, counter strengths and review states all had no reader left. Renaming the
+file rather than leaving a `tags.ts` that contains no tags.
+
+**`diff.ts` was reworked, not stripped.** This was the only genuinely interesting part. It used
+the overlay twice, and both uses had a real replacement rather than a deletion:
+
+| Was | Now |
+| --- | --- |
+| A retune counts if the *ability* carries tags | A retune counts if the *ability's hero* has published advice |
+| New items/abilities with no overlay entry are uncovered | New heroes/items the source does not mention are uncovered |
+
+The second changed shape as well as source: abilities are no longer listed as coverage gaps,
+because the source makes no per-ability claim. A new *hero* is the gap now. `untaggedAdditions`
+became `uncoveredAdditions`, and the committed `changes.json` was migrated rather than left
+carrying a key nothing reads.
+
+One behavioural change worth naming: a **new ability on a covered hero** now flags for review.
+Under the old model a brand-new ability had no tags, so it was silently ignored. Under hero-level
+coverage it counts, and it should — the published advice was written without that ability and may
+not survive it.
+
+**Two open issues closed as superseded.** #30 (threat explanations) and #63 (ability `provides`
+tags) were both specced against a schema that no longer exists. #30's actual user need already
+ships as the per-hero summary and situations.
+
+### Follow-ups
+
+- [ ] **New-hero checklist** — the last outstanding thing owner asked for. Now writable: the
+      architecture is settled.
+- [ ] `docs/BACKLOG.md` still describes the overlay architecture in the E04/E05/E06 specs. It is
+      generated from `scripts/enhancements.mjs` and is a record of what was planned, so it is
+      wrong as documentation but right as history. Decide which it is.
+- [ ] `sync.yml` should run `sync:counters` daily. Still blocked on the `workflow` token scope.

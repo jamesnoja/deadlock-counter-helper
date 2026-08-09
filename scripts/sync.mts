@@ -18,8 +18,7 @@ import { fileURLToPath } from 'node:url'
 
 import { describeDiff, diffSnapshots, isEmptyDiff } from '../src/data/diff.ts'
 import { normalise } from '../src/data/normalise.ts'
-import { ABILITY_THREATS } from '../data/overlay/ability-threats.ts'
-import { ITEM_COUNTERS } from '../data/overlay/item-counters.ts'
+import { HERO_COUNTERS, ITEM_NOTES } from '../src/data/published.ts'
 import type { Ability, Hero, Item, Snapshot, SnapshotMeta } from '../src/data/schema.ts'
 import {
   ENDPOINTS,
@@ -147,8 +146,13 @@ async function main() {
   const diff = unchanged
     ? null
     : diffSnapshots(previousSnapshot, snapshot, {
-        abilityThreats: ABILITY_THREATS,
-        itemCounters: ITEM_COUNTERS,
+        // What the published source currently says something about. A new hero
+        // or item outside this is a coverage gap the tool cannot advise on.
+        heroes: new Set(HERO_COUNTERS.map((entry) => entry.hero)),
+        items: new Set([
+          ...ITEM_NOTES.map((note) => note.item),
+          ...HERO_COUNTERS.flatMap((entry) => entry.topCounters),
+        ]),
       })
 
   mkdirSync(SNAPSHOT_DIR, { recursive: true })
