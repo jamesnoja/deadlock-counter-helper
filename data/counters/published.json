@@ -2,7 +2,7 @@
   "meta": {
     "source_url": "https://deadlockitembuilder.com/counter-item-helper",
     "source_name": "Deadlock Item Builder — Counter Item Helper",
-    "retrieved_at": "2026-08-09T00:30:21.964Z",
+    "retrieved_at": "2026-08-09T04:40:57.839Z",
     "counts": {
       "heroes": 38,
       "items": 46,
@@ -165,17 +165,17 @@
         {
           "label": "He is healing through all your damage",
           "priorityItem": "upgrade_spirit_burn",
-          "reason": "Solution: Buy Spirit Burn or Toxic Bullets early. Why: Provides the largest healing reduction in the game (-70%) to stop his massive sustain."
+          "reason": "Buy Spirit Burn or Toxic Bullets early. Provides the largest healing reduction in the game (-70%) to stop his massive sustain."
         },
         {
           "label": "Getting run down by charge and melee combos",
           "priorityItem": "upgrade_melee_rebuttal",
-          "reason": "Solution: Use Rebuttal to win melee trades. Why: It cuts parry cooldown by half, returning damage to him while granting bonus health."
+          "reason": "Use Rebuttal to win melee trades. It cuts parry cooldown by half, returning damage to him while granting bonus health."
         },
         {
           "label": "Getting CC'd and bursted late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Upgrade Reactive Barrier to Indomitable. Why: Automatically cleanses the Shoulder Charge stun, breaking his ability combo instantly."
+          "reason": "Upgrade Reactive Barrier to Indomitable. Automatically cleanses the Shoulder Charge stun, breaking his ability combo instantly."
         }
       ]
     },
@@ -207,17 +207,17 @@
         {
           "label": "He is using mobility to kite and escape",
           "priorityItem": "upgrade_containment",
-          "reason": "Solution: Use Slowing Hex before he recasts. Why: Disables his ability to recast Flawless Advance, ending his movement instantly."
+          "reason": "Use Slowing Hex before he recasts. Disables his ability to recast Flawless Advance, ending his movement instantly."
         },
         {
           "label": "His burst damage is chunking you too hard",
           "priorityItem": "upgrade_spellbreaker",
-          "reason": "Solution: Build Spellbreaker early. Why: Negates a massive chunk of his initial spirit spikes and reduces CC duration."
+          "reason": "Build Spellbreaker early. Negates a massive chunk of his initial spirit spikes and reduces CC duration."
         },
         {
           "label": "Locked by ultimate slow/silence combos",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically purges the silence effect from his ultimate, letting you dash away instantly."
+          "reason": "Buy Indomitable. Automatically purges the silence effect from his ultimate, letting you dash away instantly."
         }
       ]
     },
@@ -249,17 +249,17 @@
         {
           "label": "A bomb is stuck on you and will detonate",
           "priorityItem": "upgrade_reduce_debuff_duration",
-          "reason": "Solution: Use Dispel Magic immediately. Why: It causes sticky bombs to drop to the floor safely, negating the burst stack."
+          "reason": "Use Dispel Magic immediately. It causes sticky bombs to drop to the floor safely, negating the burst stack."
         },
         {
           "label": "His laser ultimate is decisive in teamfights",
           "priorityItem": "upgrade_target_stun",
-          "reason": "Solution: Throw a Knockdown anvil. Why: Grounding duration is increased on airborne targets; drops him for an easy team focus."
+          "reason": "Throw a Knockdown anvil. Grounding duration is increased on airborne targets; drops him for an easy team focus."
         },
         {
           "label": "Getting hooked and stun-locked late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically removes the Uppercut stun, breaking his displacement combo instantly."
+          "reason": "Buy Indomitable. Automatically removes the Uppercut stun, breaking his displacement combo instantly."
         }
       ]
     },
@@ -291,17 +291,17 @@
         {
           "label": "He is winning every melee trade in lane",
           "priorityItem": "upgrade_melee_rebuttal",
-          "reason": "Solution: Buy Rebuttal. Why: Cuts parry cooldown to 2s, punishing his light melee spam while healing you."
+          "reason": "Buy Rebuttal. Cuts parry cooldown to 2s, punishing his light melee spam while healing you."
         },
         {
           "label": "His fire-rate output is melting you",
           "priorityItem": "upgrade_suppressor",
-          "reason": "Solution: Apply Suppressor via spirit hits. Why: Cuts his fire-rate output passively on every ability hit."
+          "reason": "Apply Suppressor via spirit hits. Cuts his fire-rate output passively on every ability hit."
         },
         {
           "label": "Getting caught by the ultimate grab",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: It automatically removes the grab effect, keeping you safely with your team."
+          "reason": "Buy Indomitable. It automatically removes the grab effect, keeping you safely with your team."
         }
       ]
     },
@@ -333,17 +333,17 @@
         {
           "label": "She keeps diving and escaping for free",
           "priorityItem": "upgrade_capacitor",
-          "reason": "Solution: Use Capacitor projectile. Why: It silences movement and prevents stamina usage for 3s, pinning her down."
+          "reason": "Use Capacitor projectile. It silences movement and prevents stamina usage for 3s, pinning her down."
         },
         {
           "label": "The final damage of her ultimate is finishing you",
           "priorityItem": "upgrade_self_bubble",
-          "reason": "Solution: Use Ethereal Shift. Why: Provides brief invulnerability to wait out the highest damage combo window."
+          "reason": "Use Ethereal Shift. Provides brief invulnerability to wait out the highest damage combo window."
         },
         {
           "label": "Stunned by Leap Slash into team setups",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: It automatically purges her hard CC setups, breaking her coordinated dive timing."
+          "reason": "Buy Indomitable. It automatically purges her hard CC setups, breaking her coordinated dive timing."
         }
       ]
     },
@@ -375,17 +375,17 @@
         {
           "label": "She is flying safely above the teamfight",
           "priorityItem": "upgrade_target_stun",
-          "reason": "Solution: Throw Knockdown on her. Why: Grounding her removes her height advantage and makes her easy to burst."
+          "reason": "Throw Knockdown on her. Grounding her removes her height advantage and makes her easy to burst."
         },
         {
           "label": "Hard to pin down in the middle of her team",
           "priorityItem": "upgrade_capacitor",
-          "reason": "Solution: Use Capacitor. Why: Silences movement-based abilities and stamina usage for 3 seconds."
+          "reason": "Use Capacitor. Silences movement-based abilities and stamina usage for 3 seconds."
         },
         {
           "label": "Getting stunned by ball setups late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC, ensuring you aren't isolated for her burst."
+          "reason": "Buy Indomitable. Automatically cleanses hard CC, ensuring you aren't isolated for her burst."
         }
       ]
     },
@@ -416,17 +416,17 @@
         {
           "label": "The ultimate damage and CC is decisive",
           "priorityItem": "upgrade_counterspell",
-          "reason": "Solution: Time Counterspell at the end. Why: Parry-blocking the final ticks negates the high value of his channel."
+          "reason": "Time Counterspell at the end. Parry-blocking the final ticks negates the high value of his channel."
         },
         {
           "label": "He keeps carting you into his base",
           "priorityItem": "upgrade_warp_stone",
-          "reason": "Solution: Use Warp Stone. Why: Reposition instantly breaks the proximity needed to push you."
+          "reason": "Use Warp Stone. Reposition instantly breaks the proximity needed to push you."
         },
         {
           "label": "Getting CC'd by his cart in late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Purges the cart stun automatically, breaking his setup rhythm."
+          "reason": "Buy Indomitable. Purges the cart stun automatically, breaking his setup rhythm."
         }
       ]
     },
@@ -458,17 +458,17 @@
         {
           "label": "His gun damage is melting you in all-ins",
           "priorityItem": "upgrade_metal_skin",
-          "reason": "Solution: Activate Metal Skin. Why: You become 100% immune to bullets for 5 seconds during his mark."
+          "reason": "Activate Metal Skin. You become 100% immune to bullets for 5 seconds during his mark."
         },
         {
           "label": "Stalker marks and DoT are tracking you",
           "priorityItem": "upgrade_reduce_debuff_duration",
-          "reason": "Solution: Use Dispel Magic. Why: Cleansing marks negates his ability to teleport to you safely."
+          "reason": "Use Dispel Magic. Cleansing marks negates his ability to teleport to you safely."
         },
         {
           "label": "Getting CC'd and bursted from mark combos",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Purges teleport mark stuns automatically."
+          "reason": "Buy Indomitable. Purges teleport mark stuns automatically."
         }
       ]
     },
@@ -499,17 +499,17 @@
         {
           "label": "Your team keeps getting wiped by Singularity",
           "priorityItem": "upgrade_unstoppable",
-          "reason": "Solution: Activate Unstoppable proactively. Why: Timed correctly it makes you immune to the pull."
+          "reason": "Activate Unstoppable proactively. Timed correctly it makes you immune to the pull."
         },
         {
           "label": "Caught in CC and lifted before reacting",
           "priorityItem": "upgrade_vex_barrier",
-          "reason": "Solution: Build early Reactive Barrier. Why: Shield procs automatically as soon as you are lifted."
+          "reason": "Build early Reactive Barrier. Shield procs automatically as soon as you are lifted."
         },
         {
           "label": "Getting caught in the Singularity black hole",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable late-game. Why: It purges the Singularity stun automatically, letting you walk out."
+          "reason": "Buy Indomitable late-game. It purges the Singularity stun automatically, letting you walk out."
         }
       ]
     },
@@ -541,17 +541,17 @@
         {
           "label": "Her tombstone is overwhelming the lane",
           "priorityItem": "upgrade_non_player_bonus",
-          "reason": "Solution: Buy Monster Rounds early. Why: Provides specific bonus damage against summon structures."
+          "reason": "Buy Monster Rounds early. Provides specific bonus damage against summon structures."
         },
         {
           "label": "She keeps healing through all damage",
           "priorityItem": "upgrade_spirit_burn",
-          "reason": "Solution: Buy Spirit Burn. Why: 70% reduction stops her from stabilizing during sustain trades."
+          "reason": "Buy Spirit Burn. 70% reduction stops her from stabilizing during sustain trades."
         },
         {
           "label": "Stunned by skull jars or combos in teamfights",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses stuns from her jars or ultimate."
+          "reason": "Buy Indomitable. Automatically cleanses stuns from her jars or ultimate."
         }
       ]
     },
@@ -582,17 +582,17 @@
         {
           "label": "He is sniping safely from the air",
           "priorityItem": "upgrade_target_stun",
-          "reason": "Solution: Use Knockdown anvil. Why: Grounding him removes his height advantage entirely for a team burst."
+          "reason": "Use Knockdown anvil. Grounding him removes his height advantage entirely for a team burst."
         },
         {
           "label": "His spirit burst is too high in mid-game",
           "priorityItem": "upgrade_spellbreaker",
-          "reason": "Solution: Build Spellbreaker. Why: Reduces damage from high spirit spikes and stay out of execute range."
+          "reason": "Build Spellbreaker. Reduces damage from high spirit spikes and stay out of execute range."
         },
         {
           "label": "Getting trapped and bursted by team setup",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses the trap root setup instantly."
+          "reason": "Buy Indomitable. Automatically cleanses the trap root setup instantly."
         }
       ]
     },
@@ -624,17 +624,17 @@
         {
           "label": "Losing trades to her high weapon DPS",
           "priorityItem": "upgrade_metal_skin",
-          "reason": "Solution: Activate Metal Skin. Why: You become 100% immune to bullets during her ultimate window."
+          "reason": "Activate Metal Skin. You become 100% immune to bullets during her ultimate window."
         },
         {
           "label": "She keeps diving and relying on life steal",
           "priorityItem": "upgrade_return_fire",
-          "reason": "Solution: Use Return Fire. Why: Returns damage back to her, punishing her high fire rate."
+          "reason": "Use Return Fire. Returns damage back to her, punishing her high fire rate."
         },
         {
           "label": "Getting Sleep Daggered and bursted late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically purges the Sleep effect instantly so you can shoot back."
+          "reason": "Buy Indomitable. Automatically purges the Sleep effect instantly so you can shoot back."
         }
       ]
     },
@@ -665,17 +665,17 @@
         {
           "label": "Teammates keep getting kidnapped by Lasso",
           "priorityItem": "upgrade_rescue_beam",
-          "reason": "Solution: Use Rescue Beam manually. Why: Pull teammates out of the Lasso kidnapping."
+          "reason": "Use Rescue Beam manually. Pull teammates out of the Lasso kidnapping."
         },
         {
           "label": "She is flying above to set up barrel damage",
           "priorityItem": "upgrade_target_stun",
-          "reason": "Solution: Use Knockdown. Why: Grounding her removes her angle advantage and makes her easy to kill."
+          "reason": "Use Knockdown. Grounding her removes her angle advantage and makes her easy to kill."
         },
         {
           "label": "Getting kidnapped by the Lasso ultimate",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses the Lasso tether instantly."
+          "reason": "Buy Indomitable. Automatically cleanses the Lasso tether instantly."
         }
       ]
     },
@@ -707,17 +707,17 @@
         {
           "label": "Burn damage kills you after trades",
           "priorityItem": "upgrade_reduce_debuff_duration",
-          "reason": "Solution: Use Dispel Magic. Why: Purges all non-ultimate DoT stacks instantly."
+          "reason": "Use Dispel Magic. Purges all non-ultimate DoT stacks instantly."
         },
         {
           "label": "Afterburn and slows are lasting too long",
           "priorityItem": "upgrade_debuff_reducer",
-          "reason": "Solution: Build early Debuff Reducer. Why: Shortens his DoT impact significantly."
+          "reason": "Build early Debuff Reducer. Shortens his DoT impact significantly."
         },
         {
           "label": "His ultimate stun is setting up a team wipe",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically removes the explosion stun."
+          "reason": "Buy Indomitable. Automatically removes the explosion stun."
         }
       ]
     },
@@ -748,17 +748,17 @@
         {
           "label": "Stone Form smash is stunning your team",
           "priorityItem": "upgrade_counterspell",
-          "reason": "Solution: Parry with Counterspell. Why: Negates the ground smash stun and damage entirely."
+          "reason": "Parry with Counterspell. Negates the ground smash stun and damage entirely."
         },
         {
           "label": "She is split pushing and ulting away",
           "priorityItem": "upgrade_target_stun",
-          "reason": "Solution: Click Knockdown. Why: Stuns her out of her flight ultimate and puts it on CD."
+          "reason": "Click Knockdown. Stuns her out of her flight ultimate and puts it on CD."
         },
         {
           "label": "Getting stunned by Stone Form smash late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically removes the Stone Form stun setup."
+          "reason": "Buy Indomitable. Automatically removes the Stone Form stun setup."
         }
       ]
     },
@@ -790,17 +790,17 @@
         {
           "label": "Getting slowed and zoned out by his dome",
           "priorityItem": "upgrade_unstoppable",
-          "reason": "Solution: Activate Unstoppable. Why: Move through slow-zones and Arctic Beam freely."
+          "reason": "Activate Unstoppable. Move through slow-zones and Arctic Beam freely."
         },
         {
           "label": "His Arctic Beam slows are leading to kills",
           "priorityItem": "upgrade_cardio_calibrator",
-          "reason": "Solution: Buy Enduring Speed. Why: Provides 35% passive slow resistance."
+          "reason": "Buy Enduring Speed. Provides 35% passive slow resistance."
         },
         {
           "label": "Caught in dome stuns or silenced",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Cleanses slow/silence zone effects automatically."
+          "reason": "Buy Indomitable. Cleanses slow/silence zone effects automatically."
         }
       ]
     },
@@ -833,17 +833,17 @@
         {
           "label": "Health swap is winning her fights",
           "priorityItem": "upgrade_glitch",
-          "reason": "Solution: Use Curse. Why: Silences and disarms her before the swap window triggers."
+          "reason": "Use Curse. Silences and disarms her before the swap window triggers."
         },
         {
           "label": "Life Drain link is keeping her alive",
           "priorityItem": "upgrade_spirit_burn",
-          "reason": "Solution: Build Spirit Burn early. Why: Provides largest healing reduction (-70%)."
+          "reason": "Build Spirit Burn early. Provides largest healing reduction (-70%)."
         },
         {
           "label": "Stunned by setup combos in late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC setups in teamfights."
+          "reason": "Buy Indomitable. Automatically cleanses hard CC setups in teamfights."
         }
       ]
     },
@@ -875,17 +875,17 @@
         {
           "label": "His burst damage is too high in teamfights",
           "priorityItem": "upgrade_spellbreaker",
-          "reason": "Solution: Build Spellbreaker. Why: Reduces impact of high spirit spikes and adds resistance."
+          "reason": "Build Spellbreaker. Reduces impact of high spirit spikes and adds resistance."
         },
         {
           "label": "He keeps escaping after starting fights",
           "priorityItem": "upgrade_containment",
-          "reason": "Solution: Apply Slowing Hex. Why: Pins him down and silences move tools for team focus."
+          "reason": "Apply Slowing Hex. Pins him down and silences move tools for team focus."
         },
         {
           "label": "Getting grabbed by Death Slam late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Cleanses the grab instantly, wasting his ultimate."
+          "reason": "Buy Indomitable. Cleanses the grab instantly, wasting his ultimate."
         }
       ]
     },
@@ -917,17 +917,17 @@
         {
           "label": "Turrets are taking over the entire area",
           "priorityItem": "upgrade_non_player_bonus",
-          "reason": "Solution: Buy Monster Rounds. Why: Specific bonus damage vs Jar/Turret summons."
+          "reason": "Buy Monster Rounds. Specific bonus damage vs Jar/Turret summons."
         },
         {
           "label": "She is healing through all team pressure",
           "priorityItem": "upgrade_spirit_burn",
-          "reason": "Solution: Buy Spirit Burn. Why: Stops her medicinal resets and sustain entirely."
+          "reason": "Buy Spirit Burn. Stops her medicinal resets and sustain entirely."
         },
         {
           "label": "Grounded by ultimate or turret chains",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Cleanses wall/turret CC effects automatically."
+          "reason": "Buy Indomitable. Cleanses wall/turret CC effects automatically."
         }
       ]
     },
@@ -960,17 +960,17 @@
         {
           "label": "She is too slippery to pin down",
           "priorityItem": "upgrade_containment",
-          "reason": "Solution: Buy Slowing Hex. Why: Locks her in place and silences dash for team focus."
+          "reason": "Buy Slowing Hex. Locks her in place and silences dash for team focus."
         },
         {
           "label": "Getting bursted by spirit abilities in lane",
           "priorityItem": "upgrade_spirit_bubble",
-          "reason": "Solution: Build Spirit Shielding. Why: Absorbs high early spirit damage windows."
+          "reason": "Build Spirit Shielding. Absorbs high early spirit damage windows."
         },
         {
           "label": "Love Bites and Dash CC trapping you",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC setups and love bite procs."
+          "reason": "Buy Indomitable. Automatically cleanses hard CC setups and love bite procs."
         }
       ]
     },
@@ -1003,17 +1003,17 @@
         {
           "label": "His passive Spark stacks deal massive burst",
           "priorityItem": "upgrade_reduce_debuff_duration",
-          "reason": "Solution: Use Dispel Magic. Why: Purges Spark and Mark stacks resetting damage potential."
+          "reason": "Use Dispel Magic. Purges Spark and Mark stacks resetting damage potential."
         },
         {
           "label": "His fire-rate is becoming oppressive",
           "priorityItem": "upgrade_withering_whip",
-          "reason": "Solution: Buy Rusted Barrel. Why: Lowers his overall weapon damage and resistance."
+          "reason": "Buy Rusted Barrel. Lowers his overall weapon damage and resistance."
         },
         {
           "label": "Blown up by tornado lifted setups",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Purges the tornado CC lift instantly, letting you return fire."
+          "reason": "Buy Indomitable. Purges the tornado CC lift instantly, letting you return fire."
         }
       ]
     },
@@ -1046,17 +1046,17 @@
         {
           "label": "They are too tanky with burrow armor",
           "priorityItem": "upgrade_bullet_resist_shredder",
-          "reason": "Solution: Build Bullet Resist Shredder. Why: Bypasses his innate burrow and ultimate armor."
+          "reason": "Build Bullet Resist Shredder. Bypasses his innate burrow and ultimate armor."
         },
         {
           "label": "Teammates keep caught in grab channel",
           "priorityItem": "upgrade_rescue_beam",
-          "reason": "Solution: Use Rescue Beam. Why: Pulls allies to safety manually, breaking the channel effect."
+          "reason": "Use Rescue Beam. Pulls allies to safety manually, breaking the channel effect."
         },
         {
           "label": "Their ultimate grab is isolating you",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically purges the 'Combo' grab instantly."
+          "reason": "Buy Indomitable. Automatically purges the 'Combo' grab instantly."
         }
       ]
     },
@@ -1088,17 +1088,17 @@
         {
           "label": "Getting rooted and finished by follow-up",
           "priorityItem": "upgrade_reduce_debuff_duration",
-          "reason": "Solution: Use Dispel Magic. Why: Restores movement immediately to escape follow-up."
+          "reason": "Use Dispel Magic. Restores movement immediately to escape follow-up."
         },
         {
           "label": "She is trading safely inside barriers",
           "priorityItem": "upgrade_glitch",
-          "reason": "Solution: Use Curse. Why: Silences and prevents barrier usage instantly."
+          "reason": "Use Curse. Silences and prevents barrier usage instantly."
         },
         {
           "label": "Getting rooted and silenced in late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses her root or silence setups."
+          "reason": "Buy Indomitable. Automatically cleanses her root or silence setups."
         }
       ]
     },
@@ -1131,17 +1131,17 @@
         {
           "label": "Soul Swap pulling you out of position",
           "priorityItem": "upgrade_warp_stone",
-          "reason": "Solution: Use Warp Stone. Why: Reposition instantly after the swap to safety."
+          "reason": "Use Warp Stone. Reposition instantly after the swap to safety."
         },
         {
           "label": "Carbine stun leading to burst kills",
           "priorityItem": "upgrade_counterspell",
-          "reason": "Solution: Time Counterspell. Why: Parry-block the carbine projectile damage entirely."
+          "reason": "Time Counterspell. Parry-block the carbine projectile damage entirely."
         },
         {
           "label": "Carbine stun or wall-silence late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Purges the stun/silence setup automatically."
+          "reason": "Buy Indomitable. Purges the stun/silence setup automatically."
         }
       ]
     },
@@ -1174,17 +1174,17 @@
         {
           "label": "Affliction DoT is melting your health",
           "priorityItem": "upgrade_debuff_reducer",
-          "reason": "Solution: Buy Debuff Reducer. Why: Shortens the ultimate affliction damage window significantly."
+          "reason": "Buy Debuff Reducer. Shortens the ultimate affliction damage window significantly."
         },
         {
           "label": "Teammates are targeted by Affliction",
           "priorityItem": "upgrade_divine_barrier",
-          "reason": "Solution: Use Divine Barrier. Why: Cleanses the ultimate DoT off allies manually."
+          "reason": "Use Divine Barrier. Cleanses the ultimate DoT off allies manually."
         },
         {
           "label": "Dived by ultimate and hard CC setups",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Cleanses the CC setups needed to cycle Briefcase skills."
+          "reason": "Buy Indomitable. Cleanses the CC setups needed to cycle Briefcase skills."
         }
       ]
     },
@@ -1216,17 +1216,17 @@
         {
           "label": "Tag Along invulnerability is hard to stop",
           "priorityItem": "upgrade_targeted_silence",
-          "reason": "Solution: Silence Wave once Tag Along ends. Why: Prevents his repositioning window."
+          "reason": "Silence Wave once Tag Along ends. Prevents his repositioning window."
         },
         {
           "label": "He is out-farming the lane with minions",
           "priorityItem": "upgrade_non_player_bonus",
-          "reason": "Solution: Buy Monster Rounds. Why: Clears high-HP helpers and summons faster."
+          "reason": "Buy Monster Rounds. Clears high-HP helpers and summons faster."
         },
         {
           "label": "CC'd by helpers and setups late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC stun setups instantly."
+          "reason": "Buy Indomitable. Automatically cleanses hard CC stun setups instantly."
         }
       ]
     },
@@ -1259,17 +1259,17 @@
         {
           "label": "Storm Cloud ultimate wiping your team",
           "priorityItem": "upgrade_target_stun",
-          "reason": "Solution: Throw Knockdown anvil. Why: Stuns him out of the channeled ultimate instantly."
+          "reason": "Throw Knockdown anvil. Stuns him out of the channeled ultimate instantly."
         },
         {
           "label": "Storm Cloud healing is keeping him alive",
           "priorityItem": "upgrade_spirit_burn",
-          "reason": "Solution: Use Spirit Burn. Why: 70% reduction stops his sustain inside the cloud."
+          "reason": "Use Spirit Burn. 70% reduction stops his sustain inside the cloud."
         },
         {
           "label": "Static Charge stun locking you in cloud",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Removes stun instantly to escape Storm Cloud area."
+          "reason": "Buy Indomitable. Removes stun instantly to escape Storm Cloud area."
         }
       ]
     },
@@ -1302,17 +1302,17 @@
         {
           "label": "Killing Blow ultimate is executing you",
           "priorityItem": "upgrade_counterspell",
-          "reason": "Solution: Click Counterspell on his dash. Why: Parry-block the dash execute entirely."
+          "reason": "Click Counterspell on his dash. Parry-block the dash execute entirely."
         },
         {
           "label": "Bleeds and DoT are finishing you late",
           "priorityItem": "upgrade_reduce_debuff_duration",
-          "reason": "Solution: Use Dispel Magic. Why: Purges his bleeds and marks instantly."
+          "reason": "Use Dispel Magic. Purges his bleeds and marks instantly."
         },
         {
           "label": "Caught in dash-stun setups late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Cleanses the stun setup instantly so you stay mobile."
+          "reason": "Buy Indomitable. Cleanses the stun setup instantly so you stay mobile."
         }
       ]
     },
@@ -1344,17 +1344,17 @@
         {
           "label": "Transformation heal is too strong",
           "priorityItem": "upgrade_healbane",
-          "reason": "Solution: Buy Healbane. Why: Prevents her from stabilizing after transformation proc."
+          "reason": "Buy Healbane. Prevents her from stabilizing after transformation proc."
         },
         {
           "label": "Her transformation needs to be stopped",
           "priorityItem": "upgrade_targeted_silence",
-          "reason": "Solution: Use Silence Wave. Why: If silenced she cannot procing wolf form window."
+          "reason": "Use Silence Wave. If silenced she cannot procing wolf form window."
         },
         {
           "label": "Leap and stun catching you late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses wolf leap-stuns instantly."
+          "reason": "Buy Indomitable. Automatically cleanses wolf leap-stuns instantly."
         }
       ]
     },
@@ -1387,17 +1387,17 @@
         {
           "label": "His assistant and bolts deal too much burst",
           "priorityItem": "upgrade_spirit_bubble",
-          "reason": "Solution: Build Spirit Shielding. Why: Barrier absorbs his initial assistant burst damage."
+          "reason": "Build Spirit Shielding. Barrier absorbs his initial assistant burst damage."
         },
         {
           "label": "He keeps kiting at mid-range safely",
           "priorityItem": "upgrade_fleetfoot_boots",
-          "reason": "Solution: Use Fleetfoot. Why: Allows you to close the gap on him faster."
+          "reason": "Use Fleetfoot. Allows you to close the gap on him faster."
         },
         {
           "label": "CC'd by transformation abilities late",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Purges hard CC setups late game."
+          "reason": "Buy Indomitable. Purges hard CC setups late game."
         }
       ]
     },
@@ -1429,17 +1429,17 @@
         {
           "label": "Losing duels to high weapon scaling",
           "priorityItem": "upgrade_metal_skin",
-          "reason": "Solution: Use Metal Skin. Why: You become 100% immune to bullets for 5 seconds."
+          "reason": "Use Metal Skin. You become 100% immune to bullets for 5 seconds."
         },
         {
           "label": "Getting stunned against walls consistently",
           "priorityItem": "upgrade_warp_stone",
-          "reason": "Solution: Buy Warp Stone. Why: Reposition away from wall setups instantly."
+          "reason": "Buy Warp Stone. Reposition away from wall setups instantly."
         },
         {
           "label": "Getting stunned against walls late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically purges his wall-stun setup instantly."
+          "reason": "Buy Indomitable. Automatically purges his wall-stun setup instantly."
         }
       ]
     },
@@ -1472,17 +1472,17 @@
         {
           "label": "He keeps healing and cleansing anti-heal",
           "priorityItem": "upgrade_glitch",
-          "reason": "Solution: Use Curse. Why: Only real hard counter to stop his aura resets."
+          "reason": "Use Curse. Only real hard counter to stop his aura resets."
         },
         {
           "label": "Gun build and fire-rate is too high",
           "priorityItem": "upgrade_metal_skin",
-          "reason": "Solution: Use Metal Skin. Why: Temporarily ignore his weapon pressure windows."
+          "reason": "Use Metal Skin. Temporarily ignore his weapon pressure windows."
         },
         {
           "label": "Caught in aura stuns/slows late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Only real counter to purge aura-based lockdown."
+          "reason": "Buy Indomitable. Only real counter to purge aura-based lockdown."
         }
       ]
     },
@@ -1515,17 +1515,17 @@
         {
           "label": "Getting picked off from long range",
           "priorityItem": "upgrade_metal_skin",
-          "reason": "Solution: Build Metal Skin. Why: Provides safe repositioning across cover windows for sniper fire."
+          "reason": "Build Metal Skin. Provides safe repositioning across cover windows for sniper fire."
         },
         {
           "label": "Sniper LoS is becoming oppressive",
           "priorityItem": "upgrade_warp_stone",
-          "reason": "Solution: Use Warp Stone. Why: Dash behind building structures instantly to break LoS."
+          "reason": "Use Warp Stone. Dash behind building structures instantly to break LoS."
         },
         {
           "label": "Tether or Crow root trapping you late",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses the root or tether setup."
+          "reason": "Buy Indomitable. Automatically cleanses the root or tether setup."
         }
       ]
     },
@@ -1558,17 +1558,17 @@
         {
           "label": "He keeps using Cube to save himself",
           "priorityItem": "upgrade_targeted_silence",
-          "reason": "Solution: Use Silence Wave. Why: Prevents Cube usage for safety windows during teamfights."
+          "reason": "Use Silence Wave. Prevents Cube usage for safety windows during teamfights."
         },
         {
           "label": "Displaced into bad follow-up spots",
           "priorityItem": "upgrade_warp_stone",
-          "reason": "Solution: Build Warp Stone. Why: Escape his displacement instantly to safety."
+          "reason": "Build Warp Stone. Escape his displacement instantly to safety."
         },
         {
           "label": "Goo Ball momentum disrupting team late",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically purges the Ball stuns and interruption."
+          "reason": "Buy Indomitable. Automatically purges the Ball stuns and interruption."
         }
       ]
     },
@@ -1603,17 +1603,17 @@
         {
           "label": "Her spirit-heavy burst is chunking hard",
           "priorityItem": "upgrade_spirit_bubble",
-          "reason": "Solution: Build Spirit Shielding. Why: Mitigates her venom ability cycle and procs."
+          "reason": "Build Spirit Shielding. Mitigates her venom ability cycle and procs."
         },
         {
           "label": "Her bola and slow bullet shots are annoying",
           "priorityItem": "upgrade_improved_stamina",
-          "reason": "Solution: Use Extra Stamina. Why: Makes bullets and bola much harder to land in lane."
+          "reason": "Use Extra Stamina. Makes bullets and bola much harder to land in lane."
         },
         {
           "label": "Hard CC and venom execute late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically purges the CC setups she needs to safely proc venom."
+          "reason": "Buy Indomitable. Automatically purges the CC setups she needs to safely proc venom."
         }
       ]
     },
@@ -1646,17 +1646,17 @@
         {
           "label": "Binding Flask snare takes away stamina",
           "priorityItem": "upgrade_improved_stamina",
-          "reason": "Solution: Buy extra stamina early. Why: Snare is easily escaped with dashes if you have pool."
+          "reason": "Buy extra stamina early. Snare is easily escaped with dashes if you have pool."
         },
         {
           "label": "He survives too long during his ultimate",
           "priorityItem": "upgrade_healbane",
-          "reason": "Solution: Build early anti-heal. Why: Negates his high Last Stand sustain resets."
+          "reason": "Build early anti-heal. Negates his high Last Stand sustain resets."
         },
         {
           "label": "Binding Flask root trapping you late game",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically removes the root setup instantly."
+          "reason": "Buy Indomitable. Automatically removes the root setup instantly."
         }
       ]
     },
@@ -1689,17 +1689,17 @@
         {
           "label": "Getting comboed and killed by ultimate",
           "priorityItem": "upgrade_glitch",
-          "reason": "Solution: Use Curse. Why: Prevents her starting her ability combo windows."
+          "reason": "Use Curse. Prevents her starting her ability combo windows."
         },
         {
           "label": "Cards are melting your health in lane",
           "priorityItem": "upgrade_spirit_bubble",
-          "reason": "Solution: Build Spirit Shielding. Why: Absorbs high early spirit card damage poke."
+          "reason": "Build Spirit Shielding. Absorbs high early spirit card damage poke."
         },
         {
           "label": "Getting lifted and killed by Telekinesis late",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Upgrade Reactive Barrier to Indomitable. Why: Automatically cleanses the lift stun setup."
+          "reason": "Upgrade Reactive Barrier to Indomitable. Automatically cleanses the lift stun setup."
         }
       ]
     },
@@ -1732,17 +1732,17 @@
         {
           "label": "She is invincible and healing during ult",
           "priorityItem": "upgrade_spirit_burn",
-          "reason": "Solution: Apply heavy Spirit Burn. Why: 70% reduction prevents her healing resets during ult window."
+          "reason": "Apply heavy Spirit Burn. 70% reduction prevents her healing resets during ult window."
         },
         {
           "label": "Power Slash hitting you consistently",
           "priorityItem": "upgrade_counterspell",
-          "reason": "Solution: Parry with Counterspell. Why: Completely blocks the ability damage and effects."
+          "reason": "Parry with Counterspell. Completely blocks the ability damage and effects."
         },
         {
           "label": "Stunned by Power Slash follow-ups late",
           "priorityItem": "upgrade_auto_cleanse",
-          "reason": "Solution: Buy Indomitable. Why: Automatically cleanses hard CC stuns late game."
+          "reason": "Buy Indomitable. Automatically cleanses hard CC stuns late game."
         }
       ]
     }

@@ -134,6 +134,22 @@ function readSourceData(html: string): SourceData {
   return { groupData, counterData }
 }
 
+/**
+ * The source writes its reasons as "Solution: <x>. Why: <y>".
+ *
+ * Those prefixes are its own presentation, and we already label a situation
+ * with its own name before showing the reason. Left in, the UI reads
+ * "Storm Cloud is healing him: Solution: buy X. Why: ...", which is two
+ * labelling systems in one sentence. Stripped here rather than in the UI so the
+ * committed data is clean for every consumer.
+ */
+const stripSourceLabels = (reason: string) =>
+  reason
+    .replace(/\bSolution:\s*/gi, '')
+    .replace(/\s*\bWhy:\s*/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
 /** Names differ in punctuation and case between the two sources; nothing else. */
 const normalise = (name: string) => name.toLowerCase().replace(/[^a-z0-9]/g, '')
 
@@ -192,7 +208,7 @@ async function main() {
       .map((situation) => ({
         label: situation.label,
         priorityItem: items.resolve(situation.priorityItem, name) ?? '',
-        reason: situation.reason,
+        reason: stripSourceLabels(situation.reason),
       }))
       .filter((situation) => situation.priorityItem !== ''),
   }))

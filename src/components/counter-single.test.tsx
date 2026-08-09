@@ -11,8 +11,15 @@ import { HERO_COUNTERS } from '@/data/published.ts'
  */
 
 // jsdom has no scrollIntoView, and the component calls it on every click.
+// jsdom implements neither, and the reduced-motion-aware scroll needs both.
 beforeAll(() => {
   Element.prototype.scrollIntoView = vi.fn()
+  vi.stubGlobal('matchMedia', (query: string) => ({
+    matches: false,
+    media: query,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+  }))
 })
 
 afterEach(cleanup)

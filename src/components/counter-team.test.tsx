@@ -5,8 +5,15 @@ import { planForTeam } from '@/data/counters.ts'
 import { HEROES } from '@/data/snapshot.ts'
 import { HERO_COUNTERS } from '@/data/published.ts'
 
+// jsdom implements neither, and the reduced-motion-aware scroll needs both.
 beforeAll(() => {
   Element.prototype.scrollIntoView = vi.fn()
+  vi.stubGlobal('matchMedia', (query: string) => ({
+    matches: false,
+    media: query,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+  }))
 })
 afterEach(cleanup)
 
@@ -62,12 +69,39 @@ describe('CounterTeam hero panels', () => {
 describe('CounterTeam coverage strip', () => {
   it('reports how many of the selected enemies each item answers', () => {
     render(<CounterTeam team={picked} counters={plan.counters} plan={plan} />)
-    const strips = screen.getAllByText(/^Answers \d+ of \d+:$/)
+    const strips = screen.getAllByText(/^Answers \d+ of \d+$/)
     expect(strips.length).toBe(plan.counters.length)
     // The top item should answer more of the lineup than the last one — that is
     // the whole claim of a team view.
-    const first = Number.parseInt(strips[0]!.textContent!.replace('Answers ', ''), 10)
-    const last = Number.parseInt(strips[strips.length - 1]!.textContent!.replace('Answers ', ''), 10)
+    const countOf = (node: Element) =>
+      Number.parseInt((node.textContent ?? '').replace('Answers ', ''), 10)
+    const first = countOf(strips[0]!)
+    const last = countOf(strips[strips.length - 1]!)
     expect(first).toBeGreaterThanOrEqual(last)
+  })
+})
+
+describe('CounterTeam card density', () => {
+  it('opens the top four and leaves the tail behind a control', () => {
+    const { container } = render(
+      <CounterTeam team={picked} counters={plan.counters} plan={plan} />,
+    )
+    const toggles = [...container.querySelectorAll('button[aria-expanded]')]
+    // Every card past the fourth carries its own disclosure; the first four do not.
+    expect(toggles).toHaveLength(Math.max(0, plan.counters.length - 4))
+    for (const toggle of toggles) {
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    }
+  })
+
+  it('reveals a collapsed card when a situation points at it', () => {
+    // The ranking decides what opens by default, but a picked problem must be
+    // able to open its own answer however far down the list it sits.
+    render(<CounterTeam team={picked} counters={plan.counters} plan={plan} />)
+    const situation = plan.heroes[0]!.situations[0]!
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(situation.label, 'i') }))
+    const card = document.querySelector('[aria-current="true"]')
+    expect(card).toBeTruthy()
+    expect(card!.querySelector('button[aria-expanded]')).toBeNull()
   })
 })

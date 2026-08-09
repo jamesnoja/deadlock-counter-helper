@@ -19,6 +19,7 @@
 
 import { useRef, useState } from "react";
 import { CounterCard } from "./counter-card.tsx";
+import { scrollCardIntoView } from "./scroll-into-view.ts";
 import type { Hero } from "@/data/schema.ts";
 import type { HeroPlan, SourcedCounter } from "@/data/sourced.ts";
 
@@ -54,9 +55,7 @@ export function CounterSingle({
     setHighlighted((current) =>
       current === itemClassName ? null : itemClassName,
     );
-    cardRefs.current
-      .get(itemClassName)
-      ?.scrollIntoView({ block: "center", behavior: "smooth" });
+    scrollCardIntoView(cardRefs.current.get(itemClassName));
   };
 
   /** The situation an item answers, if one is currently selected against it. */
@@ -161,7 +160,7 @@ export function CounterSingle({
                           <span className="block text-caption">
                             {situation.label}
                           </span>
-                          <span className="block text-micro text-text-muted">
+                          <span className="block text-caption text-text-muted">
                             {situation.reason}
                           </span>
                         </button>
