@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import { CounterTool } from '@/components/counter-tool.tsx'
 import { MAX_ENEMIES } from '@/components/team-bar.tsx'
+import { SourceCredit } from '@/components/source-credit.tsx'
+import { PUBLISHED_META } from '@/data/published.ts'
 import { ProvenanceStamp } from '@/components/provenance-stamp.tsx'
 import { HEROES, heroBySlug } from '@/data/snapshot.ts'
 import { decodeToolState, EMPTY_STATE } from '@/data/url-state.ts'
@@ -18,7 +20,7 @@ export default async function Home({
   const initial = decodeToolState(await searchParams, heroBySlug, MAX_ENEMIES)
 
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-xl p-xl">
+    <main className="mx-auto flex w-[95%] flex-1 flex-col gap-xl p-xl">
       <header className="hero-gradient rounded-card p-2xl">
         <h1 className="text-display text-on-brand">Deadlock Counter Helper</h1>
         <p className="text-on-brand">
@@ -42,6 +44,8 @@ export default async function Home({
         </a>
         .
       </p>
+
+      <SourceCredit meta={PUBLISHED_META} />
     </main>
   )
 }

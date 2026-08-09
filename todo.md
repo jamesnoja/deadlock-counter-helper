@@ -1499,3 +1499,25 @@ is a choice nobody wants.
 - [ ] Multi-hero view is unchanged. Owner mentioned single *and* multi — this branch is single
       only, and the reference's team view groups by their nine categories, which we hold but do
       not currently use for grouping.
+
+## 2026-08-09 — Single-hero layout: width and credit placement
+
+Owner's three adjustments after looking at the live page.
+
+- **95% width.** Both the tool and the hero pages were `max-w-4xl` — about 56rem, which on a
+  wide monitor is the middle half of the screen. Now `w-[95%]` on both.
+- **60/40 split.** Items left, matchup overview / lane phase / situations right, side by side
+  from `lg` up and stacked below it with items first. The two halves answer different questions
+  and the prose was being buried under a nine-card grid.
+- **Credit reduced to one sentence**, moved below the fan-project line — beneath the styleguide
+  line on the home page, since that is where that sentence lives.
+
+**The prose column needed wrapping.** The three sections were a fragment, so each would have
+become its own grid child and taken a column of its own rather than sharing the 40%. Caught by
+looking at the rendered markup rather than the source.
+
+**What the shorter credit drops.** The old block also explained that we follow the source's
+refresh cadence rather than the patch cycle, and that a stale-looking matchup probably is one.
+Attribution, the link and the fetch date all survive, which is what the arrangement actually
+requires. The cadence caveat now lives only in the README and `docs/NEW-HERO.md` — worth knowing
+if #80 (staleness detection) ever wants a place to surface a warning.

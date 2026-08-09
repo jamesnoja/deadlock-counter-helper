@@ -26,7 +26,6 @@ import { ItemDetail } from './item-detail.tsx'
 import { ItemsLens } from './items-lens.tsx'
 import { EmptyState } from './primitives.tsx'
 import { MAX_ENEMIES, TeamBar } from './team-bar.tsx'
-import { SourceCredit } from './source-credit.tsx'
 import { YourHero } from './your-hero.tsx'
 import { filterByPhase, splitByBudget, weightForRole } from '@/data/context.ts'
 import { planForTeam } from '@/data/counters.ts'
@@ -292,7 +291,6 @@ export function CounterTool({
         </section>
       )}
 
-      <SourceCredit meta={plan.source} />
     </div>
   )
 }
