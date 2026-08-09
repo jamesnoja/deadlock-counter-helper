@@ -1534,3 +1534,36 @@ heading's height lower than the right's, and the two never shared a top edge.
 **Fix.** Lift `Matchup overview` and `In the lane phase` out of their cards, so both columns now
 open with a bare heading followed by a card. `What are you struggling with?` was already built
 that way, which is why it looked right and the other two did not.
+
+## 2026-08-09 — Multi-hero view: threat profile and hero panels
+
+Owner picked threat profile plus accordion. Same 60/40 shape as the single view, because the two
+questions do not change with the number of enemies — what do I buy, and why. What changes is
+that "why" now has six answers.
+
+- **Left 60%** — the ranked shortlist, with a coverage strip per card: portraits of the selected
+  enemies, lit or dimmed. Portraits rather than a bare count, because *which* three of six an
+  item answers is what decides whether you buy it.
+- **Right 40%, top** — "What this lineup demands": the source's nine groups, filtered to those
+  the selected heroes want, sorted by how many want each. This is the thing the single view
+  cannot tell you and the old lens switcher never did.
+- **Right 40%, below** — one disclosure per enemy with its summary, lane advice and situations.
+  Picking a situation highlights the answering card, exactly as in the single view.
+
+**`CounterCard` extracted** and shared by both views, so a card cannot start meaning two
+different things in two places. The coverage strip is the only difference, and it is suppressed
+at one enemy where "answers 1 of 1" is noise.
+
+**The heroes lens is deleted.** The accordion supersedes it — both group the shortlist per hero
+and show the published write-up. Kept: the coverage matrix, which is readable down a column as
+well as across, and the build lens, which caps to a real loadout. Neither has an equivalent
+here. Lenses are now overview / coverage / build, defaulting to overview.
+
+**Dead state removed with it.** `focus` had one real reader, the heroes lens. The matrix's
+hero-click now switches to the overview, since the hero-by-hero panel is what replaced the thing
+it used to open.
+
+### Follow-ups
+
+- [ ] The coverage matrix's hero click lands on the overview but cannot open that hero's panel.
+      It would need the disclosure state lifted; not obviously worth it.

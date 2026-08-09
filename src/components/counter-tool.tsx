@@ -20,8 +20,8 @@ import { BuildLens } from './build-lens.tsx'
 import { ChatExport } from './chat-export.tsx'
 import { CounterPlan } from './counter-plan.tsx'
 import { CounterSingle } from './counter-single.tsx'
+import { CounterTeam } from './counter-team.tsx'
 import { HeroPicker } from './hero-picker.tsx'
-import { HeroesLens } from './heroes-lens.tsx'
 import { ItemDetail } from './item-detail.tsx'
 import { ItemsLens } from './items-lens.tsx'
 import { EmptyState } from './primitives.tsx'
@@ -33,9 +33,9 @@ import type { Hero } from '@/data/schema.ts'
 import { GAME_PHASES, type GamePhase } from '@/data/phases.ts'
 import { encodeToolState, type ToolState } from '@/data/url-state.ts'
 
-type Lens = 'items' | 'heroes' | 'build'
+type Lens = 'overview' | 'coverage' | 'build'
 
-const LENSES: Lens[] = ['items', 'heroes', 'build']
+const LENSES: Lens[] = ['overview', 'coverage', 'build']
 
 export function CounterTool({
   heroes,
@@ -47,8 +47,7 @@ export function CounterTool({
 }) {
   /** Pick order, not snapshot order — the team bar should read as you built it. */
   const [selected, setSelected] = useState<string[]>(initial.enemies)
-  const [lens, setLens] = useState<Lens>('items')
-  const [focus, setFocus] = useState<string | null>(null)
+  const [lens, setLens] = useState<Lens>('overview')
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [phase, setPhase] = useState<GamePhase | null>(initial.phase)
   const [budget, setBudget] = useState<number | null>(initial.budget)
@@ -240,22 +239,16 @@ export function CounterTool({
                 />
               ) : null}
 
-              {lens === 'items' ? (
+              {lens === 'overview' ? (
+                <CounterTeam team={team} counters={affordable} plan={plan} />
+              ) : lens === 'coverage' ? (
                 <ItemsLens
                   counters={affordable}
                   team={team}
                   onSelectItem={setSelectedItem}
-                  onSelectHero={(className) => {
-                    setFocus(className)
-                    setLens('heroes')
-                  }}
-                />
-              ) : lens === 'heroes' ? (
-                <HeroesLens
-                  counters={affordable}
-                  team={team}
-                  focus={focus}
-                  onFocus={setFocus}
+                  // The heroes lens is gone; its replacement is the overview's
+                  // hero-by-hero panel, so that is where a hero click leads.
+                  onSelectHero={() => setLens('overview')}
                 />
               ) : (
                 <BuildLens
