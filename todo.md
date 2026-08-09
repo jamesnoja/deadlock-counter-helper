@@ -1216,14 +1216,14 @@ Staged so each PR leaves the repo working. Nothing is deleted until its replacem
       UI keeps working while the source underneath changes.
 - [x] Team ranking: how many selected heroes want an item, then its position in that hero's
       `topCounters`, then group coverage. This is the "shared team counters" behaviour.
-- [ ] Decide what happens to budget, phase and role filters — phase derives from tier and
+- [x] Decide what happens to budget, phase and role filters — phase derives from tier and
       survives; role weighting reads hero roles and survives; both need re-checking against
       the new ranking rather than assumed.
 
 **Stage 3 — UI and attribution**
-- [ ] Surface `summary`, `lanePhase` and `situations` on the per-hero pages. This is the
+- [x] Surface `summary`, `lanePhase` and `situations` on the per-hero pages. This is the
       content the tag model could never produce and the reason for the change.
-- [ ] Attribution: visible credit and link wherever their content renders, plus README. Owner
+- [x] Attribution: visible credit and link wherever their content renders, plus README. Owner
       chose import-with-attribution, so the credit needs to be prominent and per-view, not a
       line in a footer.
 
@@ -1335,3 +1335,47 @@ different claims and the UI has to be able to tell them apart.
 - [ ] Budget, phase and role filters in `context.ts` still read the overlay. They need
       re-pointing at `SourcedCounter` or retiring; deferred to Stage 3 where the UI decides
       which of them survive.
+
+### Review — Stage 3
+
+The UI now runs on published counters. 253 tests, verify clean, all three routes checked in the
+running app rather than trusted from a build.
+
+**What the hero pages gained.** Summary, situational triggers and lane advice — the content that
+motivated the whole rework. Haze's page opens with "Countering Haze focuses on neutralizing her
+ultimate and sleep dagger" instead of a tag list.
+
+**What was lost, and it is real.** The per-ability breakdown (E17) is gone, on the hero pages and
+in the heroes lens. It attached each answer to the named ability it addressed, which needed to
+know which ability carried which threat — a fact the tag overlay had and the published source
+does not have at all. `ability-breakdown.tsx` and `explain.ts` are deleted rather than left
+rendering something weaker.
+
+Abilities are still listed on each hero page with descriptions and live stats from the snapshot,
+because that is genuine reference material. What is gone is the linkage between an ability and
+the items that answer it. In the heroes lens, focusing a hero now shows the source's write-up
+instead, which is a fair trade — different information, not a downgrade.
+
+**The context filters survived intact.** Budget, phase and role only ever read `item` and
+`score`, so they are now structurally typed over a `Rankable` shape and work unchanged against
+either engine. Two things went with the overlay: per-item curated `phases` and the editorial
+override hook. Both were empty — zero entries in `item-counters.ts` set `phases`, and
+`overrides.ts` was empty by design — so nothing real was lost.
+
+**Attribution is per-view, not a footer.** `SourceCredit` renders on the tool and on every hero
+page, names the source with a link, and shows the fetch date. The date is there because we now
+depend on someone else's refresh cadence: if they stop, we stop being right and nothing here
+notices. README carries the same, plus the two consequences spelled out.
+
+**An unavailable hero is called out in the tool**, not silently dropped from the ranking.
+
+**A near-miss worth recording.** `SourceCredit` was imported into `counter-tool.tsx` and never
+rendered. Lint caught it as an unused import. Had the file used it anywhere else, the attribution
+would simply have been missing from the main tool — the one page most people see — with
+everything green.
+
+### Follow-ups
+
+- [ ] Stage 4: retire Layer B. `derive.ts`, `tags.ts`, the overlay files, the scaffold and the
+      whole `/admin/untagged` page are now unreferenced by the app but still in the tree.
+- [ ] **New-hero checklist** — owner asked for it; write once Stage 4 lands.

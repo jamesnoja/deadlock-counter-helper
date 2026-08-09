@@ -26,11 +26,29 @@ Counters are **derived, not authored**. Three layers:
 | Layer | What | Who maintains it |
 | --- | --- | --- |
 | **A — Snapshot** | Heroes, abilities, items pulled from the [Deadlock assets API](https://github.com/deadlock-api/deadlock-api-assets), normalised and committed to `data/snapshot/` | Automated, daily |
-| **B — Overlay** | `ability -> threat tags` and `item -> counter tags`, keyed on `class_name` | Hand-curated. The only file a human edits per patch. |
-| **C — Derivation** | Pure function joining A and B into ranked recommendations | Code |
+| **B — Published counters** | Per-hero counter advice from [Deadlock Item Builder](https://deadlockitembuilder.com/counter-item-helper), resolved to `class_name` and committed to `data/counters/` | Imported, with attribution |
+| **C — Ranking** | Pure function combining per-hero advice into team-wide recommendations | Code |
 
-Add a hero upstream and it inherits sensible counters from its ability tags with zero
-editorial work. Curation becomes refinement, not authorship.
+## Where the advice comes from
+
+The counter recommendations — which items answer which hero, the matchup summaries, the lane
+advice and the situational calls — are published by
+**[Deadlock Item Builder](https://deadlockitembuilder.com/counter-item-helper)** and used here
+with attribution. Costs, tiers, ability text and artwork come from the game's own assets.
+
+Two consequences worth stating plainly:
+
+1. **We follow their cadence, not the patch cycle.** If they stop updating, this stops being
+   right, and nothing in our pipeline would notice. Every view shows when the data was last
+   fetched for that reason.
+2. **A hero they have not written up gets no advice here.** The UI says so explicitly rather
+   than rendering an empty list — "nobody has published this" and "nothing counters them" are
+   different claims.
+
+Their data is keyed on English display names. Ours is not: `npm run sync:counters` resolves
+every name to a `class_name` at import and **fails rather than degrading** if one will not
+resolve. That already earned its keep — `Curse` and `Superior Stamina` had both been renamed
+upstream, and `Curse` is the top counter for fourteen heroes.
 
 A scheduled job diffs the snapshot daily and opens a PR on any change — new hero, renamed
 item, retuned ability. Anything a diff touches is flagged `needs_review` and shows amber in

@@ -9,7 +9,7 @@
  */
 
 import { GameImage } from './game-image.tsx'
-import type { PairStrength } from '@/data/derive.ts'
+import type { PairStrength } from '@/data/sourced.ts'
 
 export const STRENGTH_GLYPH: Record<PairStrength, string> = {
   strong: '●',

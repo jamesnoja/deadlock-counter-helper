@@ -2,9 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { filterByPhase, phasesFor, splitByBudget, weightForRole } from './context.ts'
 import { buildByCategory, opportunityCost } from './build.ts'
 import { formatForChat } from './export.ts'
-import type { RankedCounter } from './derive.ts'
+import type { SourcedCounter } from './sourced.ts'
 import type { Hero, Item, ItemCategory } from './schema.ts'
-import type { ItemCounters } from './tags.ts'
 
 const item = (className: string, over: Partial<Item> = {}): Item => ({
   class_name: className,
@@ -22,15 +21,12 @@ const item = (className: string, over: Partial<Item> = {}): Item => ({
   ...over,
 })
 
-const counter = (className: string, over: Partial<Item> = {}, coverage = ['h1']): RankedCounter => ({
+const counter = (className: string, over: Partial<Item> = {}, coverage = ['h1']): SourcedCounter => ({
   item: item(className, over),
   score: coverage.length,
   coverage,
-  matches: [],
   perHero: [],
-  strength: 'hard',
-  why: 'because',
-  source: 'derived',
+  groups: [],
 })
 
 const hero = (name: string): Hero => ({
@@ -82,37 +78,19 @@ describe('splitByBudget', () => {
 })
 
 describe('phases', () => {
-  const entryFor = (className: string): ItemCounters | undefined =>
-    className === 'authored'
-      ? { answers: [], why: '', strength: 'hard', review: 'curated', phases: ['lane'] }
-      : undefined
-
-  it('defaults from tier when the overlay says nothing', () => {
+  it('defaults from tier', () => {
     expect(phasesFor(counter('a', { tier: 1 }))).toEqual(['lane', 'mid'])
     expect(phasesFor(counter('a', { tier: 4 }))).toEqual(['late'])
   })
 
-  it('lets the overlay override the tier default', () => {
-    // A tier-4 item a curator judges a lane pick must be able to say so.
-    const entry = entryFor('authored')
-    expect(phasesFor(counter('authored', { tier: 4 }), entry)).toEqual(['lane'])
-  })
-
   it('filters to the chosen phase', () => {
-    const counters = [
-      counter('early', { tier: 1 }),
-      counter('late', { tier: 4 }),
-      counter('authored', { tier: 4 }),
-    ]
-    expect(filterByPhase(counters, 'lane', entryFor).map((c) => c.item.class_name)).toEqual([
-      'early',
-      'authored',
-    ])
-    expect(filterByPhase(counters, 'late', entryFor).map((c) => c.item.class_name)).toEqual(['late'])
+    const counters = [counter('early', { tier: 1 }), counter('late', { tier: 4 })]
+    expect(filterByPhase(counters, 'lane').map((c) => c.item.class_name)).toEqual(['early'])
+    expect(filterByPhase(counters, 'late').map((c) => c.item.class_name)).toEqual(['late'])
   })
 
   it('returns everything when no phase is chosen', () => {
-    expect(filterByPhase([counter('a')], null, entryFor)).toHaveLength(1)
+    expect(filterByPhase([counter('a')], null)).toHaveLength(1)
   })
 })
 

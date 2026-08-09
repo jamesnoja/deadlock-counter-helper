@@ -12,15 +12,15 @@
  * invented one.
  */
 
-import type { RankedCounter } from './derive.ts'
+import type { SourcedCounter } from './sourced.ts'
 import { ITEM_CATEGORIES, type ItemCategory } from './schema.ts'
 
 export interface CategoryBuild {
   category: ItemCategory
   /** Best picks first, capped. */
-  picks: RankedCounter[]
+  picks: SourcedCounter[]
   /** Everything else that answers something, behind a disclosure. */
-  runnersUp: RankedCounter[]
+  runnersUp: SourcedCounter[]
   /** Total souls for the picks — the real cost of this column. */
   cost: number
 }
@@ -35,7 +35,7 @@ export interface CategoryBuild {
 export const MAX_PURCHASES_PER_CATEGORY = 6
 
 export function buildByCategory(
-  counters: readonly RankedCounter[],
+  counters: readonly SourcedCounter[],
   limit: number = MAX_PURCHASES_PER_CATEGORY,
 ): CategoryBuild[] {
   return ITEM_CATEGORIES.map((category) => {
@@ -58,7 +58,7 @@ export function buildByCategory(
  */
 export function opportunityCost(
   build: CategoryBuild,
-): { dropped: RankedCounter; inFavourOf: RankedCounter } | null {
+): { dropped: SourcedCounter; inFavourOf: SourcedCounter } | null {
   const dropped = build.runnersUp[0]
   const inFavourOf = build.picks.at(-1)
   if (!dropped || !inFavourOf) return null

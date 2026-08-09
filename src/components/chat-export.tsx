@@ -10,14 +10,14 @@
 
 import { useState } from 'react'
 import { formatForChat } from '@/data/export.ts'
-import type { RankedCounter } from '@/data/derive.ts'
+import type { SourcedCounter } from '@/data/sourced.ts'
 import type { Hero } from '@/data/schema.ts'
 
 export function ChatExport({
   counters,
   team,
 }: {
-  counters: readonly RankedCounter[]
+  counters: readonly SourcedCounter[]
   team: readonly Hero[]
 }) {
   const [copied, setCopied] = useState(false)

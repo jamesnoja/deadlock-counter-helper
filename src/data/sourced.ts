@@ -207,3 +207,42 @@ export function planCounters(heroes: readonly Hero[]): CounterPlan {
     source: PUBLISHED_META,
   }
 }
+
+/**
+ * How decisively an item answers one specific enemy, for display.
+ *
+ * The old engine computed this from tag severity and a curated strength. The
+ * source publishes neither — what it publishes is an *ordering*, so this is a
+ * presentation of that ordering rather than a new judgement. Bands are thirds
+ * of a list, which for the source's eight-to-nine-item lists means roughly
+ * top three / middle three / rest.
+ *
+ * Kept in the data layer so the four components that show it cannot drift into
+ * three different opinions about what "strong" means.
+ */
+export type PairStrength = 'strong' | 'moderate' | 'situational' | 'none'
+
+export function pairStrength(effect: SourcedHeroEffect): PairStrength {
+  if (effect.weight === 0) return 'none'
+  // A named situation is the source's most specific claim: this exact item, for
+  // this exact problem. It outranks a list position whatever the position was.
+  if (effect.situations.length > 0) return 'strong'
+  if (effect.rank === null) return 'situational'
+  if (effect.rank <= 3) return 'strong'
+  if (effect.rank <= 6) return 'moderate'
+  return 'situational'
+}
+
+/**
+ * The one-line justification shown beside an item.
+ *
+ * Prefers the source's reason for a specific situation, then its general note
+ * on the item, and says plainly when it has neither rather than inventing a
+ * sentence. The old engine always had a `why` because the overlay required one;
+ * this one can genuinely be empty.
+ */
+export function reasonFor(counter: SourcedCounter): string {
+  const situation = counter.perHero.flatMap((effect) => effect.situations)[0]
+  if (situation) return situation.reason
+  return counter.note?.description ?? ''
+}

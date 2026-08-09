@@ -10,12 +10,12 @@
 
 import { GameImage } from './game-image.tsx'
 import { CategoryTag } from './item-meta.tsx'
-import type { RankedCounter } from '@/data/derive.ts'
+import type { SourcedCounter } from '@/data/sourced.ts'
 import { buildByCategory, MAX_PURCHASES_PER_CATEGORY, opportunityCost } from '@/data/build.ts'
 import { itemArtwork } from '@/data/snapshot.ts'
 
 interface BuildLensProps {
-  counters: readonly RankedCounter[]
+  counters: readonly SourcedCounter[]
   teamSize: number
   onSelectItem?: (className: string) => void
 }

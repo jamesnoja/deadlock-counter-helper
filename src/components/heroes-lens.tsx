@@ -16,30 +16,31 @@
 
 import { useMemo, useState } from 'react'
 import { STRENGTH_GLYPH, STRENGTH_LABEL } from './coverage-cell.tsx'
-import { AbilityBreakdown } from './ability-breakdown.tsx'
+import { counterFor } from '@/data/published.ts'
 import { GameImage } from './game-image.tsx'
-import type { PairStrength, RankedCounter } from '@/data/derive.ts'
+import { pairStrength, reasonFor, type PairStrength, type SourcedCounter } from '@/data/sourced.ts'
 import type { Hero } from '@/data/schema.ts'
-import { abilitiesForHero, itemArtwork } from '@/data/snapshot.ts'
+import { itemArtwork } from '@/data/snapshot.ts'
 
 interface HeroesLensProps {
-  counters: readonly RankedCounter[]
+  counters: readonly SourcedCounter[]
   team: readonly Hero[]
   /** Which hero to focus, or null for the combined view. */
   focus: string | null
   onFocus: (className: string | null) => void
-  onSelectItem?: (className: string) => void
 }
 
 interface HeroCounters {
-  core: RankedCounter[]
-  situational: RankedCounter[]
+  core: SourcedCounter[]
+  situational: SourcedCounter[]
 }
 
 /** Split a hero's answers at the line between "buy this" and "consider this". */
-function forHero(counters: readonly RankedCounter[], className: string): HeroCounters {
-  const strengthOf = (counter: RankedCounter): PairStrength =>
-    counter.perHero.find((effect) => effect.hero === className)?.strength ?? 'none'
+function forHero(counters: readonly SourcedCounter[], className: string): HeroCounters {
+  const strengthOf = (counter: SourcedCounter): PairStrength => {
+    const effect = counter.perHero.find((candidate) => candidate.hero === className)
+    return effect ? pairStrength(effect) : 'none'
+  }
 
   const relevant = counters.filter((counter) => strengthOf(counter) !== 'none')
   return {
@@ -52,7 +53,7 @@ function ItemGrid({
   counters,
   heroClassName,
 }: {
-  counters: readonly RankedCounter[]
+  counters: readonly SourcedCounter[]
   heroClassName?: string
 }) {
   if (counters.length === 0) {
@@ -70,7 +71,7 @@ function ItemGrid({
             // Wide enough for two lines of a real item name. At w-20 every
             // label read "COUNTER…", which identifies nothing.
             className="flex w-28 flex-col items-center gap-px rounded-md bg-surface-elevated p-xs text-center"
-            title={counter.why}
+            title={reasonFor(counter)}
           >
             <GameImage
               src={itemArtwork(counter.item)}
@@ -81,12 +82,12 @@ function ItemGrid({
             <span className="line-clamp-2 w-full text-micro">{counter.item.name}</span>
             {effect ? (
               <span aria-hidden className="text-micro text-text-muted">
-                {STRENGTH_GLYPH[effect.strength]}
+                {STRENGTH_GLYPH[pairStrength(effect)]}
               </span>
             ) : null}
             <span className="sr-only">
               {counter.item.name}
-              {effect ? `, ${STRENGTH_LABEL[effect.strength]}` : ''}
+              {effect ? `, ${STRENGTH_LABEL[pairStrength(effect)]}` : ''}
             </span>
           </li>
         )
@@ -95,7 +96,7 @@ function ItemGrid({
   )
 }
 
-export function HeroesLens({ counters, team, focus, onFocus, onSelectItem }: HeroesLensProps) {
+export function HeroesLens({ counters, team, focus, onFocus }: HeroesLensProps) {
   const [showAll, setShowAll] = useState(false)
 
   /** Highest-impact items across the lineup — the aggregate is never a click away. */
@@ -199,16 +200,11 @@ export function HeroesLens({ counters, team, focus, onFocus, onSelectItem }: Her
                   />
                 </div>
 
-                {/* E17: per-ability detail, shown when focused on one hero so
-                    the combined view stays scannable. */}
-                {focus === hero.class_name ? (
-                  <AbilityBreakdown
-                    hero={hero}
-                    abilities={abilitiesForHero(hero)}
-                    counters={counters}
-                    onSelectItem={onSelectItem}
-                  />
-                ) : null}
+                {/* Focused on one hero, so there is room for the source's own
+                    write-up. This replaced the per-ability breakdown, which
+                    needed to know which ability carried which threat — a fact
+                    the tag overlay had and the published source does not. */}
+                {focus === hero.class_name ? <HeroAdvice className={hero.class_name} /> : null}
               </div>
             </section>
           )
@@ -223,6 +219,35 @@ export function HeroesLens({ counters, team, focus, onFocus, onSelectItem }: Her
         >
           {showAll ? 'Show fewer per hero' : 'Show every counter per hero'}
         </button>
+      ) : null}
+    </div>
+  )
+}
+
+/** The source's own write-up for one hero: the part no derivation produced. */
+function HeroAdvice({ className }: { className: string }) {
+  const advice = counterFor(className)
+  if (!advice) {
+    return (
+      <p className="text-caption text-text-muted">
+        No published write-up for this hero yet — which is not the same as nothing countering
+        them.
+      </p>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-sm rounded-card bg-surface-elevated p-card">
+      <p className="text-caption text-text-muted">{advice.summary}</p>
+      {advice.situations.length > 0 ? (
+        <dl className="flex flex-col gap-xs">
+          {advice.situations.map((situation) => (
+            <div key={situation.label}>
+              <dt className="text-caption">{situation.label}</dt>
+              <dd className="text-micro text-text-muted">{situation.reason}</dd>
+            </div>
+          ))}
+        </dl>
       ) : null}
     </div>
   )

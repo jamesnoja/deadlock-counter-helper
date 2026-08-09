@@ -6,7 +6,7 @@
  * markdown, no box drawing, no alignment that collapses in a proportional font.
  */
 
-import type { RankedCounter } from './derive.ts'
+import type { SourcedCounter } from './sourced.ts'
 import type { Hero } from './schema.ts'
 
 /**
@@ -17,7 +17,7 @@ import type { Hero } from './schema.ts'
 export const CHAT_LIMIT = 300
 
 export function formatForChat(
-  counters: readonly RankedCounter[],
+  counters: readonly SourcedCounter[],
   team: readonly Hero[],
   limit: number = CHAT_LIMIT,
 ): string {

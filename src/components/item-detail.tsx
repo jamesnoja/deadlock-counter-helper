@@ -14,23 +14,19 @@
 
 import { STRENGTH_GLYPH, STRENGTH_LABEL } from './coverage-cell.tsx'
 import { GameImage } from './game-image.tsx'
-import type { RankedCounter } from '@/data/derive.ts'
-import { explainPair } from '@/data/explain.ts'
-import { countersForItem } from '@/data/overlay.ts'
+import { pairStrength, type SourcedCounter } from '@/data/sourced.ts'
 import { itemArtwork } from '@/data/snapshot.ts'
 import { provenanceFor } from '@/data/provenance.ts'
 import type { Hero } from '@/data/schema.ts'
 import { ProvenanceDot } from './primitives.tsx'
 
 interface ItemDetailProps {
-  counter: RankedCounter
+  counter: SourcedCounter
   team: readonly Hero[]
-  abilityName: (className: string) => string | undefined
   onClose: () => void
 }
 
-export function ItemDetail({ counter, team, abilityName, onClose }: ItemDetailProps) {
-  const entry = countersForItem(counter.item.class_name)
+export function ItemDetail({ counter, team, onClose }: ItemDetailProps) {
   /**
    * Keyed on the upstream property name, not the label. Some items carry two
    * distinct properties with the same label — Counterspell has "Spirit Power"
@@ -81,8 +77,16 @@ export function ItemDetail({ counter, team, abilityName, onClose }: ItemDetailPr
           {counter.perHero.map((effect) => {
             const hero = team.find((candidate) => candidate.class_name === effect.hero)
             const heroName = hero?.name ?? effect.hero
-            const { text, editorial } = explainPair(effect, heroName, abilityName, entry)
-            const addressed = effect.strength !== 'none'
+            const addressed = pairStrength(effect) !== 'none'
+            // The source's own words: its reason for this exact matchup where it
+            // gave one, its general note otherwise. No sentence is synthesised —
+            // an item it simply listed says so rather than inventing a rationale.
+            const text =
+              effect.situations[0]?.reason ??
+              (addressed
+                ? (counter.note?.description ??
+                  `Listed as a counter to ${heroName}, without a stated reason.`)
+                : `Not listed as an answer to ${heroName}.`)
             return (
               <li
                 key={effect.hero}
@@ -100,15 +104,14 @@ export function ItemDetail({ counter, team, abilityName, onClose }: ItemDetailPr
                   <p className="flex flex-wrap items-center gap-xs">
                     <span className="text-caption">{heroName}</span>
                     <span aria-hidden className="text-micro text-text-muted">
-                      {STRENGTH_GLYPH[effect.strength]}
+                      {STRENGTH_GLYPH[pairStrength(effect)]}
                     </span>
                     <span className="text-micro text-text-muted">
-                      {STRENGTH_LABEL[effect.strength]}
+                      {STRENGTH_LABEL[pairStrength(effect)]}
                     </span>
-                    {/* Editorial lines are marked, per the provenance rules in E07. */}
-                    {editorial ? (
+                    {effect.situations.length > 0 ? (
                       <span className="rounded-pill bg-brand-subdued px-sm text-micro text-brand-soft">
-                        editorial
+                        {effect.situations[0]!.label}
                       </span>
                     ) : null}
                   </p>
@@ -139,10 +142,12 @@ export function ItemDetail({ counter, team, abilityName, onClose }: ItemDetailPr
 
       <footer className="flex flex-wrap items-center gap-md">
         <ProvenanceDot state={provenanceFor(counter.item.class_name)} />
-        {counter.source === 'editorial' && counter.overrideReason ? (
-          <span className="text-caption text-brand-soft">
-            Editorial override: {counter.overrideReason}
-          </span>
+        {counter.note?.why.length ? (
+          <ul className="flex flex-col gap-xs text-caption text-text-muted">
+            {counter.note.why.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
         ) : null}
       </footer>
     </aside>

@@ -9,7 +9,7 @@
  */
 
 import { GameImage } from './game-image.tsx'
-import type { RankedCounter } from '@/data/derive.ts'
+import { pairStrength, reasonFor, type SourcedCounter } from '@/data/sourced.ts'
 import { counterPlan, type PlanTier } from '@/data/plan.ts'
 import { itemArtwork } from '@/data/snapshot.ts'
 import type { Hero } from '@/data/schema.ts'
@@ -25,7 +25,7 @@ const TIER_HINT: Record<PlanTier, string> = {
 }
 
 interface CounterPlanProps {
-  counters: readonly RankedCounter[]
+  counters: readonly SourcedCounter[]
   team: readonly Hero[]
   onSelect: (className: string) => void
 }
@@ -74,11 +74,11 @@ export function CounterPlan({ counters, team, onSelect }: CounterPlanProps) {
                 </span>
               </span>
 
-              <span className="line-clamp-2 text-caption text-text-muted">{counter.why}</span>
+              <span className="line-clamp-2 text-caption text-text-muted">{reasonFor(counter)}</span>
 
               <span className="mt-auto flex flex-wrap gap-px pt-xs">
                 {counter.perHero
-                  .filter((effect) => effect.strength !== 'none')
+                  .filter((effect) => pairStrength(effect) !== 'none')
                   .map((effect) => {
                     const hero = team.find((candidate) => candidate.class_name === effect.hero)
                     return (

@@ -12,7 +12,7 @@
 import { useMemo, useState } from 'react'
 import { CoverageCell, CoverageLegend } from './coverage-cell.tsx'
 import { GameImage } from './game-image.tsx'
-import type { RankedCounter } from '@/data/derive.ts'
+import { pairStrength, reasonFor, type SourcedCounter } from '@/data/sourced.ts'
 import { ITEM_CATEGORIES, type ItemCategory, type Hero } from '@/data/schema.ts'
 import { normalise } from '@/data/hero-search.ts'
 import { ItemMeta } from './item-meta.tsx'
@@ -20,7 +20,7 @@ import { ItemStats } from './item-stats.tsx'
 import { itemArtwork } from '@/data/snapshot.ts'
 
 interface ItemsLensProps {
-  counters: readonly RankedCounter[]
+  counters: readonly SourcedCounter[]
   /** Selection order — the column order for every row. */
   team: readonly Hero[]
   onSelectHero?: (className: string) => void
@@ -166,7 +166,7 @@ export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsL
                     </span>
                   </th>
                   <td className="bg-surface p-row text-caption text-text-muted transition-colors group-hover:bg-surface-elevated">
-                    <span className="line-clamp-3">{counter.why}</span>
+                    <span className="line-clamp-3">{reasonFor(counter)}</span>
                   </td>
                   {counter.perHero.map((effect) => {
                     const hero = team.find((candidate) => candidate.class_name === effect.hero)
@@ -176,7 +176,7 @@ export function ItemsLens({ counters, team, onSelectHero, onSelectItem }: ItemsL
                         className="bg-surface px-xs py-row text-center transition-colors group-hover:bg-surface-elevated"
                       >
                         <CoverageCell
-                          strength={effect.strength}
+                          strength={pairStrength(effect)}
                           heroName={hero?.name ?? effect.hero}
                           portrait={hero?.images.minimap ?? hero?.images.portrait ?? null}
                           itemName={counter.item.name}
