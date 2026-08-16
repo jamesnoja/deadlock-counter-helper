@@ -33,11 +33,6 @@ jobs:
         id: sync
         run: npm run sync
 
-      # New heroes and items need overlay entries or the engine cannot see
-      # them. Additive only, so nothing curated is touched.
-      - name: Scaffold overlay entries for anything new
-        run: npm run overlay:scaffold
-
       - name: Verify the new data still passes
         if: steps.sync.outputs.changed == 'true'
         run: npm run verify

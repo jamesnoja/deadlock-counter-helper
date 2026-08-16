@@ -1660,3 +1660,43 @@ Em dashes are out of our UI strings. Two remain and are deliberate: the source's
 - [ ] Contrast of `--on-brand` against all three `hero-gradient` stops. The contrast test covers
       token pairs, not gradients, so the header is unverified.
 - [ ] Still no shortcut to clear the team, and no way to paste a lineup.
+
+## 2026-08-16 — Repair the daily sync workflow
+
+The question was whether to disable the daily sync, on the grounds we no longer rely on it.
+Both halves of that turned out to be wrong, so the change is a repair rather than a removal.
+
+- [x] Establish whether the job actually runs. It does not: 7 scheduled runs, 7 failures,
+      0 successes, no sync PR ever opened.
+- [x] Find the cause — `#77 Retire the threat-tag overlay` deleted the `overlay:scaffold`
+      script from `package.json` but left the step calling it in `sync.yml`.
+- [x] Establish whether the snapshot is still load-bearing. It is: `data/snapshot/` feeds
+      `page.tsx`, `counter/[hero]/page.tsx`, `sitemap.ts` and the lens/card/item components.
+      What `#77` retired was the curation overlay, not the upstream sync.
+- [x] Delete the dead step from `.github/workflows/sync.yml`.
+- [x] Confirm no other workflow step calls a script that no longer exists.
+- [x] Confirm the `data-sync` label still exists, since `gh pr create --label` fails without it.
+- [x] Record the failure in `error_log.md`.
+
+### Review
+
+Three lines plus a comment removed from `sync.yml`. Nothing else changed.
+
+The bug is worth naming precisely because the shape recurs: the dead step sat *before* the
+verify and PR steps, so the failure was total rather than partial — the job fetched upstream
+data every morning and threw it away. A green-looking daily cron that has never once succeeded
+is worse than no cron, because it reads as coverage.
+
+I cross-checked every `npm run` in both workflows against `package.json` rather than only
+fixing the one that failed; `overlay:scaffold` was the sole orphan. The `data-sync` label
+exists, so the PR step will not fail behind this fix.
+
+Not verified: an actual green run. The fix removes a step that calls a missing script, which
+cannot fail any other way, but the job has never completed end to end, so the steps after it
+are still unproven in practice. Worth a `workflow_dispatch` once this merges.
+
+### Follow-ups
+
+- [ ] Seven consecutive failures produced no signal anyone acted on. A genuine sync failure
+      would be equally silent. The job should alert on failure.
+- [ ] `docs/NEW-HERO.md` still describes the overlay-era flow that `#77` retired.
