@@ -5569,7 +5569,7 @@
       },
       "HealingPerCast": {
         "label": "Healing on Ability Cast",
-        "value": 70,
+        "value": 65,
         "unit": ""
       },
       "Regeneration": {
@@ -5629,7 +5629,7 @@
       },
       "TechResist": {
         "label": "Spirit Resist",
-        "value": 10,
+        "value": 8,
         "unit": "%"
       }
     }

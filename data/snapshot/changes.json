@@ -13,14 +13,80 @@
     "added": [],
     "removed": [],
     "renamed": [],
-    "retuned": []
+    "retuned": [
+      {
+        "class_name": "ability_fencer_riposte",
+        "name": "Riposte",
+        "stat": "MeleeResistReduction",
+        "from": -22,
+        "to": -25
+      },
+      {
+        "class_name": "ability_unicorn_dazzlingorb",
+        "name": "Shining Wonder",
+        "stat": "Damage",
+        "from": 165,
+        "to": 140
+      },
+      {
+        "class_name": "ability_unicorn_luminousstrike",
+        "name": "Radiant Daggers",
+        "stat": "MagicIncreasePerStack",
+        "from": 8,
+        "to": 7
+      },
+      {
+        "class_name": "ability_unicorn_prismaticguard",
+        "name": "Dazzling Trick",
+        "stat": "AbilityCooldown",
+        "from": 32,
+        "to": 34
+      },
+      {
+        "class_name": "ability_viper_petrifybola",
+        "name": "Petrifying Bola",
+        "stat": "PetrifyDuration",
+        "from": 2,
+        "to": 2.2
+      },
+      {
+        "class_name": "citadel_ability_card_toss",
+        "name": "Card Trick",
+        "stat": "ClubSlowPercent",
+        "from": -30,
+        "to": 30
+      },
+      {
+        "class_name": "citadel_ability_shieldedsentry",
+        "name": "Mini Turret",
+        "stat": "TurretBaseHealth",
+        "from": 90,
+        "to": 100
+      },
+      {
+        "class_name": "drifter_shadow_mark",
+        "name": "Stalker's Mark",
+        "stat": "AbilityCooldown",
+        "from": 24,
+        "to": 26
+      }
+    ]
   },
-  "needsReview": [],
-  "detected_at": "2026-08-08T07:05:56.480Z",
+  "needsReview": [
+    "ability_fencer_riposte",
+    "ability_unicorn_dazzlingorb",
+    "ability_unicorn_luminousstrike",
+    "ability_unicorn_prismaticguard",
+    "ability_viper_petrifybola",
+    "citadel_ability_card_toss",
+    "citadel_ability_shieldedsentry",
+    "drifter_shadow_mark"
+  ],
+  "uncoveredAdditions": [],
+  "detected_at": "2026-09-08T23:49:47.037Z",
   "patch": {
     "title": "06-30-2026 Update",
     "published_at": "2026-07-28T20:28:07Z",
     "link": "https://forums.playdeadlock.com/threads/06-30-2026-update.146261/"
-  },
-  "uncoveredAdditions": []
+  }
 }
