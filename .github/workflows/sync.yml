@@ -50,6 +50,12 @@ jobs:
 
           # Reuse today's branch if the job already ran, so a re-run updates the
           # existing pull request instead of opening a second one.
+          #
+          # actions/checkout only fetches main, so --force-with-lease below has
+          # no remote-tracking ref for this branch and refuses with "stale info".
+          # Fetch it explicitly; the || true covers the first run of the day,
+          # when the branch does not exist yet.
+          git fetch origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" 2>/dev/null || true
           git checkout -B "$BRANCH"
           git add data/
           git commit -m "Sync game data $(date -u +%Y-%m-%d)"
