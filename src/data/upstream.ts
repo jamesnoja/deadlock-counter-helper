@@ -66,8 +66,43 @@ export interface UpstreamItem {
   ability_type?: string
 }
 
-export interface UpstreamPatch {
+export interface UpstreamForumPatch {
   title?: string
   pub_date?: string
   link?: string
+}
+
+/**
+ * Deadlock's Steam app id, for the news API.
+ */
+export const STEAM_APP_ID = 1422450
+
+/**
+ * Valve's own announcement feed — the source of full patch notes.
+ *
+ * `maxlength=0` asks for untruncated bodies; the default returns a preview.
+ * `feeds=steam_community_announcements` excludes the press coverage Steam also
+ * carries on this endpoint (PCGamesN, PC Gamer), which is not patch notes and
+ * is not ours to republish.
+ */
+export const STEAM_NEWS_ENDPOINT =
+  `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/` +
+  `?appid=${STEAM_APP_ID}&count=100&maxlength=0&feeds=steam_community_announcements`
+
+/** One announcement. Body is Steam BBCode, not HTML. */
+export interface UpstreamSteamNewsItem {
+  gid?: string
+  title?: string
+  url?: string
+  author?: string
+  contents?: string
+  feedname?: string
+  /** Unix seconds. */
+  date?: number
+}
+
+export interface UpstreamSteamNews {
+  appnews?: {
+    newsitems?: UpstreamSteamNewsItem[]
+  }
 }

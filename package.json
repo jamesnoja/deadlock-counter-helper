@@ -21,7 +21,8 @@
     "backlog": "node scripts/render-backlog.mjs",
     "seed:issues": "node scripts/seed-issues.mjs",
     "seed:issues:dry": "node scripts/seed-issues.mjs --dry-run",
-    "sync:describe": "node scripts/describe-changes.mts"
+    "sync:describe": "node scripts/describe-changes.mts",
+    "sync:patches": "node scripts/sync-patches.mts"
   },
   "dependencies": {
     "next": "16.3.0",

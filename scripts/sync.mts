@@ -24,7 +24,7 @@ import {
   ENDPOINTS,
   type UpstreamHero,
   type UpstreamItem,
-  type UpstreamPatch,
+  type UpstreamForumPatch,
 } from '../src/data/upstream.ts'
 
 const SNAPSHOT_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'snapshot')
@@ -65,7 +65,7 @@ async function main() {
   const [heroes, items, patches, clientVersions] = await Promise.all([
     fetchJson<UpstreamHero[]>(ENDPOINTS.heroes),
     fetchJson<UpstreamItem[]>(ENDPOINTS.items),
-    fetchJson<UpstreamPatch[]>(ENDPOINTS.patches).catch(() => [] as UpstreamPatch[]),
+    fetchJson<UpstreamForumPatch[]>(ENDPOINTS.patches).catch(() => [] as UpstreamForumPatch[]),
     fetchJson<number[]>(ENDPOINTS.clientVersions).catch(() => [] as number[]),
   ])
   console.log(`  heroes: ${heroes.length}  items: ${items.length}`)

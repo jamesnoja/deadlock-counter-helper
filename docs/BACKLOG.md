@@ -692,70 +692,80 @@ The two signals do not line up:
 | Source | Latest as of 2026-09-09 |
 | --- | --- |
 | Forum changelog RSS | `06-30-2026 Update`, published **2026-07-28** |
+| Steam announcements | `Minor Update - 08-22-2026` |
 | Our snapshot diff | 8 abilities retuned, detected **2026-09-08** |
 | `client-versions` | 807 builds, latest **6686** |
 
-The newest forum post is roughly six weeks old, yet game data moved yesterday and the client
-has shipped several builds since. **Valve ships balance changes without always posting
-notes.** A changelog built only on forum posts would have missed
-`Card Trick — ClubSlowPercent: -30 → 30`, a sign flip that can invert counter advice.
+Valve ships balance changes without always posting notes, and posts them where our first
+choice of feed could not see them. So the page pairs both: the computed diff is the reliable
+signal that something moved, and Valve's prose is the narrative when one exists. Nobody else
+does both.
 
-So the page pairs them deliberately: the computed diff is the reliable signal that something
-moved, and Valve's prose is the narrative when one exists. Nobody else does both.
+### Source: Steam, not the forum RSS
+The original spec named `/v1/patches` as the source of "the full HTML body of the patch
+notes". **That was wrong on both counts**, found while implementing:
 
-### What already exists
-`scripts/sync.mts:68` already fetches `https://api.deadlock-api.com/v1/patches` every day.
-That endpoint returns the forum changelog RSS, 20 patches deep, each entry carrying `title`,
-`pub_date`, `link`, `author`, `category` and `content_encoded` — the full HTML body of the
-patch notes.
+- Its `content_encoded` is a **truncated preview**, 677–1847 characters, ending in `Read more`
+  or a Steam unfurl card. Real notes run to 13,164.
+- It is **stale**. Its newest entry is `06-30-2026`; Steam carries `Minor Update - 08-22-2026`,
+  whose notes describe the exact Celeste retunes our own sync detected on 2026-09-08.
 
-Line 119 takes `patches[0]`, keeps title/date/link, and discards the body and the other 19
-entries. The scheduler, the source, the diff engine and the PR-on-change flow are all live.
-This issue is mostly about keeping data we already pull.
+The source is `ISteamNews/GetNewsForApp` for appid `1422450`, with `maxlength=0` for
+untruncated bodies and `feeds=steam_community_announcements` to exclude the press coverage
+(PCGamesN, PC Gamer) Steam also serves on that endpoint, which is not ours to republish. The
+forum RSS is kept only for its permalink, matched on date because the two sources word titles
+differently (`06-30-2026 Update` against `Minor Update - 06-30-2026`).
+
+### No HTML, and none to sanitise
+Steam announcements are **BBCode** (`[p]`, `[b]`, escaped `\[ Section ]`), not markup. So
+there is no HTML sanitising problem and no allow-list to maintain. Parsing produces plain text
+in typed blocks — `section`, `note`, `text` — matching the house rule set by `toPlainText` in
+`normalise.ts`: nothing downstream is ever tempted to reach for dangerouslySetInnerHTML, and
+diffs stay readable.
 
 ### Scope
 
-**1. Retain what the sync already fetches**
-- Keep `content_encoded` rather than dropping it.
-- Sanitise it. It is XenForo HTML carrying tracking attributes, `data-result-token` values and
-  embedded Steam unfurl markup. Render an allow-listed subset, never raw.
-- Preserve the link to the original thread; we summarise, we do not replace.
+**1. Archive the notes — done**
+- `src/data/patches-schema.ts`, `src/data/patches.ts`, `scripts/sync-patches.mts`.
+- Append-only under `data/patches/notes/<gid>.json` plus an `index.json`. Keyed on Steam's
+  `gid`, not slug: Valve has titled two posts the same date, and a slug collision would
+  silently drop one.
+- Wired into the daily workflow. Either signal moving opens the pull request.
 
-**2. History, not latest-only**
-- `data/snapshot/changes.json` is a single object overwritten every sync. A changelog needs an
-  append-only archive — one file per patch under `data/patches/`, committed like the snapshot
-  so builds stay reproducible.
-- Backfill the 20 entries the RSS already exposes. Our own diffs only start from the first
-  sync that records one, so early entries carry notes without a diff, and that gap should be
-  stated on the page rather than hidden.
-
-**3. Routes**
-- `/changelog` — reverse-chronological list.
-- `/changelog/[slug]` — one patch: our diff, then the sanitised notes, then affected heroes.
-- Cross-link both ways with `/counter/[hero]`, so a retuned ability on a hero page links to
-  the patch that moved it.
-- RSS feed of our own.
-
-**4. Correlate the signals**
-- Key entries on `client_version` (already in `meta.json`), not on forum post dates. It is the
+**2. Correlate the two signals**
+- Key entries on `client_version` (already in `meta.json`), not on post dates. It is the
   reliable "an update shipped" marker and it moves for hotfixes that never get a post.
+- Match a snapshot diff to the patch note that explains it. The 2026-08-22 notes say
+  "Shining Wonder damage reduced from 165 to 140" where our diff says
+  `Shining Wonder — Damage: 165 → 140`; that correlation is the feature.
 - Where a diff has no matching post, say so plainly: *"Data moved. No patch notes published."*
   That is information, not an error state.
 
+**3. Routes**
+- `/changelog` — reverse-chronological list, `note_count` per entry.
+- `/changelog/[slug]` — one patch: our diff, then the notes, then affected heroes.
+- Cross-link with `/counter/[hero]`, so a retuned ability links to the patch that moved it.
+- RSS feed of our own.
+
+**4. History beyond the feed window**
+- Steam returns the most recent announcements only. The committed archive is the sole record
+  once an entry falls off, which is the reason it is append-only rather than a mirror.
+- 22 notes back to 2025 are archived. Older ones are unreachable; say so rather than implying
+  the list is complete.
+
 ### Acceptance criteria
 - Entries are generated from real diffs and real fetched notes, never hand-written.
-- A diff with no corresponding forum post still produces an entry.
-- A forum post with no detectable data change still produces an entry.
-- Sanitiser strips scripts, tracking attributes and unfurl markup; covered by tests using the
-  real payload as a fixture.
-- Adding a patch upstream adds a page and an RSS item with no other change.
+- A diff with no corresponding post still produces an entry.
+- A post with no detectable data change still produces an entry.
+- Re-running the sync writes nothing when upstream has not moved.
+- An unrecognised BBCode tag costs formatting, never text.
 
 ### Notes
 Attribution matters here more than anywhere else on the site. This is Valve content rendered
-on a fan site, so the source link belongs on every entry, and the page should read as an index
-into their notes rather than a replacement for them.
+on a fan site, so the Steam permalink belongs on every entry, and the page should read as an
+index into their notes rather than a replacement for them.
 
-Rough shape: ~2h to store bodies and history, ~1h sanitising, ~3h routes, ~2h cross-linking.
+Remaining after step 1: ~2h correlation, ~3h routes, ~1h RSS.
 
 **Depends on:** E06
 
