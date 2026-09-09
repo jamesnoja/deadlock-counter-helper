@@ -1660,3 +1660,75 @@ Em dashes are out of our UI strings. Two remain and are deliberate: the source's
 - [ ] Contrast of `--on-brand` against all three `hero-gradient` stops. The contrast test covers
       token pairs, not gradients, so the header is unverified.
 - [ ] Still no shortcut to clear the team, and no way to paste a lineup.
+
+## 2026-09-09 — E24: patch changelog, and three sync-workflow faults
+
+Started from a user report: repeated "Run failed: Sync game data" emails. Ended with the
+changelog shipped. The two turned out to be the same thread — the broken job was discarding
+exactly the data the changelog needed.
+
+### The workflow had never once completed
+
+Three faults, each hidden behind the previous one:
+
+1. **#96** — the step calling `npm run overlay:scaffold`, deleted with the rest of Layer B in
+   #77. A stale step, not a missing feature, so it was removed rather than reimplemented. It
+   also had no `if:` guard, so it failed even on runs where upstream had not moved.
+2. **Repo setting** — Actions was not permitted to create pull requests. Code cannot work
+   around that; `can_approve_pull_request_reviews` had to be enabled.
+3. **#97** — `--force-with-lease` with no remote-tracking ref to lease against. The "reuse
+   today's branch on re-run" path the step's own comment describes had never worked.
+
+The sync logic was correct throughout. Only the plumbing around it was broken, which is why
+it kept getting as far as printing the diff and then throwing it away.
+
+### E24, and three things its spec got wrong
+
+The spec named `/v1/patches` as the source of "the full HTML body of the patch notes". Both
+halves were wrong, and only implementing it showed that:
+
+| Spec said | Reality |
+| --- | --- |
+| Full body | Truncated preview, 677–1847 chars, ending in "Read more" |
+| Current | Newest entry `06-30-2026`; Steam had `08-22-2026` |
+| Sanitise HTML | Steam ships **BBCode**. No sanitiser, no allow-list, no HTML path at all |
+
+Third correction was mine, not the spec's: #100 stored the archive as one file per patch,
+which diffs beautifully and **cannot be read by the app** — `src/` loads through static JSON
+imports and cannot import a growing directory. #103 consolidated to one `notes.json`.
+
+### The result that justifies the whole design
+
+Of 8 retunes detected on 2026-09-08, **7 are explained by a published note and 1 is not**:
+`Card Trick — ClubSlowPercent: -30 → 30`. A sign flip, undocumented, and the change most
+likely to invert counter advice. The correlator isolated it without being told to look.
+
+Matching requires the entity name **and both endpoints**. Name alone is too loose — "Shining
+Wonder" appears in a 2026-05-22 line listing six abilities with an unrelated zoom bug. The
+`from` value alone credits the wrong patch: `Stalker's Mark` went 24→26 in August while a July
+post reads "increased from 20s to 24s".
+
+### Two bugs found while building, both logged
+
+The `[p]`-versus-newline parser fault, and the provenance stamp naming a patch six weeks older
+than the data it described. See `error_log.md`.
+
+### Process failures on my part
+
+- **I did not log errors as I went.** `CLAUDE.md` rule 2 requires it and I fixed six faults
+  across six PRs without an entry. Backfilled here from the run logs and diffs, which is worse
+  than logging at the time — timestamps are the run's, not the observation's.
+- **No plan entry before starting.** The workflow says write the plan to `todo.md` first.
+- **I killed a dev server by piping it through `head`**, which SIGPIPEs it on exit, then spent
+  two turns diagnosing a "dead" server that was a stale process holding the port.
+
+### Follow-ups
+
+- [ ] Key changelog entries on `client_version`. `changes.json` does not record it, so only
+      future syncs could carry one. Name-plus-endpoints was strong enough to ship without it;
+      revisit if a patch ever retunes the same stat to the same value twice.
+- [ ] `CLAUDE.md` rules 3–6 are Flutter/Riverpod (`pubspec.yaml`, `flutter analyze`,
+      `*.g.dart`) and do not apply to this Next.js repo. Rules 1–2 and the git workflow do.
+      Worth rewriting so the file is not half-noise.
+- [ ] 18 of 22 archived notes have `forum_url: null`. The forum RSS lags weeks and holds only
+      20 entries. Costs a secondary link, not attribution.
