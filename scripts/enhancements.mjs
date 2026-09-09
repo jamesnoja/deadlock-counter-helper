@@ -680,6 +680,7 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
     title: "Patch changelog — Valve's notes paired with the computed diff",
     epic: 'distribution',
     priority: 'p1',
+    status: 'done',
     depends: ['E06'],
     body: `
 ### Problem
