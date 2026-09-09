@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { CounterTool } from '@/components/counter-tool.tsx'
 import { MAX_ENEMIES } from '@/components/team-bar.tsx'
+import { ButtonLink } from '@/components/primitives.tsx'
 import { SourceCredit } from '@/components/source-credit.tsx'
 import { PUBLISHED_META } from '@/data/published.ts'
 import { ProvenanceStamp } from '@/components/provenance-stamp.tsx'
@@ -21,12 +22,23 @@ export default async function Home({
 
   return (
     <main className="mx-auto flex w-[95%] flex-1 flex-col gap-xl p-xl">
-      <header className="hero-gradient rounded-card p-2xl">
-        <h1 className="text-display text-on-brand">Deadlock Counter Helper</h1>
-        <p className="text-on-brand">
-          Pick the enemy team. Get the items that answer them, with what each one costs and why it
-          works, from a source that says when it was last updated.
-        </p>
+      <header className="hero-gradient flex flex-wrap items-start justify-between gap-lg rounded-card p-2xl">
+        <div className="min-w-0">
+          <h1 className="text-display text-on-brand">Deadlock Counter Helper</h1>
+          {/* Capped for line length; it also lets the button sit alongside. */}
+          <p className="max-w-prose text-on-brand">
+            Pick the enemy team. Get the items that answer them, with what each one costs and why it
+            works, from a source that says when it was last updated.
+          </p>
+        </div>
+        {/*
+          The changelog is the evidence behind "says when it was last updated",
+          so it sits beside that claim rather than in the footer. The provenance
+          stamp links there too, but only once someone opens it.
+        */}
+        <ButtonLink variant="on-brand" href="/changelog">
+          Patch changelog
+        </ButtonLink>
       </header>
 
       <ProvenanceStamp />
