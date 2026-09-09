@@ -1374,7 +1374,7 @@
     "name": "Powder Keg",
     "hero": "hero_astro",
     "slot": 1,
-    "description": "Throw a barrel that explodes after a delay, dealing spirit damage and applying knockup. The barrel can be detonated early by being shot, melee'd, or detonated by another barrel. Can be Alt-Cast to place the barrel infront of Holliday.",
+    "description": "Throw a barrel that explodes after a delay, dealing spirit damage, setting enemies on fire and applying knockup. The barrel can be detonated early by being shot, melee'd, or detonated by another barrel. The burn stacks, so overlapping barrels burn for their combined damage.Can be Alt-Cast to place the barrel infront of Holliday.",
     "icon": "https://assets-bucket.deadlock-api.com/assets-api-res/images/abilities/astro/holliday_powder_keg.webp",
     "stats": {
       "AbilityCastDelay": {
@@ -1417,9 +1417,19 @@
         "value": 0.1,
         "unit": "s"
       },
-      "BarrelDamage": {
-        "label": "Explosion Damage",
-        "value": 80,
+      "BurnDuration": {
+        "label": "Burn Duration",
+        "value": 3,
+        "unit": "s"
+      },
+      "DPS": {
+        "label": "Damage Per Second",
+        "value": 13.3333,
+        "unit": ""
+      },
+      "ImpactDamage": {
+        "label": "Impact Damage",
+        "value": 40,
         "unit": ""
       },
       "TechPower": {
@@ -1964,7 +1974,7 @@
       },
       "MeleeResistReduction": {
         "label": "Melee Resist",
-        "value": -22,
+        "value": -25,
         "unit": "%"
       },
       "MeleeResistReductionDuration": {
@@ -5642,6 +5652,16 @@
         "value": 0,
         "unit": "%"
       },
+      "MaxHealthBuffDuration": {
+        "label": "Duration",
+        "value": 0,
+        "unit": "s"
+      },
+      "MaxHealthBuffPct": {
+        "label": "Max Health",
+        "value": 0,
+        "unit": "%"
+      },
       "TechPower": {
         "label": "Spirit Power",
         "value": 0,
@@ -6299,7 +6319,7 @@
       },
       "Damage": {
         "label": "Damage",
-        "value": 165,
+        "value": 140,
         "unit": ""
       },
       "GroundDashReductionPercent": {
@@ -6399,7 +6419,7 @@
       },
       "MagicIncreasePerStack": {
         "label": "Spirit Amp per Stack",
-        "value": 8,
+        "value": 7,
         "unit": "%"
       },
       "PreExplosionDuration": {
@@ -6449,7 +6469,7 @@
       },
       "AbilityCooldown": {
         "label": "Cooldown",
-        "value": 32,
+        "value": 34,
         "unit": "s"
       },
       "AbilityCooldownBetweenCharge": {
@@ -7089,7 +7109,7 @@
       },
       "PetrifyDuration": {
         "label": "Petrify Duration",
-        "value": 2,
+        "value": 2.2,
         "unit": "s"
       },
       "SlowDuration": {
@@ -8378,8 +8398,8 @@
         "unit": "%"
       },
       "ClubSlowPercent": {
-        "label": "Movement Slow",
-        "value": -30,
+        "label": "Move Speed",
+        "value": 30,
         "unit": "%"
       },
       "Damage": {
@@ -10414,7 +10434,7 @@
       },
       "TurretBaseHealth": {
         "label": "Turret Health",
-        "value": 90,
+        "value": 100,
         "unit": ""
       },
       "TurretDPS": {
@@ -11809,7 +11829,7 @@
       },
       "AbilityCooldown": {
         "label": "Cooldown",
-        "value": 24,
+        "value": 26,
         "unit": "s"
       },
       "AbilityCooldownBetweenCharge": {

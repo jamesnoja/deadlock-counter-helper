@@ -10,12 +10,12 @@
     "published_at": "2026-07-28T20:28:07Z",
     "link": "https://forums.playdeadlock.com/threads/06-30-2026-update.146261/"
   },
-  "client_version": 6670,
+  "client_version": 6686,
   "counts": {
     "heroes": 38,
     "abilities": 152,
     "items": 173
   },
-  "content_hash": "955d872cc79d3c7edc5a613f20463daf7fe7b7f6421980c23d171edfaefea20d",
-  "synced_at": "2026-08-08T07:05:56.480Z"
+  "content_hash": "3fa874dda4d489003640cf78d8827f937d96fd41b1e2323f39129c4cec033f80",
+  "synced_at": "2026-09-08T23:49:47.037Z"
 }
