@@ -8,7 +8,15 @@
   "blocks": [
     {
       "kind": "text",
-      "text": "Today's update adds Hero Labs (a new experimental hero matchmaking mode that adds six new in-progress heroes), player commends, as well as updates to character shaders and environment lighting, among the usual assortment of improvements, fixes, and balance adjustments. \n\nFor the full patch notes, visit the Deadlock forums here: https://forums.playdeadlock.com/threads/10-24-2024-update.40951/\n\n\n\nExample of the new character shader changes:"
+      "text": "Today's update adds Hero Labs (a new experimental hero matchmaking mode that adds six new in-progress heroes), player commends, as well as updates to character shaders and environment lighting, among the usual assortment of improvements, fixes, and balance adjustments."
+    },
+    {
+      "kind": "text",
+      "text": "For the full patch notes, visit the Deadlock forums here: https://forums.playdeadlock.com/threads/10-24-2024-update.40951/"
+    },
+    {
+      "kind": "text",
+      "text": "Example of the new character shader changes:"
     }
   ]
 }
