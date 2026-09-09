@@ -10,22 +10,23 @@
  *
  * **Append-only.** A patch note is a historical record — once Valve has posted
  * it, it does not change, and the archive is the only place early notes exist
- * once they fall off the feed's 100-entry window. Existing files are rewritten
- * only when their content actually differs, so re-running produces no diff.
+ * once they fall off the feed's window. Merging keeps what the feed has
+ * forgotten, and the file is rewritten only when its content actually differs,
+ * so re-running produces no diff.
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { byNewest, isPatchAnnouncement, toPatchNote } from '../src/data/patches.ts'
-import type { PatchArchiveMeta, PatchIndexEntry, PatchNote } from '../src/data/patches-schema.ts'
+import type { PatchArchive, PatchNote } from '../src/data/patches-schema.ts'
 import {
   ENDPOINTS,
   STEAM_NEWS_ENDPOINT,
   type UpstreamForumPatch,
   type UpstreamSteamNews,
 } from '../src/data/upstream.ts'
-import { NOTES_DIR, PATCH_DIR, readPatchArchive } from './patch-archive.mts'
+import { PATCH_DIR, readPatchArchive } from './patch-archive.mts'
 
 const serialise = (value: unknown) => JSON.stringify(value, null, 2) + '\n'
 
@@ -75,51 +76,36 @@ async function main() {
 
   const notes = [...merged.values()].sort(byNewest)
 
-  mkdirSync(NOTES_DIR, { recursive: true })
+  /**
+   * One file, not one per patch.
+   *
+   * The archive started as `notes/<gid>.json`, which diffs beautifully but
+   * cannot be read by the app: `src/` loads data through static JSON imports
+   * (see `snapshot.ts`) and there is no way to statically import a directory
+   * that grows. The alternatives were an `fs` read inside a server component,
+   * breaking that convention, or committing a combined bundle alongside the
+   * per-file archive and carrying 490KB of the same notes twice. Consolidating
+   * is the honest fix: one source of truth, loadable the same way as everything
+   * else. Insertions land at the top of a newest-first array, so the diff for a
+   * new patch is still just the new block.
+   */
+  mkdirSync(PATCH_DIR, { recursive: true })
 
-  let written = 0
-  for (const note of notes) {
-    const path = join(NOTES_DIR, `${note.gid}.json`)
-    const next = serialise(note)
-    if (readIfPresent(path) === next) continue
-    writeFileSync(path, next, 'utf8')
-    written++
-  }
-
-  const index: PatchIndexEntry[] = notes.map((note) => ({
-    gid: note.gid,
-    slug: note.slug,
-    title: note.title,
-    published_at: note.published_at,
-    note_count: note.blocks.filter((block) => block.kind === 'note').length,
-  }))
-
-  const metaPath = join(PATCH_DIR, 'index.json')
-  const previousMeta = readIfPresent(metaPath)
-  const previousIndex = previousMeta
-    ? (JSON.parse(previousMeta) as PatchArchiveMeta).patches
-    : null
-
-  // Same reasoning as the snapshot's synced_at: only advance the clock when
-  // something moved, so the daily job does not open a pull request whose entire
-  // diff is a timestamp.
-  const indexUnchanged = previousIndex !== null && serialise(previousIndex) === serialise(index)
-  const fetchedAt = indexUnchanged
-    ? (JSON.parse(previousMeta!) as PatchArchiveMeta).fetched_at
-    : new Date().toISOString()
-
-  const meta: PatchArchiveMeta = {
+  const archive: PatchArchive = {
     sources: { steam: STEAM_NEWS_ENDPOINT, forum: ENDPOINTS.patches },
-    patches: index,
-    fetched_at: fetchedAt,
+    notes,
   }
-  writeFileSync(metaPath, serialise(meta), 'utf8')
+
+  const notesPath = join(PATCH_DIR, 'notes.json')
+  const next = serialise(archive)
+  const written = readIfPresent(notesPath) === next ? 0 : notes.length
+  if (written > 0) writeFileSync(notesPath, next, 'utf8')
 
   const newest = notes[0]
   console.log(
     written === 0
       ? `No change. ${notes.length} notes archived.`
-      : `Wrote ${written} note${written === 1 ? '' : 's'}. ${notes.length} archived.`,
+      : `Updated. ${notes.length} notes archived.`,
   )
   if (newest) console.log(`  newest: ${newest.title} (${newest.published_at.slice(0, 10)})`)
 

@@ -11,6 +11,9 @@
  * people can use.
  */
 
+import Link from 'next/link'
+
+import { LATEST_PATCH } from '@/data/patch-archive.ts'
 import { provenanceSummary } from '@/data/provenance.ts'
 import { ProvenanceDot } from './primitives.tsx'
 
@@ -28,9 +31,20 @@ function daysSince(iso: string): number | null {
 }
 
 export function ProvenanceStamp() {
-  const { patchTitle, patchLink, syncedAt, flaggedCount, untaggedCount } = provenanceSummary()
+  const { patchTitle: forumPatchTitle, syncedAt, flaggedCount, untaggedCount } = provenanceSummary()
   const age = daysSince(syncedAt)
   const clean = flaggedCount === 0
+
+  /**
+   * Name the patch from the Steam archive, not `meta.json`.
+   *
+   * `meta.json`'s patch comes from the forum RSS, which lags Valve's own
+   * announcements by weeks — it currently reads "06-30-2026 Update" while the
+   * committed data reflects changes Valve shipped on 2026-08-22. A trust stamp
+   * naming a patch six weeks older than the data it describes is worse than no
+   * stamp, so the archive wins wherever it has an entry.
+   */
+  const patchTitle = LATEST_PATCH?.title ?? forumPatchTitle
 
   return (
     <details className="rounded-card bg-surface p-lg">
@@ -70,11 +84,11 @@ export function ProvenanceStamp() {
             invisible to the recommendation engine until curated.
           </p>
         ) : null}
-        {patchLink ? (
-          <a className="text-caption text-brand underline" href={patchLink}>
-            Read the {patchTitle} patch notes
-          </a>
-        ) : null}
+        <Link className="text-caption text-brand underline" href="/changelog">
+          {LATEST_PATCH
+            ? `Read the ${patchTitle} notes, and what we measured`
+            : 'See the patch changelog'}
+        </Link>
       </div>
     </details>
   )
