@@ -11,6 +11,7 @@
  *    rather than just a hue swap.
  */
 
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { GameImage } from './game-image.tsx'
 
@@ -268,23 +269,55 @@ export function Skeleton({ lines = 3 }: { lines?: number }) {
 
 /* ------------------------------------------------------------------ buttons */
 
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'on-brand'
+
+/**
+ * Shared by `Button` and `ButtonLink`, so a change to one shape cannot leave
+ * the other behind.
+ *
+ * `on-brand` exists for the gradient header, where the surface variants have
+ * nothing to contrast against.
+ */
+const BUTTON_BASE = 'rounded-pill px-xl py-md text-caption font-bold transition-colors'
+
+const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
+  primary: 'bg-brand text-on-brand hover:bg-brand-soft',
+  secondary: 'bg-surface-elevated text-text hover:bg-hairline',
+  ghost: 'bg-transparent text-brand hover:bg-brand-subdued',
+  'on-brand': 'bg-on-brand text-brand hover:bg-canvas',
+}
+
+export const buttonClasses = (variant: ButtonVariant = 'primary') =>
+  `${BUTTON_BASE} ${BUTTON_VARIANTS[variant]}`
+
 export function Button({
   children,
   variant = 'primary',
   ...rest
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'ghost' }) {
-  const styles = {
-    primary: 'bg-brand text-on-brand hover:bg-brand-soft',
-    secondary: 'bg-surface-elevated text-text hover:bg-hairline',
-    ghost: 'bg-transparent text-brand hover:bg-brand-subdued',
-  }[variant]
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant }) {
   return (
-    <button
-      type="button"
-      {...rest}
-      className={`rounded-pill px-xl py-md text-caption font-bold transition-colors ${styles}`}
-    >
+    <button type="button" {...rest} className={buttonClasses(variant)}>
       {children}
     </button>
+  )
+}
+
+/**
+ * A link that looks like a button.
+ *
+ * Deliberately not a `Button` with a router push. Navigation belongs in an
+ * anchor: middle-click, open-in-new-tab and the crawler all depend on a real
+ * href, and none of them survive a click handler.
+ */
+export function ButtonLink({
+  children,
+  variant = 'primary',
+  href,
+  ...rest
+}: React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string; variant?: ButtonVariant }) {
+  return (
+    <Link {...rest} className={buttonClasses(variant)} href={href}>
+      {children}
+    </Link>
   )
 }

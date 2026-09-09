@@ -10,6 +10,7 @@ import {
 import {
   Accordion,
   Button,
+  ButtonLink,
   CoverageBadge,
   EmptyState,
   HeroChip,
@@ -132,6 +133,10 @@ function PrimitiveGallery() {
         <Button>Primary</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="ghost">Ghost</Button>
+        <Button variant="on-brand">On brand</Button>
+        <ButtonLink href="/changelog" variant="secondary">
+          Link that looks like a button
+        </ButtonLink>
       </div>
     </div>
   )
