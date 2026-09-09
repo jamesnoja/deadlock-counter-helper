@@ -52,10 +52,13 @@ export interface PatchNote {
 }
 
 /**
- * Index entry. Deliberately not the whole note — the list page renders 30 of
- * these and has no use for several thousand lines of body text.
+ * List-page view of a patch. Deliberately not the whole note — the list renders
+ * every patch and has no use for several thousand lines of body text.
+ *
+ * Derived, not stored. Keeping a committed copy alongside the notes would be a
+ * second source of truth that can disagree with the first.
  */
-export interface PatchIndexEntry {
+export interface PatchSummary {
   gid: string
   slug: string
   title: string
@@ -64,9 +67,16 @@ export interface PatchIndexEntry {
   note_count: number
 }
 
-export interface PatchArchiveMeta {
+/**
+ * The committed archive.
+ *
+ * No `fetched_at`. A timestamp that advances on every run would make the daily
+ * job open a pull request whose entire diff is a clock tick — the same trap
+ * `synced_at` avoids in the snapshot. The newest note's own date is the honest
+ * freshness signal, and it is already here.
+ */
+export interface PatchArchive {
   sources: Record<string, string>
-  /** Newest first, so the list page needs no sorting. */
-  patches: PatchIndexEntry[]
-  fetched_at: string
+  /** Newest first, so nothing downstream needs to sort. */
+  notes: PatchNote[]
 }

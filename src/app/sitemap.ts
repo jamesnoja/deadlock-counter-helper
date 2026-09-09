@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { absolute } from '@/data/site.ts'
+import { PATCH_SUMMARIES } from '@/data/patch-archive.ts'
 import { HEROES, META } from '@/data/snapshot.ts'
 
 /**
@@ -21,6 +22,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'weekly' as const,
       priority: 0.8,
+    })),
+    { url: absolute('/changelog'), lastModified, changeFrequency: 'daily' as const, priority: 0.7 },
+    // Patch pages are dated records; once published they do not change, so
+    // lastModified is the patch's own date rather than our sync clock.
+    ...PATCH_SUMMARIES.map((patch) => ({
+      url: absolute(`/changelog/${patch.slug}`),
+      lastModified: new Date(patch.published_at),
+      changeFrequency: 'yearly' as const,
+      priority: 0.5,
     })),
   ]
 }
