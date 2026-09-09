@@ -19,8 +19,16 @@ import type { UpstreamForumPatch, UpstreamSteamNewsItem } from './upstream.ts'
  */
 const PATCH_TITLE = /update/i
 
-/** Steam BBCode we understand. Anything else is stripped to its text. */
-const BLOCK_SPLIT = /\[\/?p\]/i
+/**
+ * Steam BBCode we understand. Anything else is stripped to its text.
+ *
+ * Valve is not consistent about which they use. Most posts wrap each change in
+ * its own `[p]`; the 08-12-2026 post puts all thirty in a single `[p]` separated
+ * by newlines. Splitting on both is what makes the two shapes parse alike —
+ * without it that post yields one 2,000-character "note" whose text mentions
+ * half the roster, which then matches almost any correlation query.
+ */
+const BLOCK_SPLIT = /\[\/?p\]|\n/i
 
 /**
  * `[ Urn / King of the Hill ]` — a section header. Steam escapes the opening

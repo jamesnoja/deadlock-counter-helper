@@ -16,7 +16,7 @@
       "slug": "08-12-2026",
       "title": "Minor Update - 08-12-2026",
       "published_at": "2026-08-12T22:57:44.000Z",
-      "note_count": 1
+      "note_count": 31
     },
     {
       "gid": "1839676055886206",
@@ -86,7 +86,7 @@
       "slug": "05-25-2026",
       "title": "Minor Update - 05-25-2026",
       "published_at": "2026-05-28T16:28:44.000Z",
-      "note_count": 1
+      "note_count": 11
     },
     {
       "gid": "1833334318572828",
@@ -121,14 +121,14 @@
       "slug": "shop-rework-update",
       "title": "Shop Rework Update",
       "published_at": "2025-05-08T19:33:12.000Z",
-      "note_count": 0
+      "note_count": 470
     },
     {
       "gid": "1792116353369036",
       "slug": "map-rework-update",
       "title": "Map Rework Update",
       "published_at": "2025-02-25T21:49:19.000Z",
-      "note_count": 0
+      "note_count": 354
     },
     {
       "gid": "1785774543697622",
@@ -142,14 +142,14 @@
       "slug": "12-06-2024",
       "title": "12-06-2024 Update",
       "published_at": "2024-12-06T20:25:09.000Z",
-      "note_count": 0
+      "note_count": 274
     },
     {
       "gid": "6148070194801611991",
       "slug": "11-07-2024",
       "title": "11-07-2024 Update",
       "published_at": "2024-11-08T01:06:28.000Z",
-      "note_count": 0
+      "note_count": 228
     },
     {
       "gid": "6212245217911837451",
@@ -159,5 +159,5 @@
       "note_count": 0
     }
   ],
-  "fetched_at": "2026-09-09T00:47:15.382Z"
+  "fetched_at": "2026-09-09T01:44:58.836Z"
 }

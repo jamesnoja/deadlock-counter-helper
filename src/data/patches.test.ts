@@ -83,6 +83,20 @@ describe('parseBlocks', () => {
     ])
   })
 
+  it('splits a single paragraph that separates its changes with newlines', () => {
+    // Valve is inconsistent: most posts wrap each change in its own [p], but
+    // the 08-12-2026 post puts all thirty in one, newline separated. Before
+    // this was handled it parsed as a single 2,000-character note mentioning
+    // half the roster, which then matched almost any correlation query.
+    const body =
+      '[p]- Apollo: Riposte melee resist increased from -22% to -25%\n' +
+      '- Billy: Base health regen reduced from 2.5 to 2.0[/p]'
+    expect(parseBlocks(body)).toEqual([
+      { kind: 'note', text: 'Apollo: Riposte melee resist increased from -22% to -25%' },
+      { kind: 'note', text: 'Billy: Base health regen reduced from 2.5 to 2.0' },
+    ])
+  })
+
   it('returns nothing for an empty body rather than throwing', () => {
     expect(parseBlocks('')).toEqual([])
   })

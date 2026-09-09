@@ -14,9 +14,8 @@
  * only when their content actually differs, so re-running produces no diff.
  */
 
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 import { byNewest, isPatchAnnouncement, toPatchNote } from '../src/data/patches.ts'
 import type { PatchArchiveMeta, PatchIndexEntry, PatchNote } from '../src/data/patches-schema.ts'
@@ -26,9 +25,7 @@ import {
   type UpstreamForumPatch,
   type UpstreamSteamNews,
 } from '../src/data/upstream.ts'
-
-const PATCH_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'patches')
-const NOTES_DIR = join(PATCH_DIR, 'notes')
+import { NOTES_DIR, PATCH_DIR, readPatchArchive } from './patch-archive.mts'
 
 const serialise = (value: unknown) => JSON.stringify(value, null, 2) + '\n'
 
@@ -44,23 +41,6 @@ function readIfPresent(path: string): string | null {
   } catch {
     return null
   }
-}
-
-/** Notes already committed, so entries that fall off the feed are not lost. */
-function readArchived(): PatchNote[] {
-  let files: string[]
-  try {
-    files = readdirSync(NOTES_DIR).filter((name) => name.endsWith('.json'))
-  } catch {
-    return []
-  }
-
-  const notes: PatchNote[] = []
-  for (const file of files) {
-    const raw = readIfPresent(join(NOTES_DIR, file))
-    if (raw) notes.push(JSON.parse(raw) as PatchNote)
-  }
-  return notes
 }
 
 async function main() {
@@ -90,7 +70,7 @@ async function main() {
    * silently drop one.
    */
   const merged = new Map<string, PatchNote>()
-  for (const note of readArchived()) merged.set(note.gid, note)
+  for (const note of readPatchArchive()) merged.set(note.gid, note)
   for (const note of fetched) merged.set(note.gid, note)
 
   const notes = [...merged.values()].sort(byNewest)
