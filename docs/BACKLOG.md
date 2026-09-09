@@ -2,7 +2,7 @@
 
 # Enhancement backlog
 
-36 enhancements across 5 epics — **24 done**, 0 in progress, 12 to go.
+36 enhancements across 5 epics — **25 done**, 0 in progress, 11 to go.
 Each becomes one GitHub issue via `npm run seed:issues`.
 
 ## Index
@@ -32,7 +32,7 @@ Each becomes one GitHub issue via `npm run seed:issues`.
 | [x] | [E21](#e21) | Per-hero static SEO pages | distribution | p0 | E20, E11 |
 | [ ] | [E22](#e22) | OG image generation for shared comps | distribution | p1 | E20, E12 |
 | [ ] | [E23](#e23) | Structured data (JSON-LD) | distribution | p2 | E21 |
-| [ ] | [E24](#e24) | Patch changelog — Valve's notes paired with the computed diff | distribution | p1 | E06 |
+| [x] | [E24](#e24) | Patch changelog — Valve's notes paired with the computed diff | distribution | p1 | E06 |
 | [ ] | [E25](#e25) | Accessibility pass | quality | p1 | E08, E11 |
 | [ ] | [E26](#e26) | Performance budget and analytics discipline | quality | p1 | E01 |
 | [ ] | [E27](#e27) | Mobile and compact companion mode | quality | p1 | E10, E12 |
@@ -680,7 +680,7 @@ Shared in Discord, a link with no preview is invisible. This is how the tool spr
 
 ### E24
 
-**Patch changelog — Valve's notes paired with the computed diff** — `p1`
+**Patch changelog — Valve's notes paired with the computed diff** — `p1` — **done**
 
 ### Problem
 Recurring traffic magnet, and public proof the site is maintained. But the naive version —
