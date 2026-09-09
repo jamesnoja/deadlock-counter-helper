@@ -1,0 +1,58 @@
+{
+  "gid": "1841579228672283",
+  "slug": "08-22-2026",
+  "title": "Minor Update - 08-22-2026",
+  "published_at": "2026-08-22T21:40:46.000Z",
+  "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1841579228672283",
+  "forum_url": null,
+  "blocks": [
+    {
+      "kind": "note",
+      "text": "Radiant Regeneration: Heal on cast reduced from 70 to 65"
+    },
+    {
+      "kind": "note",
+      "text": "Restorative Locket: Spirit Resistance reduced from 10% to 8%"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Dazzling Trick cooldown increased from 32s to 34s"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Dazzling Trick T2 barrier rescaled from \"+80 and +0.7 scaling\" to \"+70 and +0.76\""
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Dazzling Trick T3 cooldown increased from -18s to -20s"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Dazzling Trick T3 reduced from +1.5s Silence to +1.25s"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Radiant Daggers Spirit Amp per stack reduced from +8% to +7%"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Radiant Daggers T3 Spirit Amp per stack increased from +3% to +4%"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Shining Wonder bounce range reduced from 17.5m to 16.5m"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Shining Wonder damage reduced from 165 to 140"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Shining Wonder spirit scaling reduced from 0.9 to 0.6"
+    },
+    {
+      "kind": "note",
+      "text": "Celeste: Shining Wonder T2 now also increases spirit scaling by +0.45"
+    }
+  ]
+}

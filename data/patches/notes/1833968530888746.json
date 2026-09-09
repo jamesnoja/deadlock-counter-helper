@@ -1,0 +1,14 @@
+{
+  "gid": "1833968530888746",
+  "slug": "05-25-2026",
+  "title": "Minor Update - 05-25-2026",
+  "published_at": "2026-05-28T16:28:44.000Z",
+  "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1833968530888746",
+  "forum_url": null,
+  "blocks": [
+    {
+      "kind": "note",
+      "text": "Urn drop off point is moved from the above bridge in the mid lane to under the bridge in the side lane\n- Urn timer extension when contested increased from 1.25s to 3s\n- Urn deposit timers for favored/neutral/unfavored increased from 3/5/10s to 5/10/15s\n- Urn comeback bullet and spirit resist auras reduced from 50% to 35%\n- Urn pickup spot is now where the old comeback drop off spots were for when your team is behind\n- Urn runner no longer has sprint disabled\n- Urn runner now has max sprint acceleration\n- Urn runner now gains +2m Sprint, +1 Stamina, +10% Dash Distance and +15% Stamina Regen\n- Urn runner for the team that is behind now gains an extra +4m Sprint\n- Urn collision radius increased by 20%\n- Various smaller urn holding timers and variables adjusted to account for the new location\n\nPlease continue to give feedback on the Urn as we work through iterations on it."
+    }
+  ]
+}

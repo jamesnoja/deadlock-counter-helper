@@ -33,12 +33,20 @@ jobs:
         id: sync
         run: npm run sync
 
+      # Valve's own notes, from the Steam announcement feed. A separate signal
+      # on purpose: game data moves without a post, and posts arrive describing
+      # changes we detected days earlier. Either one alone is an incomplete
+      # picture of a patch.
+      - name: Sync patch notes
+        id: patches
+        run: npm run sync:patches
+
       - name: Verify the new data still passes
-        if: steps.sync.outputs.changed == 'true'
+        if: steps.sync.outputs.changed == 'true' || steps.patches.outputs.patches_changed == 'true'
         run: npm run verify
 
       - name: Open pull request
-        if: steps.sync.outputs.changed == 'true'
+        if: steps.sync.outputs.changed == 'true' || steps.patches.outputs.patches_changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -63,7 +71,8 @@ jobs:
 
           # The sync prints a human-readable summary of exactly what moved.
           {
-            echo "Automated sync. Opened because the snapshot content hash changed."
+            echo "Automated sync. Snapshot changed: ${{ steps.sync.outputs.changed }}."
+            echo "New patch notes: ${{ steps.patches.outputs.patches_changed }}."
             echo
             npm run --silent sync:describe
             echo
@@ -83,5 +92,5 @@ jobs:
           fi
 
       - name: Report no change
-        if: steps.sync.outputs.changed != 'true'
+        if: steps.sync.outputs.changed != 'true' && steps.patches.outputs.patches_changed != 'true'
         run: echo "Upstream unchanged. No pull request opened."
