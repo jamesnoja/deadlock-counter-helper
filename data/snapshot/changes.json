@@ -15,78 +15,381 @@
     "renamed": [],
     "retuned": [
       {
-        "class_name": "ability_fencer_riposte",
-        "name": "Riposte",
-        "stat": "MeleeResistReduction",
-        "from": -22,
-        "to": -25
+        "class_name": "ability_blood_shards",
+        "name": "Malice",
+        "stat": "MoveSpeedPenaltyPerStack",
+        "from": 15,
+        "to": 12
+      },
+      {
+        "class_name": "ability_bookworm_aoemagic",
+        "name": "Captivating Read",
+        "stat": "SlowPercent",
+        "from": 45,
+        "to": 36
+      },
+      {
+        "class_name": "ability_crackshot",
+        "name": "Crackshot",
+        "stat": "FadingSlowPercent",
+        "from": 50,
+        "to": 40
+      },
+      {
+        "class_name": "ability_doorman_bomb",
+        "name": "Call Bell",
+        "stat": "SlowPercent",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "ability_familiar_ability01",
+        "name": "Naptime",
+        "stat": "MoveSpeedAndDashSlowPct",
+        "from": 25,
+        "to": 20
+      },
+      {
+        "class_name": "ability_familiar_ability02",
+        "name": "Pillow Toss",
+        "stat": "FadingSlowPercent",
+        "from": 45,
+        "to": 36
+      },
+      {
+        "class_name": "ability_fencer_throwblade",
+        "name": "Disengaging Sigil",
+        "stat": "SlowPercent",
+        "from": 30,
+        "to": 24
+      },
+      {
+        "class_name": "ability_fencer_ultimate",
+        "name": "Itani Lo Sahn",
+        "stat": "GroundDashReductionPercent",
+        "from": -30,
+        "to": -26
+      },
+      {
+        "class_name": "ability_gravity_lasso",
+        "name": "Spirit Lasso",
+        "stat": "BouncePadExtendDuration",
+        "from": 1,
+        "to": 1.25
+      },
+      {
+        "class_name": "ability_health_swap",
+        "name": "Soul Exchange",
+        "stat": "EnemySlowPct",
+        "from": 70,
+        "to": 56
+      },
+      {
+        "class_name": "ability_ice_dome",
+        "name": "Frozen Shelter",
+        "stat": "SlowPercent",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "ability_ice_grenade",
+        "name": "Frost Grenade",
+        "stat": "SlowPercent",
+        "from": 40,
+        "to": 32
+      },
+      {
+        "class_name": "ability_icebeam",
+        "name": "Arctic Beam",
+        "stat": "MaxGroundDashReductionPercent",
+        "from": -20,
+        "to": -18
+      },
+      {
+        "class_name": "ability_icebeam",
+        "name": "Arctic Beam",
+        "stat": "MaxSlowPercent",
+        "from": 20,
+        "to": 16
+      },
+      {
+        "class_name": "ability_immobilize_trap",
+        "name": "Spirit Snare",
+        "stat": "SlowPercent",
+        "from": 30,
+        "to": 24
+      },
+      {
+        "class_name": "ability_incendiary_projectile",
+        "name": "Napalm",
+        "stat": "SlowPercent",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "ability_lash_flog",
+        "name": "Flog",
+        "stat": "HealPctVsHeroes",
+        "from": 50,
+        "to": 40
+      },
+      {
+        "class_name": "ability_lash_flog",
+        "name": "Flog",
+        "stat": "TargetingConeAngle",
+        "from": 38,
+        "to": 40
+      },
+      {
+        "class_name": "ability_necro_gravestone",
+        "name": "Borrowed Decree",
+        "stat": "SlowPercent",
+        "from": 80,
+        "to": 64
       },
       {
         "class_name": "ability_unicorn_dazzlingorb",
         "name": "Shining Wonder",
-        "stat": "Damage",
-        "from": 165,
-        "to": 140
+        "stat": "GroundDashReductionPercent",
+        "from": -25,
+        "to": -22
       },
       {
-        "class_name": "ability_unicorn_luminousstrike",
-        "name": "Radiant Daggers",
-        "stat": "MagicIncreasePerStack",
-        "from": 8,
-        "to": 7
+        "class_name": "ability_unicorn_dazzlingorb",
+        "name": "Shining Wonder",
+        "stat": "SlowPercent",
+        "from": 40,
+        "to": 32
       },
       {
         "class_name": "ability_unicorn_prismaticguard",
         "name": "Dazzling Trick",
         "stat": "AbilityCooldown",
-        "from": 32,
-        "to": 34
+        "from": 34,
+        "to": 38
+      },
+      {
+        "class_name": "ability_unicorn_radiantblast",
+        "name": "Light Eater",
+        "stat": "AbilityLifestealPercentHero",
+        "from": 20,
+        "to": 18
+      },
+      {
+        "class_name": "ability_viper_debuffdagger",
+        "name": "Screwjab Dagger",
+        "stat": "SlowPercent",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "ability_viper_debuffdagger",
+        "name": "Screwjab Dagger",
+        "stat": "SlowPercentPerStack",
+        "from": 15,
+        "to": 12
       },
       {
         "class_name": "ability_viper_petrifybola",
         "name": "Petrifying Bola",
-        "stat": "PetrifyDuration",
-        "from": 2,
-        "to": 2.2
+        "stat": "AbilityCooldown",
+        "from": 105,
+        "to": 115
+      },
+      {
+        "class_name": "ability_viper_petrifybola",
+        "name": "Petrifying Bola",
+        "stat": "SlowPercent",
+        "from": 50,
+        "to": 40
+      },
+      {
+        "class_name": "ability_warden_crowd_control",
+        "name": "Alchemical Flask",
+        "stat": "MoveSpeedSlowPct",
+        "from": 20,
+        "to": 16
+      },
+      {
+        "class_name": "ability_werewolf_netshot",
+        "name": "Entangling Bola",
+        "stat": "SlowPercent",
+        "from": 20,
+        "to": 16
+      },
+      {
+        "class_name": "citadel_ability_bebop_laser_beam",
+        "name": "Hyper Beam",
+        "stat": "GroundDashReductionPercent",
+        "from": -40,
+        "to": -36
+      },
+      {
+        "class_name": "citadel_ability_bebop_laser_beam",
+        "name": "Hyper Beam",
+        "stat": "SlowPercent",
+        "from": 25,
+        "to": 20
       },
       {
         "class_name": "citadel_ability_card_toss",
         "name": "Card Trick",
         "stat": "ClubSlowPercent",
-        "from": -30,
-        "to": 30
+        "from": 30,
+        "to": 24
       },
       {
-        "class_name": "citadel_ability_shieldedsentry",
-        "name": "Mini Turret",
-        "stat": "TurretBaseHealth",
+        "class_name": "citadel_ability_card_toss",
+        "name": "Card Trick",
+        "stat": "DiamondResistShred",
+        "from": -8,
+        "to": -7
+      },
+      {
+        "class_name": "citadel_ability_card_toss",
+        "name": "Card Trick",
+        "stat": "HeartHeal",
+        "from": 75,
+        "to": 60
+      },
+      {
+        "class_name": "citadel_ability_chrono_time_wall",
+        "name": "Time Wall",
+        "stat": "MovementSlowPct",
+        "from": 80,
+        "to": 64
+      },
+      {
+        "class_name": "citadel_ability_fissure_wall",
+        "name": "Spectral Wall",
+        "stat": "SlowPercent",
+        "from": 20,
+        "to": 16
+      },
+      {
+        "class_name": "citadel_ability_flying_strike",
+        "name": "Flying Slash",
+        "stat": "SlowPercent",
+        "from": 50,
+        "to": 40
+      },
+      {
+        "class_name": "citadel_ability_hook",
+        "name": "Grapple Arm",
+        "stat": "SlowPercent",
         "from": 90,
-        "to": 100
+        "to": 72
       },
       {
-        "class_name": "drifter_shadow_mark",
-        "name": "Stalker's Mark",
+        "class_name": "citadel_ability_lash_ultimate",
+        "name": "Death Slam",
+        "stat": "SlowPercent",
+        "from": 50,
+        "to": 40
+      },
+      {
+        "class_name": "citadel_ability_psychic_lift",
+        "name": "Telekinesis",
+        "stat": "SlowPercent",
+        "from": 40,
+        "to": 32
+      },
+      {
+        "class_name": "citadel_ability_shiv_dagger",
+        "name": "Serrated Knives",
+        "stat": "MovementSlow",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "citadel_ability_tengu_urn",
+        "name": "Entangling Thorns",
+        "stat": "SlowPercent",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "mirage_tornado",
+        "name": "Dust Devil",
+        "stat": "SlowPercent",
+        "from": 30,
+        "to": 24
+      },
+      {
+        "class_name": "synth_barrage",
+        "name": "Barrage",
+        "stat": "MoveSlowPercent",
+        "from": 30,
+        "to": 24
+      },
+      {
+        "class_name": "viscous_goo_grenade",
+        "name": "Splatter",
+        "stat": "SlowPercent",
+        "from": 35,
+        "to": 28
+      },
+      {
+        "class_name": "viscous_telepunch",
+        "name": "Puddle Punch",
         "stat": "AbilityCooldown",
-        "from": 24,
-        "to": 26
+        "from": 21,
+        "to": 24
+      },
+      {
+        "class_name": "viscous_telepunch",
+        "name": "Puddle Punch",
+        "stat": "SlowPercent",
+        "from": 30,
+        "to": 24
       }
     ]
   },
   "needsReview": [
-    "ability_fencer_riposte",
+    "ability_blood_shards",
+    "ability_bookworm_aoemagic",
+    "ability_crackshot",
+    "ability_doorman_bomb",
+    "ability_familiar_ability01",
+    "ability_familiar_ability02",
+    "ability_fencer_throwblade",
+    "ability_fencer_ultimate",
+    "ability_gravity_lasso",
+    "ability_health_swap",
+    "ability_ice_dome",
+    "ability_ice_grenade",
+    "ability_icebeam",
+    "ability_immobilize_trap",
+    "ability_incendiary_projectile",
+    "ability_lash_flog",
+    "ability_necro_gravestone",
     "ability_unicorn_dazzlingorb",
-    "ability_unicorn_luminousstrike",
     "ability_unicorn_prismaticguard",
+    "ability_unicorn_radiantblast",
+    "ability_viper_debuffdagger",
     "ability_viper_petrifybola",
+    "ability_warden_crowd_control",
+    "ability_werewolf_netshot",
+    "citadel_ability_bebop_laser_beam",
     "citadel_ability_card_toss",
-    "citadel_ability_shieldedsentry",
-    "drifter_shadow_mark"
+    "citadel_ability_chrono_time_wall",
+    "citadel_ability_fissure_wall",
+    "citadel_ability_flying_strike",
+    "citadel_ability_hook",
+    "citadel_ability_lash_ultimate",
+    "citadel_ability_psychic_lift",
+    "citadel_ability_shiv_dagger",
+    "citadel_ability_tengu_urn",
+    "mirage_tornado",
+    "synth_barrage",
+    "viscous_goo_grenade",
+    "viscous_telepunch"
   ],
   "uncoveredAdditions": [],
-  "detected_at": "2026-09-08T23:49:47.037Z",
+  "detected_at": "2026-09-17T11:38:51.655Z",
   "patch": {
-    "title": "06-30-2026 Update",
-    "published_at": "2026-07-28T20:28:07Z",
-    "link": "https://forums.playdeadlock.com/threads/06-30-2026-update.146261/"
+    "title": "09-16-2026 Update",
+    "published_at": "2026-09-16T22:41:46Z",
+    "link": "https://forums.playdeadlock.com/threads/09-16-2026-update.162572/"
   }
 }
