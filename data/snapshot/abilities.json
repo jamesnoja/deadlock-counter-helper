@@ -234,7 +234,7 @@
       },
       "MoveSpeedPenaltyPerStack": {
         "label": "Movement Slow",
-        "value": 15,
+        "value": 12,
         "unit": "%"
       },
       "NumBloodShards": {
@@ -329,7 +329,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 45,
+        "value": 36,
         "unit": "%"
       },
       "TechArmorDamageReduction": {
@@ -962,6 +962,11 @@
         "value": 0,
         "unit": "s"
       },
+      "BulletResistReduction": {
+        "label": "Bullet Resist",
+        "value": 0,
+        "unit": "%"
+      },
       "Damage": {
         "label": "Damage",
         "value": 55,
@@ -974,7 +979,7 @@
       },
       "FadingSlowPercent": {
         "label": "Fading Move Speed",
-        "value": 50,
+        "value": 40,
         "unit": "%"
       },
       "TechPower": {
@@ -1054,7 +1059,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "TechPower": {
@@ -1509,7 +1514,7 @@
       },
       "MoveSpeedAndDashSlowPct": {
         "label": "Move/Dash Slow",
-        "value": 25,
+        "value": 20,
         "unit": "%"
       },
       "SleepDamageThreshold": {
@@ -1589,7 +1594,7 @@
       },
       "FadingSlowPercent": {
         "label": "Fading Move Speed",
-        "value": 45,
+        "value": 36,
         "unit": "%"
       },
       "FireRateSlow": {
@@ -2104,7 +2109,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 30,
+        "value": 24,
         "unit": "%"
       },
       "StaminaToRestore": {
@@ -2204,7 +2209,7 @@
       },
       "GroundDashReductionPercent": {
         "label": "Dash Distance",
-        "value": -30,
+        "value": -26,
         "unit": "%"
       },
       "ImpactDamage": {
@@ -2839,7 +2844,7 @@
       },
       "BouncePadExtendDuration": {
         "label": "Extended Duration from Bounce Pad",
-        "value": 1,
+        "value": 1.25,
         "unit": "s"
       },
       "Damage": {
@@ -2994,7 +2999,7 @@
       },
       "EnemySlowPct": {
         "label": "Enemy Move Speed",
-        "value": 70,
+        "value": 56,
         "unit": "%"
       },
       "MinHealthTakenPct": {
@@ -3084,7 +3089,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "TechPower": {
@@ -3159,7 +3164,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 40,
+        "value": 32,
         "unit": "%"
       },
       "TechPower": {
@@ -3234,12 +3239,12 @@
       },
       "MaxGroundDashReductionPercent": {
         "label": "Max Dash Slow",
-        "value": -20,
+        "value": -18,
         "unit": "%"
       },
       "MaxSlowPercent": {
         "label": "Max Move Speed",
-        "value": 20,
+        "value": 16,
         "unit": "%"
       },
       "MaxSlowTime": {
@@ -3429,7 +3434,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 30,
+        "value": 24,
         "unit": "%"
       },
       "TechPower": {
@@ -3524,7 +3529,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "TechPower": {
@@ -3674,7 +3679,7 @@
       },
       "HealPctVsHeroes": {
         "label": "Heal vs heroes",
-        "value": 50,
+        "value": 40,
         "unit": "%"
       },
       "HealPctVsNonHeroes": {
@@ -3684,7 +3689,7 @@
       },
       "TargetingConeAngle": {
         "label": "Attack Angle",
-        "value": 38,
+        "value": 40,
         "unit": "º"
       },
       "TechPower": {
@@ -4604,7 +4609,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 80,
+        "value": 64,
         "unit": "%"
       },
       "SlowPercentPerStack": {
@@ -6064,7 +6069,7 @@
     "name": "Fixation",
     "hero": "hero_haze",
     "slot": 3,
-    "description": "Shooting a target increases your bullet damage on that target. Gain one stack per bullet hit, two if the hit is a headshot.",
+    "description": "Shooting a target increases your bullet damage on that target. Gain one stack per bullet hit, three if the hit is a headshot.",
     "icon": "https://assets-bucket.deadlock-api.com/assets-api-res/images/abilities/haze/haze_fixation.webp",
     "stats": {
       "AbilityCastDelay": {
@@ -6324,7 +6329,7 @@
       },
       "GroundDashReductionPercent": {
         "label": "Dash Distance",
-        "value": -25,
+        "value": -22,
         "unit": "%"
       },
       "SlowDuration": {
@@ -6334,7 +6339,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 40,
+        "value": 32,
         "unit": "%"
       },
       "TechPower": {
@@ -6469,7 +6474,7 @@
       },
       "AbilityCooldown": {
         "label": "Cooldown",
-        "value": 34,
+        "value": 38,
         "unit": "s"
       },
       "AbilityCooldownBetweenCharge": {
@@ -6559,7 +6564,7 @@
       },
       "AbilityLifestealPercentHero": {
         "label": "Spirit Lifesteal",
-        "value": 20,
+        "value": 18,
         "unit": "%"
       },
       "Damage": {
@@ -7019,12 +7024,12 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "SlowPercentPerStack": {
         "label": "Move Speed per Stack",
-        "value": 15,
+        "value": 12,
         "unit": "%"
       },
       "StackDuration": {
@@ -7079,7 +7084,7 @@
       },
       "AbilityCooldown": {
         "label": "Cooldown",
-        "value": 105,
+        "value": 115,
         "unit": "s"
       },
       "AbilityCooldownBetweenCharge": {
@@ -7119,7 +7124,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 50,
+        "value": 40,
         "unit": "%"
       },
       "TechPower": {
@@ -7369,7 +7374,7 @@
       },
       "MoveSpeedSlowPct": {
         "label": "Move Speed",
-        "value": 20,
+        "value": 16,
         "unit": "%"
       },
       "SlowDuration": {
@@ -7787,6 +7792,11 @@
         "value": 1.5,
         "unit": "s"
       },
+      "GravityScale": {
+        "label": "Gravity Scale",
+        "value": 100,
+        "unit": "%"
+      },
       "OutgoingDamagePercent": {
         "label": "Damage",
         "value": 0,
@@ -7794,7 +7804,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 20,
+        "value": 16,
         "unit": "%"
       },
       "TechPower": {
@@ -8094,12 +8104,12 @@
       },
       "GroundDashReductionPercent": {
         "label": "Dash Distance",
-        "value": -40,
+        "value": -36,
         "unit": "%"
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 25,
+        "value": 20,
         "unit": "%"
       },
       "TechPower": {
@@ -8399,7 +8409,7 @@
       },
       "ClubSlowPercent": {
         "label": "Move Speed",
-        "value": 30,
+        "value": 24,
         "unit": "%"
       },
       "Damage": {
@@ -8409,12 +8419,12 @@
       },
       "DiamondResistShred": {
         "label": "Bullet and Spirit Resist Reduction",
-        "value": -8,
+        "value": -7,
         "unit": "%"
       },
       "HeartHeal": {
         "label": "Heal",
-        "value": 75,
+        "value": 60,
         "unit": ""
       },
       "JokerExtraCards": {
@@ -8749,7 +8759,7 @@
       },
       "MovementSlowPct": {
         "label": "Movement Slow",
-        "value": 80,
+        "value": 64,
         "unit": "%"
       },
       "TechPower": {
@@ -8834,7 +8844,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 20,
+        "value": 16,
         "unit": "%"
       },
       "StaminaReduction": {
@@ -8914,7 +8924,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 50,
+        "value": 40,
         "unit": "%"
       },
       "SpiritBonus": {
@@ -9069,7 +9079,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 90,
+        "value": 72,
         "unit": "%"
       },
       "TechPower": {
@@ -9714,7 +9724,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 50,
+        "value": 40,
         "unit": "%"
       },
       "StunDuration": {
@@ -10219,7 +10229,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 40,
+        "value": 32,
         "unit": "%"
       },
       "TechPower": {
@@ -10507,6 +10517,11 @@
         "value": 5,
         "unit": "s"
       },
+      "FullRageCurrentHealthDamagePct": {
+        "label": "Current Health Damage",
+        "value": 3.5,
+        "unit": "%"
+      },
       "ImpactDamage": {
         "label": "Impact Damage",
         "value": 0,
@@ -10514,7 +10529,7 @@
       },
       "MovementSlow": {
         "label": "Movement Slow",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "TechPower": {
@@ -11399,7 +11414,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "TechPower": {
@@ -12224,7 +12239,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 30,
+        "value": 24,
         "unit": "%"
       },
       "TechArmorDamageReduction": {
@@ -12394,7 +12409,7 @@
       },
       "MoveSlowPercent": {
         "label": "Move Speed",
-        "value": 30,
+        "value": 24,
         "unit": "%"
       },
       "ProjectileAmount": {
@@ -12704,7 +12719,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 35,
+        "value": 28,
         "unit": "%"
       },
       "TechPower": {
@@ -12814,7 +12829,7 @@
       },
       "AbilityCooldown": {
         "label": "Cooldown",
-        "value": 21,
+        "value": 24,
         "unit": "s"
       },
       "AbilityCooldownBetweenCharge": {
@@ -12844,7 +12859,7 @@
       },
       "SlowPercent": {
         "label": "Move Speed",
-        "value": 30,
+        "value": 24,
         "unit": "%"
       },
       "TechPower": {
