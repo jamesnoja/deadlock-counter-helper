@@ -5,6 +5,520 @@
   },
   "notes": [
     {
+      "gid": "1844115010490072",
+      "slug": "09-16-2026",
+      "title": "Minor Update - 09-16-2026",
+      "published_at": "2026-09-16T20:16:43.000Z",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1844115010490072",
+      "forum_url": "https://forums.playdeadlock.com/threads/08-12-2026-update.162570/",
+      "blocks": [
+        {
+          "kind": "section",
+          "text": "General"
+        },
+        {
+          "kind": "note",
+          "text": "Unstable Rift comeback resist max values now scale over the course of the game. Previously the max values were 35%. Now it is 10% + 1% per minute (around ~20% for the first one), with an upper limit of 40% at 30 minutes."
+        },
+        {
+          "kind": "note",
+          "text": "Removed a fixed amount of extra bonus souls you would get for being behind even a very slightly amount in net worth for both hero kill bounties as well as Unstable Rift bounties (this had a larger impact on the early to mid game)"
+        },
+        {
+          "kind": "note",
+          "text": "Slightly reduced comeback bounties in general (this is in addition to the above change)"
+        },
+        {
+          "kind": "note",
+          "text": "A portion of the comeback souls earned by players above enemy teams average net worth is instead distributed via the tick gold system that is given to the lowest 2 players (70% of the extra comeback value goes to them)"
+        },
+        {
+          "kind": "note",
+          "text": "Guardian bounty increased by 10%"
+        },
+        {
+          "kind": "note",
+          "text": "Walker bounty increased by 5%"
+        },
+        {
+          "kind": "note",
+          "text": "Share for objectives bounty to nearby heroes reduced from 30% to 25% (the remaining gets split between all 6 players)"
+        },
+        {
+          "kind": "note",
+          "text": "Respawn Time at 20 minutes increased from 35s to 38s (does not affect the max values later on, just a little higher earlier)"
+        },
+        {
+          "kind": "note",
+          "text": "Using parry now pauses reloading"
+        },
+        {
+          "kind": "note",
+          "text": "Parrying while doing a regular dash will now cancel the dash (and momentum) and parry on the spot"
+        },
+        {
+          "kind": "note",
+          "text": "Getting stunned now pauses your reload rather than restarting it"
+        },
+        {
+          "kind": "note",
+          "text": "Breakables in the underground tunnels initial spawn time increased from 3m to 5m"
+        },
+        {
+          "kind": "note",
+          "text": "Breakables in the underground tunnels respawn rate increased from 3m to 5m"
+        },
+        {
+          "kind": "note",
+          "text": "All move slow values reduced by ~20% globally"
+        },
+        {
+          "kind": "note",
+          "text": "All ground dash slows reduced by ~10% globally"
+        },
+        {
+          "kind": "note",
+          "text": "Slows now also affect air drag by 35% of the slow value (convar citadel_enable_slows_affect_air_drag"
+        },
+        {
+          "kind": "text",
+          "text": "to toggle the slow drag behavior on and off)"
+        },
+        {
+          "kind": "note",
+          "text": "Dashes and light melee's no longer pause your gun's cycle time (this is a general change that affects high-cycle time weapons the most like Silver or Abrams)"
+        },
+        {
+          "kind": "section",
+          "text": "Items"
+        },
+        {
+          "kind": "note",
+          "text": "Weakening Headshot: Bullet Resist Reduction reduced from -13% to -12%"
+        },
+        {
+          "kind": "note",
+          "text": "Hollow Point: Bullet Resist Reduction increased from 9% to 10%"
+        },
+        {
+          "kind": "note",
+          "text": "Toxic Bullets: Spirit scaling increased from 0.005% to 0.006%"
+        },
+        {
+          "kind": "note",
+          "text": "Shadow Weave: Now builds from Sprint Boots"
+        },
+        {
+          "kind": "note",
+          "text": "Shadow Weave: Sprint speed increased from 1.5 to 2"
+        },
+        {
+          "kind": "note",
+          "text": "Shadow Weave: Cooldown reduced from 45s to 37s"
+        },
+        {
+          "kind": "note",
+          "text": "Cultist Sacrifice: Bounty reduced from 180% to 170%"
+        },
+        {
+          "kind": "note",
+          "text": "Ballistic Enchantment: Duration increased from 14s to 20s"
+        },
+        {
+          "kind": "note",
+          "text": "Spiritual Overflow: Buildup is 35% slower"
+        },
+        {
+          "kind": "note",
+          "text": "Spiritual Overflow: Spirit Power on proc reduced from 40 to 30"
+        },
+        {
+          "kind": "note",
+          "text": "Spiritual Overflow: Fire Rate reduced from 30% to 25%"
+        },
+        {
+          "kind": "note",
+          "text": "Restorative Locket: Heal per boon reduced from 0.5 to 0.45"
+        },
+        {
+          "kind": "note",
+          "text": "Restorative Locket: Stack range reduced from 35m to 32m"
+        },
+        {
+          "kind": "note",
+          "text": "Trophy Collector: Souls per minute reduced from 18 to 16"
+        },
+        {
+          "kind": "note",
+          "text": "Veil Walker: No longer builds from Sprint Boots"
+        },
+        {
+          "kind": "note",
+          "text": "Veil Walker: No longer grants +2 Sprint and +2 Out of Combat Regen (due to loss of component)"
+        },
+        {
+          "kind": "note",
+          "text": "Veil Walker: Movement speed bonus is now removed when the invisibility is removed"
+        },
+        {
+          "kind": "note",
+          "text": "Veil Walker: Spirit Power reduced from 10 to 6"
+        },
+        {
+          "kind": "note",
+          "text": "Fortitude: Max Health regen increased from 2% to 2.25%"
+        },
+        {
+          "kind": "note",
+          "text": "Lifestrike: Heal on Melee hit increased from 100+1.5 to 120+1.75"
+        },
+        {
+          "kind": "note",
+          "text": "Lifestrike: Melee hit heal increased from 30% to 35%"
+        },
+        {
+          "kind": "note",
+          "text": "Leech: Bullet and Spirit Lifesteal increased from 25% to 28%"
+        },
+        {
+          "kind": "note",
+          "text": "Plated Armor: Fixed on-hit damage prevention not blocking the following on-hit spirit damage effects: Mercurial Magnum, Vindicta's Flight, Wraith's Full Auto, and Tesla Bullets/Capacitor"
+        },
+        {
+          "kind": "note",
+          "text": "Diviner's Kevlar: Now grants +10% Ultimate Ability Cooldown Reduction"
+        },
+        {
+          "kind": "note",
+          "text": "Golden Goose Egg: Damage Penalty increased from -10% to -15%"
+        },
+        {
+          "kind": "note",
+          "text": "Golden Goose Egg: Stored souls now count towards net worth (affects comeback reward calculations)"
+        },
+        {
+          "kind": "note",
+          "text": "Golden Goose Egg: Souls per minute reduced from 90 to 80"
+        },
+        {
+          "kind": "note",
+          "text": "Slowing Hex: Cooldown increased from 27s to 29s"
+        },
+        {
+          "kind": "note",
+          "text": "Radiant Regeneration: Healing on Ability Cast per boon scaling reduced from 2 to 1.7"
+        },
+        {
+          "kind": "note",
+          "text": "Tankbuster: Current Health Bonus damage reduced from 8% to 7.5%"
+        },
+        {
+          "kind": "note",
+          "text": "Decay: DPS reduced by 25%"
+        },
+        {
+          "kind": "note",
+          "text": "Decay: Duration increased by 20%"
+        },
+        {
+          "kind": "note",
+          "text": "Mercurial Magnum: Base bullet damage scaling reduced from 0.49 to 0.38"
+        },
+        {
+          "kind": "note",
+          "text": "Mercurial Magnum: Base bullet damage reduced from 25% to 20%"
+        },
+        {
+          "kind": "note",
+          "text": "Focus Lens: Damage increased from 30% to 35%"
+        },
+        {
+          "kind": "note",
+          "text": "Focus Lens: Cast range increased from 20m to 25m"
+        },
+        {
+          "kind": "section",
+          "text": "Heroes"
+        },
+        {
+          "kind": "note",
+          "text": "Abrams: Infernal Resilience T3 increased from +8% to +9%"
+        },
+        {
+          "kind": "note",
+          "text": "Abrams: Seismic Impact T3 reduced from 6s Unstoppable to 5s"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Stamina cooldown increased from 5 to 5.3"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Light Eater spirit lifesteal reduced from 20% to 18%"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Light Eater T3 decreased from +25 to +22"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Dazzling Trick cooldown increased from 34s to 38s"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Radiant Daggers T2 reduced from +80 to +70"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Shining Wonder radius reduced from 16.5m to 15.5m"
+        },
+        {
+          "kind": "note",
+          "text": "Celeste: Shining Wonder T3 Max Bounces reduced from +8 to +6"
+        },
+        {
+          "kind": "note",
+          "text": "Graves: Health per boon increased from 33 to 35"
+        },
+        {
+          "kind": "note",
+          "text": "Haze: Fixation headshot stack count increased from +2 to +3"
+        },
+        {
+          "kind": "note",
+          "text": "Haze: Fixation T3 weapon scaling increased from 0.0003 to 0.00035"
+        },
+        {
+          "kind": "note",
+          "text": "Holliday: Health per boon increased from 41 to 43"
+        },
+        {
+          "kind": "note",
+          "text": "Holliday: Crackshot T2 now also applies -6% Bullet Resistance for 5s"
+        },
+        {
+          "kind": "note",
+          "text": "Holliday: Lasso duration extention by Bounce Pad increased from +1s to +1.25s"
+        },
+        {
+          "kind": "note",
+          "text": "Ivy: Stone Form radius reduced from 6m to 5.75m"
+        },
+        {
+          "kind": "note",
+          "text": "Ivy: Stone Form T1 max health heal reduced from 7% to 6%"
+        },
+        {
+          "kind": "note",
+          "text": "Kelvin: Frozen Shelter base ability health regen now scales with spirit power (0.2)"
+        },
+        {
+          "kind": "note",
+          "text": "Lady Geist: Life Drain T3 spirit scaling increased from +0.3 to +0.45"
+        },
+        {
+          "kind": "note",
+          "text": "Lady Geist: Essence Bomb T3 damage increased from 26% to 30%"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Gun falloff range reduced from 18m->54m to 16m->48m"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Ground Strike T3 spirit scaling increased from +0.03 to +0.04"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Ground Strike T3 damage per meter scaling increased from 110% to 120%"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Grapple T2 Weapon Damage buff duration reduced from 10s to 6s"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Flog heal reduced from 50% to 40%"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Flog angle increased from 38 to 40"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Flog T3 reduced from +40 degrees angle to +25"
+        },
+        {
+          "kind": "note",
+          "text": "Lash: Flog T3 reduced from +20% heal to +15%"
+        },
+        {
+          "kind": "note",
+          "text": "Paige: Heavy Melee spirit scaling increased from 0.3 to 0.45"
+        },
+        {
+          "kind": "note",
+          "text": "Paige: Captivating Read T1 increased from -11s Cooldown to -14s"
+        },
+        {
+          "kind": "note",
+          "text": "Paige: Captivating Read T3 increased from +1m to +2m"
+        },
+        {
+          "kind": "note",
+          "text": "Paige: Fixed some collision issues with Rallying Charge"
+        },
+        {
+          "kind": "note",
+          "text": "Paradox: Kinetic Carbine min damage multiplier reduced from 25% to 10% (max damage multiplier unaffected)"
+        },
+        {
+          "kind": "note",
+          "text": "Paradox: Kinetic Carbine min damage multiplier no longer gets increased by the T3"
+        },
+        {
+          "kind": "note",
+          "text": "Rem: Fixed a bug where multiple helpers could be sent to follow a single player for no effect"
+        },
+        {
+          "kind": "note",
+          "text": "Rem: Lil Helpers now have a target UI when instant cast mode is selected"
+        },
+        {
+          "kind": "note",
+          "text": "Shiv: Alt fire base damage increased by 4%"
+        },
+        {
+          "kind": "note",
+          "text": "Shiv: Alt fire damage per boon increased from +0.2 to +0.24"
+        },
+        {
+          "kind": "note",
+          "text": "Shiv: Serrated Knives while rage is full now deals 3.5% current HP damage on impact instead of ricocheting (0.01 spirit scaling)"
+        },
+        {
+          "kind": "note",
+          "text": "Silver: Health per boon increased from 28 to 31"
+        },
+        {
+          "kind": "note",
+          "text": "Silver: Sprint speed increased from 1.5 to 2.5"
+        },
+        {
+          "kind": "note",
+          "text": "Silver: Dashes and light melee's no longer pause your gun's cycle time"
+        },
+        {
+          "kind": "note",
+          "text": "Silver: Boot Kick can only target heroes and objectives now"
+        },
+        {
+          "kind": "note",
+          "text": "Silver: Entangling Bola can only target heroes now"
+        },
+        {
+          "kind": "note",
+          "text": "Silver: Weighted Bola now increases gravity during the debuff duration, and interrupts flying abilities (same rules as Phantom Strike)"
+        },
+        {
+          "kind": "note",
+          "text": "Venator: Ira Domini now works with Ricochet, all the shots will bounce"
+        },
+        {
+          "kind": "note",
+          "text": "Venator: Ira Domini can now split shot (releases 1 extra bolt on each side, 3 total)"
+        },
+        {
+          "kind": "note",
+          "text": "Viscous: Alt fire damage growth reduced by 10%"
+        },
+        {
+          "kind": "note",
+          "text": "Viscous: Splatter detonation cooldown reduced from 0.15 to 0.12"
+        },
+        {
+          "kind": "note",
+          "text": "Viscous: Splatter T1 reduced from +2m to +1.5m"
+        },
+        {
+          "kind": "note",
+          "text": "Viscous: The Cube cast range reduced from 26m to 20m"
+        },
+        {
+          "kind": "note",
+          "text": "Viscous: Puddle Punch cooldown increased from 21s to 24s"
+        },
+        {
+          "kind": "note",
+          "text": "Viscous: Goo Ball T3 now also increases spirit scaling by 0.2"
+        },
+        {
+          "kind": "note",
+          "text": "Vyper: Slither T3 barrier duration reduced from 5s to 4s"
+        },
+        {
+          "kind": "note",
+          "text": "Vyper: Petrifying Bola cooldown increased from 105s to 115s"
+        },
+        {
+          "kind": "note",
+          "text": "Warden: Bullet damage per boon reduced from 0.28 to 0.25"
+        },
+        {
+          "kind": "note",
+          "text": "Warden: Fire Rate spirit scaling reduced from 0.25 to 0.21"
+        },
+        {
+          "kind": "note",
+          "text": "Warden: Alchemical Flask projectile range and speed reduced by 30%"
+        },
+        {
+          "kind": "note",
+          "text": "Warden: Willpower T3 spirit scaling reduced from +2.7 to +2.1"
+        },
+        {
+          "kind": "note",
+          "text": "Warden: Willpower T3 debuff resistance reduced from 40% to 30%"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Card Trick heart heal reduced from 75 to 60"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Card Trick heart heal spirit scaling reduced from 0.75 to 0.5"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Card Trick Diamond Bullet and Spirit Resist reduction reduced from -8% to -7%"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Card Trick T3 Diamond Bullet and Spirit Resist reduction reduced from -5% to -4%"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Card Trick T3 Clubs slow from +20% to +15%"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Fixed Project Mind getting caught on edges/corners when aiming past it"
+        },
+        {
+          "kind": "note",
+          "text": "Wraith: Full Auto spirit damage per bullet scaling increased from 0.03 to 0.045"
+        },
+        {
+          "kind": "note",
+          "text": "Yamato: Crimson Slash T3 now also increases the heal spirit scaling by +0.4"
+        },
+        {
+          "kind": "note",
+          "text": "Yamato: Flying Slash light melee scaling increased from 1.0 to 1.2"
+        }
+      ]
+    },
+    {
       "gid": "1841579228672283",
       "slug": "08-22-2026",
       "title": "Minor Update - 08-22-2026",
