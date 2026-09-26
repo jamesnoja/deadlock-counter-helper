@@ -6,16 +6,16 @@
     "clientVersions": "https://api.deadlock-api.com/v1/assets/client-versions"
   },
   "patch": {
-    "title": "06-30-2026 Update",
-    "published_at": "2026-07-28T20:28:07Z",
-    "link": "https://forums.playdeadlock.com/threads/06-30-2026-update.146261/"
+    "title": "09-16-2026 Update",
+    "published_at": "2026-09-16T22:41:46Z",
+    "link": "https://forums.playdeadlock.com/threads/09-16-2026-update.162572/"
   },
-  "client_version": 6686,
+  "client_version": 6701,
   "counts": {
     "heroes": 38,
     "abilities": 152,
     "items": 173
   },
-  "content_hash": "3fa874dda4d489003640cf78d8827f937d96fd41b1e2323f39129c4cec033f80",
-  "synced_at": "2026-09-08T23:49:47.037Z"
+  "content_hash": "fbf1e19b15c7a89b206069fd228d0e41d6b4252d5349caa93ea389728209df81",
+  "synced_at": "2026-09-26T11:22:12.667Z"
 }
